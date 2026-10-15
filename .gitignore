@@ -16,3 +16,29 @@ npm-debug.log*
 .DS_Store
 .vscode/
 .idea/
+
+# Spec Kit: Agent-Dateien, installierte und erzeugte Artefakte werden nach dem
+# Clone rekonstruiert (siehe AGENTS.md); versioniert bleibt nur Projekt-Intent.
+# Bewusst hier statt in .specify/.gitignore, weil `specify init --force` diese
+# Datei überschreibt.
+.opencode/
+specs/
+.specify/feature.json
+.specify/scripts/*
+.specify/templates/*
+.specify/presets/*
+.specify/workflows/*
+!.specify/workflows/overlays/
+.specify/workflows/steps/*
+.specify/workflows/runs/
+.specify/workflows/.cache/
+.specify/workflows/workflow-registry.json
+.specify/extensions/*/*
+!.specify/extensions/*/*-config.yml
+.specify/extensions/*/local-config.yml
+.specify/extensions/*/*-config.local.yml
+.specify/extensions/.cache/
+.specify/extensions/.backup/
+.specify/extensions/.registry
+.specify/bundle-records.json
+.specify/integrations/*.manifest.json
