@@ -59,8 +59,9 @@ Hochformat).
 
 ## Ausblick
 
-Der [ROADMAP.md](ROADMAP.md) verrät, wie die Reise weitergeht: Welt 2 „Finsterwald“,
-Endlos-Modus, Offline-fähig als PWA, Ränge und ein anpassbarer Ritter-Avatar.
+Wie die Reise weitergeht – Welt 2 „Finsterwald“, Endlos-Modus, Offline-fähig als
+PWA, Ränge und ein anpassbarer Ritter-Avatar – steht in den
+[Issues](https://github.com/markuswondrak/kids-chess-training/issues?q=label%3Aroadmap).
 
 ---
 

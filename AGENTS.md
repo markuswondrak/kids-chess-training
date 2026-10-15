@@ -6,7 +6,7 @@ Implementierungen so einfach wie möglich. Die kleinste Lösung, die das Problem
 
 - Keine neuen Abhängigkeiten ohne zwingenden Grund – React, Vite und chess.js reichen.
 - Kein Backend, keine Accounts, kein Netzwerk zur Laufzeit. Fortschritt und Daten liegen lokal (localStorage, gebündelte JSON-Dateien).
-- Kein Feature-Creep: Nur umsetzen, was im ROADMAP.md steht oder ausdrücklich gefragt wurde. Neue Ideen stattdessen ins ROADMAP.md schreiben.
+- Kein Feature-Creep: Nur umsetzen, was in den GitHub-Issues (Label `roadmap`) steht oder ausdrücklich gefragt wurde. Neue Ideen stattdessen als Issue anlegen.
 - Lieber vorhandene Komponenten und Design-Tokens wiederverwenden, als Neues zu bauen.
 
 ## Projekt
@@ -29,4 +29,4 @@ Burgensturm ist eine kindgerechte Schach-Puzzle-App für 5- bis 10-Jährige. Die
 - `src/hooks/usePuzzle.ts` – Ablauf einer Aufgabe (Gegnerzug, Zugprüfung, Sterne)
 - `src/components/` – Screens und Darstellung
 - `scripts/extract-puzzles.mjs` – Puzzle-Generator; neue Welten oben in `WORLDS` eintragen
-- `ROADMAP.md` – Backlog aller geplanten Ideen
+- GitHub Issues mit Label `roadmap` – Backlog aller geplanten Ideen
