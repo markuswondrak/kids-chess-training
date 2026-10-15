@@ -27,6 +27,10 @@ rückt er einen Schritt näher an die Burg – und an die Schatztruhe am Ende de
 
 ## Loslegen
 
+Die App ist öffentlich spielbar unter **[kids-chess.wondrax.cloud](https://kids-chess.wondrax.cloud/)** – einfach im Browser öffnen, ohne Installation.
+
+Für die Entwicklung lokal:
+
 ```bash
 npm install
 npm run dev
