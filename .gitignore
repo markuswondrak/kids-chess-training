@@ -1,0 +1,18 @@
+# Abhängigkeiten
+node_modules/
+
+# Build-Ausgabe
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Umgebung
+.env
+.env.*
+
+# Editor & OS
+.DS_Store
+.vscode/
+.idea/

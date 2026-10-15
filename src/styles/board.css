@@ -1,0 +1,409 @@
+/* ---------- Burgmauer um das Brett ---------- */
+
+.board-frame {
+  position: relative;
+  margin-top: 22px;
+  padding: clamp(9px, 2.4vw, 16px);
+  background:
+    linear-gradient(180deg, var(--stone-light), var(--stone) 45%, var(--stone-deep));
+  border: 3px solid var(--ink);
+  border-radius: 6px;
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.35),
+    0 10px 0 rgba(47, 36, 32, 0.25),
+    var(--shadow-soft);
+}
+
+.wall-stones {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+/* Zinnen */
+.battlements {
+  position: absolute;
+  bottom: 100%;
+  left: -3px;
+  right: -3px;
+  height: 22px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.battlements span {
+  width: 5.6%;
+  background: linear-gradient(180deg, #e1dbcf, var(--stone-light) 40%, var(--stone));
+  border: 3px solid var(--ink);
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+  height: calc(100% - 3px);
+  box-sizing: content-box;
+}
+
+.board-fit {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.board-fit::before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.board {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 4px 12px rgba(47, 36, 32, 0.25);
+  touch-action: manipulation;
+}
+
+.sq {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--sand);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sq--dark {
+  background: var(--field);
+}
+
+.sq:focus-visible {
+  outline: 3px solid var(--azure);
+  outline-offset: -6px;
+  z-index: 5;
+}
+
+.sq--last::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(243, 182, 48, 0.45);
+}
+
+.sel-ring {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border: 5px solid var(--or);
+  border-radius: 4px;
+  box-shadow:
+    inset 0 0 0 2px var(--ink),
+    0 0 0 2px var(--ink);
+  pointer-events: none;
+  animation: sel-in 0.18s cubic-bezier(0.34, 1.6, 0.64, 1);
+}
+
+.sq--check::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at 50% 55%, rgba(201, 55, 44, 0.85), rgba(201, 55, 44, 0.32) 55%, transparent 78%);
+  animation: check-pulse 0.9s ease-in-out infinite;
+}
+
+.coord {
+  position: absolute;
+  z-index: 4;
+  font-family: var(--font-display);
+  font-size: clamp(9px, 1.15vw, 12.5px);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.coord--rank {
+  top: 4%;
+  left: 9%;
+}
+
+.coord--file {
+  bottom: 3%;
+  right: 9%;
+}
+
+.sq--light .coord {
+  color: var(--field-deep);
+}
+
+.sq--dark .coord {
+  color: var(--sand);
+}
+
+/* ---------- Figuren ---------- */
+
+.piece {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transition: transform 0.16s ease;
+}
+
+.piece svg {
+  width: 88%;
+  height: 88%;
+  overflow: visible;
+}
+
+@media (hover: hover) {
+  .sq--pick:hover .piece {
+    transform: translateY(-5%);
+  }
+}
+
+.sq--selected .piece {
+  transform: translateY(-6%) scale(1.05);
+}
+
+.piece--intro {
+  animation: piece-pop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+.piece--slide {
+  z-index: 6;
+  animation: piece-slide 0.36s cubic-bezier(0.3, 1.15, 0.5, 1);
+}
+
+/* ---------- Zugziele ---------- */
+
+.target {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.target--dot::before {
+  content: '';
+  width: 26%;
+  height: 26%;
+  border-radius: 50%;
+  background: rgba(47, 36, 32, 0.34);
+  box-shadow:
+    0 0 0 3px rgba(252, 245, 227, 0.6),
+    0 3px 0 rgba(47, 36, 32, 0.2);
+  animation: pop 0.22s cubic-bezier(0.34, 1.6, 0.64, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+.sq--dark .target--dot::before {
+  background: rgba(252, 245, 227, 0.94);
+  box-shadow:
+    0 0 0 3px rgba(47, 36, 32, 0.38),
+    0 3px 0 rgba(47, 36, 32, 0.25);
+}
+
+/* Angriff: roter Ring + gekreuzte Schwerter */
+.target--capture::before {
+  content: '';
+  position: absolute;
+  inset: 5%;
+  border: 4px solid var(--gules);
+  border-radius: 14%;
+  box-shadow:
+    inset 0 0 0 2px rgba(252, 245, 227, 0.85),
+    0 0 0 2px rgba(252, 245, 227, 0.85);
+  animation: pop 0.22s cubic-bezier(0.34, 1.6, 0.64, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+.target__swords {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  width: 36%;
+  height: 36%;
+  animation: swords-in 0.32s cubic-bezier(0.34, 1.6, 0.64, 1) backwards;
+  animation-delay: calc(var(--d, 0ms) + 60ms);
+}
+
+.target__swords svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Hinweis ---------- */
+
+.hint-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at 50% 55%, #fff3b0, rgba(255, 214, 90, 0.9) 50%, rgba(243, 182, 48, 0.6) 80%);
+  box-shadow:
+    inset 0 0 0 4px var(--or),
+    inset 0 0 0 6px var(--ink);
+  animation: hint-pulse 1.1s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.piece--hint {
+  animation: hint-hop 1.1s ease-in-out infinite;
+}
+
+.sq--selected .piece--hint {
+  animation: none;
+}
+
+/* ---------- Falscher Zug ---------- */
+
+.sq--wrong::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(201, 55, 44, 0.55);
+  animation: wrong-flash 0.9s ease-out forwards;
+}
+
+.wrong-mark {
+  position: absolute;
+  inset: 22%;
+  z-index: 5;
+  pointer-events: none;
+  animation: wrong-pop 0.9s ease-out forwards;
+}
+
+.wrong-mark::before,
+.wrong-mark::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -6%;
+  width: 20%;
+  height: 112%;
+  margin-left: -10%;
+  background: #fff6e6;
+  border: 3px solid var(--ink);
+  border-radius: 6px;
+  transform: rotate(45deg);
+}
+
+.wrong-mark::after {
+  transform: rotate(-45deg);
+}
+
+.piece--shake {
+  animation: shake 0.45s ease;
+}
+
+@keyframes hint-pulse {
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes hint-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-14%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes wrong-flash {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes wrong-pop {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-9%);
+  }
+  40%,
+  80% {
+    transform: translateX(9%);
+  }
+}
+
+@keyframes piece-pop {
+  from {
+    transform: scale(0.35);
+    opacity: 0;
+  }
+}
+
+@keyframes piece-slide {
+  from {
+    transform: translate(calc(var(--dx) * 100%), calc(var(--dy) * 100%));
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes swords-in {
+  from {
+    transform: scale(0.2) rotate(-40deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sel-in {
+  from {
+    transform: scale(0.85);
+    opacity: 0.4;
+  }
+}
+
+@keyframes check-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+

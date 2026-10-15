@@ -1,0 +1,172 @@
+{
+ "burgdorf": [
+  {
+   "id": "5PHyk",
+   "fen": "5k2/5p2/3R3p/5N2/1n6/7P/1P2r1P1/6K1 b - - 2 36",
+   "moves": [
+    "e2b2",
+    "d6d8"
+   ],
+   "rating": 402,
+   "themes": [
+    "endgame",
+    "mateIn1"
+   ]
+  },
+  {
+   "id": "2DVeh",
+   "fen": "7k/p5p1/5n2/2p2R2/P2R3P/6p1/6P1/4r2K w - - 1 32",
+   "moves": [
+    "f5f1",
+    "e1f1"
+   ],
+   "rating": 400,
+   "themes": [
+    "endgame",
+    "hangingPiece",
+    "mateIn1"
+   ]
+  },
+  {
+   "id": "6Mgy0",
+   "fen": "5rk1/1p4pp/p2n4/3P4/8/3Q4/P1q3PP/7K w - - 0 30",
+   "moves": [
+    "d3c2",
+    "f8f1"
+   ],
+   "rating": 410,
+   "themes": [
+    "backRankMate",
+    "endgame",
+    "mateIn1"
+   ]
+  },
+  {
+   "id": "6TBfT",
+   "fen": "3R2k1/pp2r1pp/8/6N1/8/4P3/Pb4PP/6K1 b - - 1 28",
+   "moves": [
+    "e7e8",
+    "d8e8"
+   ],
+   "rating": 416,
+   "themes": [
+    "endgame",
+    "hangingPiece",
+    "mateIn1"
+   ]
+  },
+  {
+   "id": "2bTvt",
+   "fen": "3Q3k/1p4b1/p6p/2pP3q/4B3/P6P/1P5K/8 b - - 2 40",
+   "moves": [
+    "g7f8",
+    "d8f8"
+   ],
+   "rating": 442,
+   "themes": [
+    "endgame",
+    "hangingPiece",
+    "mateIn1"
+   ]
+  },
+  {
+   "id": "A3sr7",
+   "fen": "Q5k1/1np1rppp/1b6/5q2/3P4/2B5/1P3PPP/R5K1 b - - 1 28",
+   "moves": [
+    "e7e8",
+    "a8e8"
+   ],
+   "rating": 403,
+   "themes": [
+    "hangingPiece",
+    "mateIn1",
+    "middlegame"
+   ]
+  },
+  {
+   "id": "1neAu",
+   "fen": "2Q4k/3r2pp/8/5p2/3bpP2/Pp2P1P1/1B3K1P/3r4 b - - 1 30",
+   "moves": [
+    "d7d8",
+    "c8d8"
+   ],
+   "rating": 429,
+   "themes": [
+    "backRankMate",
+    "endgame",
+    "hangingPiece",
+    "mateIn1"
+   ]
+  },
+  {
+   "id": "52wd8",
+   "fen": "r5k1/ppq2p1p/2p3pB/3n4/3PQ3/P7/1P3PPP/R5K1 b - - 0 21",
+   "moves": [
+    "a8e8",
+    "e4e8"
+   ],
+   "rating": 400,
+   "themes": [
+    "endgame",
+    "hangingPiece",
+    "kingsideAttack",
+    "mateIn1"
+   ]
+  },
+  {
+   "id": "4mIuf",
+   "fen": "1r1q1r1k/3n1pbP/3pQ3/p1p5/3P1P1N/6P1/PPP5/2KR3R b - - 0 21",
+   "moves": [
+    "f7e6",
+    "h4g6"
+   ],
+   "rating": 478,
+   "themes": [
+    "mateIn1",
+    "middlegame"
+   ]
+  },
+  {
+   "id": "4YowJ",
+   "fen": "8/8/N7/1p3kp1/1Pn5/Pn1p2BP/8/3K4 w - - 2 48",
+   "moves": [
+    "g3e1",
+    "c4e3"
+   ],
+   "rating": 643,
+   "themes": [
+    "endgame",
+    "mateIn1"
+   ]
+  },
+  {
+   "id": "9RBZG",
+   "fen": "4N1k1/3R3p/6p1/2b5/8/5PP1/4b2P/3Qq2K w - - 1 36",
+   "moves": [
+    "d1e1",
+    "e2f3"
+   ],
+   "rating": 639,
+   "themes": [
+    "doubleBishopMate",
+    "endgame",
+    "master",
+    "mateIn1"
+   ]
+  },
+  {
+   "id": "12SIB",
+   "fen": "5k2/b4p2/6pp/2nNPK2/3N1P2/6PP/8/8 w - - 0 51",
+   "moves": [
+    "f5f6",
+    "c5e4"
+   ],
+   "rating": 643,
+   "themes": [
+    "endgame",
+    "master",
+    "mateIn1"
+   ]
+  }
+ ]
+}

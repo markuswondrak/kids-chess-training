@@ -1,0 +1,44 @@
+:root {
+  /* Pergament & Tinte */
+  --parchment: #f6e8c6;
+  --parchment-2: #ecd7a6;
+  --card: #fcf5e3;
+  --ink: #2f2420;
+  --ink-soft: rgba(47, 36, 32, 0.66);
+  --ink-faint: rgba(47, 36, 32, 0.18);
+
+  /* Schlachtfeld (Brett) */
+  --sand: #edd6a6;
+  --sand-deep: #d6b97f;
+  --field: #7c9f57;
+  --field-deep: #5c7f3f;
+
+  /* Burgstein & Stahl */
+  --stone: #b8b0a1;
+  --stone-light: #d4cdbf;
+  --stone-deep: #8a8274;
+  --steel: #cbd5de;
+  --steel-deep: #8e9cab;
+
+  /* Heraldik */
+  --gules: #c9372c;
+  --gules-deep: #9b261e;
+  --or: #f3b630;
+  --or-deep: #cf9415;
+  --azure: #2f62a8;
+  --azure-deep: #22487d;
+  --plum: #4a4778;
+  --leaf: #4e8a4f;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+
+  --shadow-pop: 0 5px 0 rgba(47, 36, 32, 0.22);
+  --shadow-soft: 0 26px 50px -26px rgba(32, 40, 60, 0.55);
+
+  --font-gothic: 'Grenze Gotisch', 'Bree Serif', serif;
+  --font-display: 'Bree Serif', Georgia, serif;
+  --font-body: 'Nunito', sans-serif;
+  --font-hand: 'Patrick Hand', cursive;
+}
