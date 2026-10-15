@@ -9,6 +9,11 @@ Implementierungen so einfach wie möglich. Die kleinste Lösung, die das Problem
 - Kein Feature-Creep: Nur umsetzen, was in den GitHub-Issues (Label `roadmap`) steht oder ausdrücklich gefragt wurde. Neue Ideen stattdessen als Issue anlegen.
 - Lieber vorhandene Komponenten und Design-Tokens wiederverwenden, als Neues zu bauen.
 
+## Git-Workflow
+
+- Änderungen werden nie direkt auf `main` gepusht, sondern immer über einen Branch und einen Pull Request.
+- Das gilt auch für kleine Änderungen (Fixes, Doku, Specs).
+
 ## Projekt
 
 Burgensturm ist eine kindgerechte Schach-Puzzle-App für 5- bis 10-Jährige. Die Oberfläche ist auf Deutsch, mobil zuerst (Handy/Tablet, Hochformat), mit Ritter Kuno als Begleiter.

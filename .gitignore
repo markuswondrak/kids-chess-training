@@ -20,3 +20,6 @@ npm-debug.log*
 # Spec Kit: materialisierte Agent-Dateien (rekonstruiert durch
 # specify init/Integration + Bundle/Preset-Install); Intent liegt in .specify/
 .opencode/
+
+# Spec Kit: Feature-Artefakte (nur lokal für das jeweilige Feature relevant)
+specs/
