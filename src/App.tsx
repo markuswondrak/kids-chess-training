@@ -5,7 +5,7 @@ import { MapScreen, type Walk } from './components/MapScreen'
 import { PuzzleScreen } from './components/PuzzleScreen'
 import { ResultBanner } from './components/ResultBanner'
 import { Chest } from './components/Treasure'
-import { SoundOffIcon, SoundOnIcon } from './components/icons'
+import { GitHubIcon, SoundOffIcon, SoundOnIcon } from './components/icons'
 import { frontier, useProgress, worldStars, type StarCount } from './game/progress'
 import { setMuted, sfx } from './game/sounds'
 import { COMING_SOON, WORLDS } from './game/worlds'
@@ -162,6 +162,18 @@ export default function App() {
           )}
         />
       )}
+
+      <footer className="footer">
+        <a
+          className="footer__link"
+          href="https://github.com/markuswondrak/kids-chess-training"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <GitHubIcon />
+          Quellcode auf GitHub
+        </a>
+      </footer>
 
       {chestBanner && (
         <ResultBanner
