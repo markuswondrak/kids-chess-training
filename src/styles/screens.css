@@ -882,3 +882,37 @@
 .map-sign--next {
   transform: translate(-50%, -50%) rotate(2deg);
 }
+
+/* ---------- Fußzeile ---------- */
+
+.footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  padding: 2px 12px max(24px, env(safe-area-inset-bottom));
+}
+
+.footer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px 6px 10px;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--ink);
+  text-decoration: none;
+  background: rgba(252, 245, 227, 0.75);
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: var(--shadow-pop);
+}
+
+.footer__link:active {
+  transform: translateY(2px);
+}
+
+.footer__link svg {
+  width: 18px;
+  height: 18px;
+}
