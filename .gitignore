@@ -16,3 +16,7 @@ npm-debug.log*
 .DS_Store
 .vscode/
 .idea/
+
+# Spec Kit: materialisierte Agent-Dateien (rekonstruiert durch
+# specify init/Integration + Bundle/Preset-Install); Intent liegt in .specify/
+.opencode/
