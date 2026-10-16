@@ -41,11 +41,12 @@ Burgensturm ist eine kindgerechte Schach-Puzzle-App für 5- bis 10-Jährige. Die
 Grundsatz: Nur Projekt-Intent ist versioniert; alles von `specify init` erzeugte oder installierte Gerüst wird nach dem Clone rekonstruiert.
 
 - Versioniert: Verfassung (`.specify/memory/constitution.md`), `.specify/integration.json`, `.specify/init-options.json` und die Ignore-Regeln in der Wurzel-`.gitignore` (bewusst dort statt in `.specify/.gitignore`, die `specify init --force` überschreibt).
-- Ignoriert: `.specify/scripts/`, `.specify/templates/`, `.specify/presets/`, `.specify/workflows/`, `.specify/feature.json`, `.specify/integrations/*.manifest.json` (Install-Records mit Zeitstempel), `.opencode/` und `specs/`.
+- Ignoriert: `.specify/scripts/`, `.specify/templates/`, `.specify/presets/`, `.specify/workflows/`, `.specify/feature.json`, `.specify/integrations/*.manifest.json` (Install-Records mit Zeitstempel), `.specify/integrations/.cache/`, `.opencode/`, die erzeugten Pi-Kommandos `.pi/prompts/speckit.*.md` und `specs/`.
 - Rekonstruktion nach frischem Clone (Scripts, Templates, der Workflow `speckit` und das Preset `lean` sind im specify-cli-Paket enthalten; CLI-Version aus `init-options.json`, derzeit 1.0.13):
 
   ```bash
   specify init --here --force --non-interactive --integration opencode --script sh --preset lean
+  specify integration install pi
   ```
 
   Danach ist `git status` sauber; ohne `--preset lean` entstehen die vollen statt der Lean-Kommandos.
