@@ -2,35 +2,41 @@ import { useEffect, useLayoutEffect, useState, type ReactNode } from 'react'
 import { usePuzzle, type PuzzleEvent } from '../hooks/usePuzzle'
 import type { StarCount } from '../game/progress'
 import { sfx } from '../game/sounds'
-import { SEITE, type PieceColor } from '../game/types'
+import type { PieceColor } from '../game/types'
 import type { Puzzle, World } from '../game/worlds'
+import { useI18n, type MessageKey, type TParams } from '../i18n'
 import { Board } from './Board'
 import { CoachKnight } from './CoachKnight'
 import { CastleWall } from './Decor'
 import { PieceIcon } from './pieces'
 import { LanternIcon, StarIcon } from './Treasure'
 
-const WRONG = [
-  'Hmm, nicht ganz! Schau nochmal genau hin.',
-  'Fast! Probier einen anderen Zug.',
-  'Der König kann da noch entwischen – such weiter!',
-  'Nicht aufgeben, tapferer Ritter! Versuch es nochmal.',
-]
+const WRONG_KEYS = ['puzzle.wrong.1', 'puzzle.wrong.2', 'puzzle.wrong.3', 'puzzle.wrong.4'] as const
 
 const other = (c: PieceColor): PieceColor => (c === 'w' ? 'b' : 'w')
 
-function messageFor(e: PuzzleEvent, wrongCount: number): string | null {
+/** Verweis auf einen Seitennamen – wird erst beim Rendern übersetzt. */
+const sideKey = (c: PieceColor) => ({ key: `side.${c}` as const })
+
+/** Die Sprechblase speichert Schlüssel + Parameter, nie fertigen Text (FR-005). */
+interface Bubble {
+  id: number
+  key: MessageKey
+  params?: TParams
+}
+
+function messageFor(e: PuzzleEvent, wrongCount: number): Omit<Bubble, 'id'> | null {
   switch (e.kind) {
     case 'opponent':
       return null // wird unten abhängig vom Fortschritt gesetzt
     case 'good':
-      return 'Richtig! Mal sehen, was der Gegner jetzt macht …'
+      return { key: 'puzzle.good' }
     case 'wrong':
-      return WRONG[(wrongCount - 1) % WRONG.length]
+      return { key: WRONG_KEYS[(wrongCount - 1) % WRONG_KEYS.length] }
     case 'hint':
-      return 'Psst … die leuchtende Figur ist dein Held! Wohin muss sie?'
+      return { key: 'puzzle.hintMessage' }
     case 'solved':
-      return e.mate ? 'Schachmatt! Großartig gemacht!' : 'Geschafft! Großartig gemacht!'
+      return { key: e.mate ? 'puzzle.solvedMate' : 'puzzle.solved' }
     case 'select':
       return null
   }
@@ -71,9 +77,13 @@ interface PuzzleScreenProps {
 }
 
 export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderResult, topRight }: PuzzleScreenProps) {
+  const { t, tn } = useI18n()
   const pz = usePuzzle(puzzle)
-  const opponent = SEITE[other(pz.playerColor)]
-  const [message, setMessage] = useState({ id: 0, text: `Pass auf – ${opponent} zieht zuerst …` })
+  const [message, setMessage] = useState<Bubble>(() => ({
+    id: 0,
+    key: 'puzzle.opponentFirst',
+    params: { side: sideKey(other(pz.playerColor)) },
+  }))
   const [wrongCount, setWrongCount] = useState(0)
   const [showResult, setShowResult] = useState(false)
 
@@ -83,15 +93,15 @@ export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderRes
     const e = pz.event
     if (!e) return
     soundFor(e)
-    let text = messageFor(e, e.kind === 'wrong' ? wrongCount + 1 : wrongCount)
+    let msg = messageFor(e, e.kind === 'wrong' ? wrongCount + 1 : wrongCount)
     if (e.kind === 'wrong') setWrongCount((c) => c + 1)
     if (e.kind === 'opponent') {
-      text =
+      msg =
         pz.moveCount <= 1
-          ? `Jetzt du! Du spielst ${SEITE[pz.playerColor]}. ${world.task}`
-          : `${opponent} hat geantwortet. Finde den nächsten Zug!`
+          ? { key: 'puzzle.yourTurn', params: { side: sideKey(pz.playerColor), task: { key: `world.${world.id}.task` } } }
+          : { key: 'puzzle.opponentReplied', params: { side: sideKey(other(pz.playerColor)) } }
     }
-    if (text) setMessage({ id: e.id, text })
+    if (msg) setMessage({ id: e.id, ...msg })
     if (e.kind === 'solved') {
       onSolved(pz.stars)
       const timer = setTimeout(() => setShowResult(true), 1100)
@@ -103,20 +113,20 @@ export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderRes
   return (
     <div className="screen screen--puzzle">
       <header className="topbar topbar--puzzle">
-        <button type="button" className="btn btn--back" onClick={onBack} aria-label="Zurück zur Karte">
+        <button type="button" className="btn btn--back" onClick={onBack} aria-label={t('puzzle.back')}>
           <svg viewBox="0 0 24 24" width={22} height={22} aria-hidden="true">
             <path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          Karte
+          {t('puzzle.mapButton')}
         </button>
         <div className="level-tag">
-          <small>{world.name}</small>
+          <small>{t(`world.${world.id}.name`)}</small>
           <strong>
-            Aufgabe {index + 1}
-            <span> / {world.puzzles.length}</span>
+            {t('puzzle.level', { n: index + 1 })}
+            <span>{t('puzzle.levelTotal', { total: world.puzzles.length })}</span>
           </strong>
         </div>
-        <div className="live-stars" aria-label={`${pz.stars} Sterne`}>
+        <div className="live-stars" aria-label={tn('puzzle.liveStars', pz.stars)}>
           {[1, 2, 3].map((i) => (
             <span key={`${i}-${pz.stars >= i}`} className={pz.stars >= i ? 'live-star' : 'live-star live-star--lost'}>
               <StarIcon empty={pz.stars < i} />
@@ -127,9 +137,9 @@ export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderRes
       </header>
 
       <div className="coach-row">
-        <CoachKnight className="knight knight--small" />
+        <CoachKnight className="knight knight--small" label={t('coach.name')} />
         <div key={message.id} className="bubble">
-          {message.text}
+          {t(message.key, message.params)}
         </div>
       </div>
 
@@ -157,7 +167,7 @@ export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderRes
           <span className="side-chip__piece">
             <PieceIcon type="k" color={pz.playerColor} />
           </span>
-          Du bist {SEITE[pz.playerColor]}
+          {t('puzzle.side', { side: t(`side.${pz.playerColor}`) })}
         </span>
         <button
           type="button"
@@ -166,7 +176,7 @@ export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderRes
           disabled={pz.phase !== 'play' || pz.hintUsed}
         >
           <LanternIcon className="btn--hint__icon" />
-          Hinweis
+          {t('puzzle.hint')}
           <span className="btn--hint__cost">
             −1 <StarIcon />
           </span>

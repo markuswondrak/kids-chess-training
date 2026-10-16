@@ -13,11 +13,12 @@ interface KnightProps {
   tunic?: string
   plume?: string
   shield?: string
-  label?: string
+  /** Sprachrichtiger Name (Wörterbuch: `coach.name` bzw. `map.playerKnight`). */
+  label: string
 }
 
 /** Ritter Kuno (Standard) – mit anderen Farben auch der Spieler-Ritter auf der Karte. */
-export function CoachKnight({ className, tunic = RED, plume = RED, shield = BLUE, label = 'Ritter Kuno' }: KnightProps) {
+export function CoachKnight({ className, tunic = RED, plume = RED, shield = BLUE, label }: KnightProps) {
   return (
     <svg viewBox="0 0 150 160" className={className} role="img" aria-label={label}>
       <ellipse cx="74" cy="153" rx="44" ry="6" fill="rgba(47,36,32,.16)" />

@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from
 import type { Move } from 'chess.js'
 import type { BoardCell } from '../hooks/usePuzzle'
 import type { PieceColor, PieceType } from '../game/types'
-import { FIGUR, SEITE } from '../game/types'
+import { useI18n } from '../i18n'
 import { SwordsBadge } from './Heraldry'
 import { PieceIcon } from './pieces'
 
@@ -40,6 +40,7 @@ export function Board({
   wrong,
   onSquare,
 }: BoardProps) {
+  const { t } = useI18n()
   const files = flipped ? [7, 6, 5, 4, 3, 2, 1, 0] : [0, 1, 2, 3, 4, 5, 6, 7]
   const ranks = flipped ? [0, 1, 2, 3, 4, 5, 6, 7] : [7, 6, 5, 4, 3, 2, 1, 0]
 
@@ -72,7 +73,7 @@ export function Board({
 
   return (
     <div className="board-fit">
-      <div className="board" role="grid" aria-label="Schachbrett">
+      <div className="board" role="grid" aria-label={t('board.label')}>
         {ranks.map((rank, rowIndex) =>
           files.map((file, colIndex) => {
             const name = squareName(file, rank)
@@ -115,8 +116,12 @@ export function Board({
             }
 
             const label = cell
-              ? `Feld ${name}, ${SEITE[cell.color as PieceColor]} ${FIGUR[cell.type as PieceType]}`
-              : `Feld ${name}, leer`
+              ? t('board.square', {
+                  square: name,
+                  side: t(`side.${cell.color as PieceColor}`),
+                  piece: t(`piece.${cell.type as PieceType}`),
+                })
+              : t('board.empty', { square: name })
 
             const pieceClass = [
               'piece',

@@ -16,7 +16,7 @@ Implementierungen so einfach wie möglich. Die kleinste Lösung, die das Problem
 
 ## Projekt
 
-Burgensturm ist eine kindgerechte Schach-Puzzle-App für 5- bis 10-Jährige. Die Oberfläche ist auf Deutsch, mobil zuerst (Handy/Tablet, Hochformat), mit Ritter Kuno als Begleiter.
+Schach Abenteurer (international: Adventure Chess) ist eine kindgerechte Schach-Puzzle-App für 5- bis 10-Jährige. Die Oberfläche ist auf Deutsch, Englisch und Französisch verfügbar, mobil zuerst (Handy/Tablet, Hochformat), mit Ritter Kuno als Begleiter.
 
 - Puzzles stammen aus der Lichess-Datenbank (CC0), erzeugt von `scripts/extract-puzzles.mjs`.
 - `src/data/puzzles.json` ist generiert – nicht von Hand bearbeiten.
