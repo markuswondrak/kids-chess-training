@@ -59,10 +59,53 @@
   line-height: 1;
 }
 
+/* ---------- Sprachumschalter ---------- */
+
+.lang-switch {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 0 0;
+}
+
+.lang-chip {
+  min-height: 44px;
+  padding: 7px 14px;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.82rem;
+  line-height: 1;
+  color: var(--ink);
+  background: var(--card);
+  border: 3px solid var(--ink);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-pop);
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.lang-chip--on {
+  color: #fff6e6;
+  background: var(--gules);
+  text-shadow: 0 2px 0 rgba(47, 36, 32, 0.35);
+}
+
+.lang-chip:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(47, 36, 32, 0.22);
+}
+
+.lang-chip:focus-visible {
+  outline: 3px dashed var(--azure);
+  outline-offset: 3px;
+}
+
 /* ---------- Karte ---------- */
 
 .map-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
@@ -109,6 +152,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  margin-left: auto;
   padding: 6px 14px 6px 8px;
   font-family: var(--font-display);
   font-size: 1.45rem;
@@ -381,7 +425,6 @@
   font-family: var(--font-display);
   font-weight: 400;
   font-size: 1.2rem;
-  white-space: nowrap;
 }
 
 .level-tag strong span {

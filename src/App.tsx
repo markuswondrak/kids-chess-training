@@ -6,9 +6,11 @@ import { PuzzleScreen } from './components/PuzzleScreen'
 import { ResultBanner } from './components/ResultBanner'
 import { Chest } from './components/Treasure'
 import { GitHubIcon, SoundOffIcon, SoundOnIcon } from './components/icons'
+import { LanguageSwitch } from './components/LanguageSwitch'
 import { frontier, useProgress, worldStars, type StarCount } from './game/progress'
 import { setMuted, sfx } from './game/sounds'
 import { COMING_SOON, WORLDS } from './game/worlds'
+import { useI18n, type MessageKey } from './i18n'
 
 type Route = { screen: 'map' } | { screen: 'puzzle'; index: number }
 
@@ -23,13 +25,14 @@ function parseHash(): Route {
   return { screen: 'map' }
 }
 
-const RESULT_TEXT: Record<StarCount, { title: string; subtitle: string }> = {
-  3: { title: 'Perfekt!', subtitle: 'Alle drei Sterne – ganz ohne Hilfe!' },
-  2: { title: 'Super!', subtitle: 'Zwei Sterne! Du wirst immer stärker.' },
-  1: { title: 'Geschafft!', subtitle: 'Ein Stern! Probier es nochmal für mehr Sterne.' },
+const RESULT_KEYS: Record<StarCount, { title: MessageKey; subtitle: MessageKey }> = {
+  3: { title: 'result.3.title', subtitle: 'result.3.subtitle' },
+  2: { title: 'result.2.title', subtitle: 'result.2.subtitle' },
+  1: { title: 'result.1.title', subtitle: 'result.1.subtitle' },
 }
 
 export default function App() {
+  const { t, lang } = useI18n()
   const { progress, recordStars, openChest } = useProgress()
   const [route, setRoute] = useState<Route>(parseHash)
   const [attempt, setAttempt] = useState(0)
@@ -40,6 +43,13 @@ export default function App() {
   const [chestBanner, setChestBanner] = useState(false)
 
   useEffect(() => setMuted(muted), [muted])
+
+  // Titel, Beschreibung und Dokumentsprache folgen der aktiven Sprache (FR-009).
+  useEffect(() => {
+    document.title = `${t('app.title')} – ${t('brand.tagline')}`
+    document.querySelector('meta[name="description"]')?.setAttribute('content', t('app.description'))
+    document.documentElement.lang = lang
+  }, [t, lang])
 
   // Einfaches Hash-Routing, damit der Zurück-Knopf des Handys funktioniert.
   useEffect(() => {
@@ -95,7 +105,7 @@ export default function App() {
       type="button"
       className="btn btn--icon"
       onClick={() => setMutedState((m) => !m)}
-      aria-label={muted ? 'Ton einschalten' : 'Ton ausschalten'}
+      aria-label={muted ? t('misc.sound.on') : t('misc.sound.off')}
     >
       {muted ? <SoundOffIcon /> : <SoundOnIcon />}
     </button>
@@ -121,15 +131,18 @@ export default function App() {
             setChestBanner(true)
           }}
           header={
-            <header className="topbar topbar--map">
-              <Crest className="brand__crest" />
-              <div className="brand__text">
-                <h1>Burgensturm</h1>
-                <p>Die Reise des Ritters</p>
-              </div>
-              <div className="topbar__spacer" />
-              {soundButton}
-            </header>
+            <>
+              <header className="topbar topbar--map">
+                <Crest className="brand__crest" />
+                <div className="brand__text">
+                  <h1>{t('app.title')}</h1>
+                  <p>{t('brand.tagline')}</p>
+                </div>
+                <div className="topbar__spacer" />
+                {soundButton}
+              </header>
+              <LanguageSwitch />
+            </>
           }
         />
       ) : (
@@ -142,7 +155,7 @@ export default function App() {
           onBack={goMap}
           topRight={soundButton}
           renderResult={(stars) => (
-            <ResultBanner stars={stars} {...RESULT_TEXT[stars]}>
+            <ResultBanner stars={stars} title={t(RESULT_KEYS[stars].title)} subtitle={t(RESULT_KEYS[stars].subtitle)}>
               {stars < 3 && (
                 <button
                   type="button"
@@ -152,11 +165,11 @@ export default function App() {
                     setAttempt((a) => a + 1)
                   }}
                 >
-                  Nochmal
+                  {t('result.again')}
                 </button>
               )}
               <button type="button" className="btn btn--red btn--big" onClick={goMap}>
-                Weiter
+                {t('result.continue')}
               </button>
             </ResultBanner>
           )}
@@ -171,18 +184,22 @@ export default function App() {
           rel="noreferrer"
         >
           <GitHubIcon />
-          Quellcode auf GitHub
+          {t('misc.footer.code')}
         </a>
       </footer>
 
       {chestBanner && (
         <ResultBanner
-          title="Welt geschafft!"
-          subtitle={`Du hast ${total} von ${world.puzzles.length * 3} Sternen gesammelt. Bald geht die Reise weiter in den ${COMING_SOON.name}!`}
+          title={t('result.chest.title')}
+          subtitle={t('result.chest.subtitle', {
+            got: total,
+            max: world.puzzles.length * 3,
+            world: t(`world.${COMING_SOON.id}.name`),
+          })}
           emblem={<Chest open className="banner__chest" />}
         >
           <button type="button" className="btn btn--red btn--big" onClick={() => setChestBanner(false)}>
-            Hurra!
+            {t('result.chest.button')}
           </button>
         </ResultBanner>
       )}

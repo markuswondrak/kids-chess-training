@@ -13,13 +13,15 @@ export interface Puzzle {
   themes: string[]
 }
 
+/** Anzeigetexte einer Welt liegen im Wörterbuch unter `world.{id}.*` (i18n). */
+export type WorldId = 'burgdorf'
+
+/** Welt der Karten-Vorschau – hat noch keinen Auftragstext. */
+export type ComingSoonId = 'finsterwald'
+
 export interface World {
-  id: string
+  id: WorldId
   number: number
-  name: string
-  subtitle: string
-  /** Auftrag, den Ritter Kuno zu Beginn jeder Aufgabe gibt. */
-  task: string
   puzzles: Puzzle[]
 }
 
@@ -27,15 +29,12 @@ export const WORLDS: World[] = [
   {
     id: 'burgdorf',
     number: 1,
-    name: 'Burgdorf',
-    subtitle: 'Matt in 1',
-    task: 'Setze den König mit einem einzigen Zug schachmatt!',
     puzzles: data.burgdorf,
   },
 ]
 
 /** Vorschau auf die nächste Welt am Ende der Karte. */
-export const COMING_SOON = { name: 'Finsterwald', subtitle: 'Welt 2' }
+export const COMING_SOON: { id: ComingSoonId; number: number } = { id: 'finsterwald', number: 2 }
 
 export function findWorld(id: string): World | undefined {
   return WORLDS.find((w) => w.id === id)

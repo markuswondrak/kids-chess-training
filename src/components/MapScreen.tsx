@@ -3,6 +3,7 @@ import { MAP_W, chestSpot, mapHeight, pointOn, waypoints, type Pt } from '../gam
 import { frontier, worldStars, type Progress } from '../game/progress'
 import { sfx } from '../game/sounds'
 import { COMING_SOON, type World } from '../game/worlds'
+import { useI18n } from '../i18n'
 import { CoachKnight } from './CoachKnight'
 import { MapArt } from './MapArt'
 import { Chest, LockIcon, StarIcon, StarRow } from './Treasure'
@@ -29,6 +30,7 @@ const HOPS = 4
 const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2)
 
 export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, header }: MapScreenProps) {
+  const { t, tn } = useI18n()
   const n = world.puzzles.length
   const height = mapHeight(n)
   const pts = waypoints(n)
@@ -106,11 +108,11 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
       {header}
       <div className="map-head">
         <div className="map-head__ribbon">
-          <span className="map-head__world">Welt {world.number}</span>
-          <strong>{world.name}</strong>
-          <span className="map-head__sub">{world.subtitle}</span>
+          <span className="map-head__world">{t('map.world', { n: world.number })}</span>
+          <strong>{t(`world.${world.id}.name`)}</strong>
+          <span className="map-head__sub">{t(`world.${world.id}.subtitle`)}</span>
         </div>
-        <div className="star-count" aria-label={`${total} von ${n * 3} Sternen`}>
+        <div className="star-count" aria-label={t('map.stars', { got: total, max: n * 3 })}>
           <StarIcon />
           <span>
             {total}
@@ -128,12 +130,12 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
         />
 
         <div className="map-sign map-sign--start" style={at({ x: pts[0].x - 74, y: pts[0].y - 40 })}>
-          {world.name}
+          {t(`world.${world.id}.name`)}
         </div>
         <div className="map-sign map-sign--next" style={at({ x: 112, y: 52 })}>
-          <small>Welt {world.number + 1}</small>
-          {COMING_SOON.name}
-          <em>bald!</em>
+          <small>{t('map.nextWorld', { n: COMING_SOON.number })}</small>
+          {t(`world.${COMING_SOON.id}.name`)}
+          <em>{t('map.soon')}</em>
         </div>
 
         {world.puzzles.map((puzzle, i) => {
@@ -157,7 +159,13 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
               style={at(pts[i + 1])}
               disabled={!unlocked || walking}
               onClick={() => onPlay(i)}
-              aria-label={unlocked ? `Aufgabe ${i + 1}${stars ? `, ${stars} Sterne` : ''}` : `Aufgabe ${i + 1}, noch gesperrt`}
+              aria-label={
+                unlocked
+                  ? stars
+                    ? t('map.stoneStars', { n: i + 1, stars: tn('common.stars', stars) })
+                    : t('map.stone', { n: i + 1 })
+                  : t('map.stoneLocked', { n: i + 1 })
+              }
             >
               <span className="stone__face">{unlocked ? i + 1 : <LockIcon className="stone__lock" />}</span>
               {stars > 0 && <StarRow count={stars} className="stone__stars" />}
@@ -171,10 +179,10 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
           style={at(chestSpot(pts))}
           disabled={!allSolved || walking}
           onClick={onChest}
-          aria-label={chestOpen ? 'Schatztruhe (geöffnet)' : allSolved ? 'Schatztruhe öffnen!' : 'Schatztruhe – löse alle Aufgaben'}
+          aria-label={chestOpen ? t('map.chestOpen') : allSolved ? t('map.chestReady') : t('map.chestLocked')}
         >
           <Chest open={chestOpen} className="chest__art" />
-          {allSolved && !chestOpen && !walking && <span className="chest__tap">Öffne mich!</span>}
+          {allSolved && !chestOpen && !walking && <span className="chest__tap">{t('map.openMe')}</span>}
         </button>
 
         <div
@@ -189,7 +197,7 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
           }
           aria-hidden="true"
         >
-          <CoachKnight className="hero__art" tunic="#2F62A8" plume="#F3B630" shield="#C9372C" label="Dein Ritter" />
+          <CoachKnight className="hero__art" tunic="#2F62A8" plume="#F3B630" shield="#C9372C" label={t('map.playerKnight')} />
         </div>
       </div>
     </div>
