@@ -1,0 +1,84 @@
+import type { Messages } from './en'
+
+/** Französisch. Unvollständige Einträge fallen zur Laufzeit auf Englisch zurück. */
+export const fr: Partial<Messages> = {
+  'app.title': 'Adventure Chess',
+  'app.description':
+    "Une aventure d'échecs pour petits chevaliers : des énigmes adaptées aux enfants de 5 à 10 ans avec le chevalier Kuno.",
+  'brand.tagline': 'Le voyage du chevalier',
+
+  'common.stars.one': '{count} étoile',
+  'common.stars.other': '{count} étoiles',
+
+  'map.world': 'Monde {n}',
+  'map.nextWorld': 'Monde {n}',
+  'map.stars': '{got} sur {max} étoiles',
+  'map.stone': 'Énigme {n}',
+  'map.stoneStars': 'Énigme {n}, {stars}',
+  'map.stoneLocked': 'Énigme {n}, encore verrouillée',
+  'map.chestOpen': 'Coffre au trésor (ouvert)',
+  'map.chestReady': 'Ouvre le coffre au trésor !',
+  'map.chestLocked': 'Coffre au trésor – résous toutes les énigmes',
+  'map.openMe': 'Ouvre-moi !',
+  'map.soon': 'bientôt !',
+  'map.playerKnight': 'Ton chevalier',
+
+  'coach.name': 'Chevalier Kuno',
+
+  'puzzle.back': 'Retour à la carte',
+  'puzzle.mapButton': 'Carte',
+  'puzzle.level': 'Énigme {n}',
+  'puzzle.levelTotal': ' / {total}',
+  'puzzle.liveStars.one': '{count} étoile',
+  'puzzle.liveStars.other': '{count} étoiles',
+  'puzzle.side': 'Tu as les {side}',
+  'puzzle.hint': 'Indice',
+  'puzzle.opponentFirst': 'Attention – les {side} commencent…',
+  'puzzle.yourTurn': 'À toi ! Tu as les {side}. {task}',
+  'puzzle.opponentReplied': 'Les {side} ont répondu. Trouve le prochain coup !',
+  'puzzle.good': "Bravo ! Voyons ce que fait l'adversaire…",
+  'puzzle.hintMessage': 'Chut… la pièce qui brille est ton héros ! Où doit-elle aller ?',
+  'puzzle.solved': 'Réussi ! Excellent travail !',
+  'puzzle.solvedMate': 'Échec et mat ! Excellent travail !',
+  'puzzle.wrong.1': 'Hmm, pas tout à fait ! Regarde encore attentivement.',
+  'puzzle.wrong.2': 'Presque ! Essaie un autre coup.',
+  'puzzle.wrong.3': "Le roi peut encore s'échapper – continue à chercher !",
+  'puzzle.wrong.4': "N'abandonne pas, brave chevalier ! Essaie encore.",
+
+  'result.3.title': 'Parfait !',
+  'result.3.subtitle': 'Les trois étoiles – sans aucune aide !',
+  'result.2.title': 'Super !',
+  'result.2.subtitle': 'Deux étoiles ! Tu deviens de plus en plus fort.',
+  'result.1.title': 'Réussi !',
+  'result.1.subtitle': "Une étoile ! Réessaie pour gagner plus d'étoiles.",
+  'result.again': 'Encore',
+  'result.continue': 'Continuer',
+  'result.chest.title': 'Monde terminé !',
+  'result.chest.subtitle': 'Tu as récolté {got} sur {max} étoiles. Le voyage continue bientôt vers {world} !',
+  'result.chest.button': 'Hourra !',
+
+  'board.label': 'Échiquier',
+  'board.square': 'Case {square}, {piece} des {side}',
+  'board.empty': 'Case {square}, vide',
+
+  'piece.p': 'pion',
+  'piece.n': 'cavalier',
+  'piece.b': 'fou',
+  'piece.r': 'tour',
+  'piece.q': 'dame',
+  'piece.k': 'roi',
+
+  'side.w': 'Blancs',
+  'side.b': 'Noirs',
+
+  'world.burgdorf.name': 'Châteaubourg',
+  'world.burgdorf.subtitle': 'Mat en 1',
+  'world.burgdorf.task': 'Fais échec et mat au roi en un seul coup !',
+  'world.finsterwald.name': 'Bois-Sombre',
+  'world.finsterwald.subtitle': 'Monde 2',
+
+  'misc.sound.on': 'Activer le son',
+  'misc.sound.off': 'Couper le son',
+  'misc.footer.code': 'Code source sur GitHub',
+  'misc.language.label': 'Langue',
+}

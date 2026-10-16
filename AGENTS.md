@@ -33,6 +33,7 @@ Adventure Chess (German: Schach Abenteurer) is a kid-friendly chess puzzle app f
 
 - `src/game/` – data and logic (worlds, progress, map geometry, sounds)
 - `src/hooks/usePuzzle.ts` – the flow of one puzzle (opponent move, move checking, stars)
+- `src/i18n/` – UI texts for German, English and French (dictionaries, `useI18n`)
 - `src/components/` – screens and presentation
 - `scripts/extract-puzzles.mjs` – puzzle generator; new worlds go at the top of `WORLDS`
 - GitHub issues with label `roadmap` – the backlog of all planned ideas
