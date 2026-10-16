@@ -45,8 +45,8 @@ Grundsatz: Nur Projekt-Intent ist versioniert; alles von `specify init` erzeugte
 - Rekonstruktion nach frischem Clone (Scripts, Templates, der Workflow `speckit` und das Preset `lean` sind im specify-cli-Paket enthalten; CLI-Version aus `init-options.json`, derzeit 1.0.13):
 
   ```bash
-  specify init --here --force --non-interactive --integration opencode --script sh --preset lean
-  specify integration install pi
+  specify init --here --force --non-interactive --integration pi --script sh --preset lean
+  specify integration install opencode
   ```
 
   Danach ist `git status` sauber; ohne `--preset lean` entstehen die vollen statt der Lean-Kommandos.
