@@ -13,6 +13,7 @@ Implementierungen so einfach wie möglich. Die kleinste Lösung, die das Problem
 
 - Änderungen werden nie direkt auf `main` gepusht, sondern immer über einen Branch und einen Pull Request.
 - Das gilt auch für kleine Änderungen (Fixes, Doku, Specs).
+- Jeder Pull Request MUSS auf das zugehörige Issue verweisen (z. B. „Schließt #7“), wenn eines existiert; gibt es keines, wird das im PR kurz vermerkt.
 
 ## Projekt
 
