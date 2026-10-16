@@ -1,3 +1,20 @@
+<!--
+Sync Impact Report
+==================
+Version change: 1.0.0 → 1.1.0 (MINOR: Prinzip III neu gefasst, abwärtskompatibel)
+Modified principles: III. Kindgerechte Bedienung – die Sprachfestlegung
+(„die Oberfläche ist auf Deutsch“) entfällt. Prinzip III regelt nur noch die
+kindgerechte Bedienung; den Sprachumfang steuern Roadmap-Issues und Specs.
+Added sections: keine
+Removed sections: keine
+Templates requiring updates: keine
+Begründung: Issue #7 – die Oberfläche wird mehrsprachig (Deutsch, Englisch,
+Französisch). Eine Sprachliste in der Verfassung müsste bei jeder weiteren
+Sprache erneut geändert werden und gehört daher nicht hierher.
+Follow-up: Der Sprachhinweis in AGENTS.md („Die Oberfläche ist auf Deutsch“)
+wird mit Feature 002-i18n (Task T022) angeglichen.
+-->
+
 # Burgensturm Constitution
 
 ## Core Principles
@@ -31,7 +48,7 @@ keine Ausfälle – Kinder können jederzeit spielen.
 
 ### III. Kindgerechte Bedienung
 
-Die Zielgruppe sind Kinder von 5 bis 10 Jahren; die Oberfläche ist auf Deutsch.
+Die Zielgruppe sind Kinder von 5 bis 10 Jahren.
 
 - Mobile zuerst: Handy und Tablet im Hochformat; Bedienung durch Antippen
   (kein Drag & Drop-Zwang).
@@ -104,4 +121,4 @@ Diese Verfassung hat Vorrang vor allen anderen Praktiken des Projekts.
 - Laufzeit-Hinweise für den Entwicklungsalltag stehen in `AGENTS.md`; bei
   Konflikt gilt diese Verfassung.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-10-15
+**Version**: 1.1.0 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-10-16
