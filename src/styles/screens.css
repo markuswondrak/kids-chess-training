@@ -59,46 +59,65 @@
   line-height: 1;
 }
 
-/* ---------- Sprachumschalter ---------- */
+/* ---------- Sprachauswahl (Weltkugel + Liste) ---------- */
 
-.lang-switch {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 8px 0 0;
+.lang-picker {
+  position: relative;
+  flex-shrink: 0;
 }
 
-.lang-chip {
-  min-height: 44px;
-  padding: 7px 14px;
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 0.82rem;
-  line-height: 1;
-  color: var(--ink);
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 165px;
+  padding: 6px;
   background: var(--card);
   border: 3px solid var(--ink);
   border-radius: var(--r-lg);
-  box-shadow: var(--shadow-pop);
+  box-shadow: 0 6px 0 rgba(47, 36, 32, 0.22);
+}
+
+.lang-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 10px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--ink);
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: var(--r-md);
   cursor: pointer;
   user-select: none;
   touch-action: manipulation;
 }
 
-.lang-chip--on {
-  color: #fff6e6;
-  background: var(--gules);
-  text-shadow: 0 2px 0 rgba(47, 36, 32, 0.35);
+.lang-item--on {
+  background: var(--or);
 }
 
-.lang-chip:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 rgba(47, 36, 32, 0.22);
+.lang-item:active {
+  transform: translateY(1px);
 }
 
-.lang-chip:focus-visible {
+.lang-item:focus-visible {
   outline: 3px dashed var(--azure);
-  outline-offset: 3px;
+  outline-offset: -3px;
+}
+
+.lang-flag {
+  display: block;
+  flex-shrink: 0;
+  width: 30px;
+  height: 20px;
 }
 
 /* ---------- Karte ---------- */

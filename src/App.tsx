@@ -131,18 +131,16 @@ export default function App() {
             setChestBanner(true)
           }}
           header={
-            <>
-              <header className="topbar topbar--map">
-                <Crest className="brand__crest" />
-                <div className="brand__text">
-                  <h1>{t('app.title')}</h1>
-                  <p>{t('brand.tagline')}</p>
-                </div>
-                <div className="topbar__spacer" />
-                {soundButton}
-              </header>
+            <header className="topbar topbar--map">
+              <Crest className="brand__crest" />
+              <div className="brand__text">
+                <h1>{t('app.title')}</h1>
+                <p>{t('brand.tagline')}</p>
+              </div>
+              <div className="topbar__spacer" />
               <LanguageSwitch />
-            </>
+              {soundButton}
+            </header>
           }
         />
       ) : (
