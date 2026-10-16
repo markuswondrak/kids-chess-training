@@ -43,11 +43,12 @@ Adventure Chess (German: Schach Abenteurer) is a kid-friendly chess puzzle app f
 Principle: only project intent is versioned; anything generated or installed by `specify init` is reconstructed after a clone.
 
 - Versioned: the constitution (`.specify/memory/constitution.md`), `.specify/integration.json`, `.specify/init-options.json` and the ignore rules in the root `.gitignore` (deliberately there instead of `.specify/.gitignore`, which `specify init --force` overwrites).
-- Ignored: `.specify/scripts/`, `.specify/templates/`, `.specify/presets/`, `.specify/workflows/`, `.specify/feature.json`, `.specify/integrations/*.manifest.json` (install records with timestamps), `.opencode/` and `specs/`.
+- Ignored: `.specify/scripts/`, `.specify/templates/`, `.specify/presets/`, `.specify/workflows/`, `.specify/feature.json`, `.specify/integrations/*.manifest.json` (install records with timestamps), `.specify/integrations/.cache/`, `.opencode/`, the generated Pi commands `.pi/prompts/speckit.*.md` (hand-written Pi prompts stay versioned) and `specs/`.
 - Reconstruction after a fresh clone (scripts, templates, the `speckit` workflow and the `lean` preset are bundled with the specify-cli package; the CLI version comes from `init-options.json`, currently 1.0.13):
 
   ```bash
-  specify init --here --force --non-interactive --integration opencode --script sh --preset lean
+  specify init --here --force --non-interactive --integration pi --script sh --preset lean
+  specify integration install opencode
   ```
 
   Afterwards `git status` is clean; without `--preset lean` the full commands are created instead of the lean ones.

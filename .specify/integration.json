@@ -2,14 +2,19 @@
   "version": "1.0.13",
   "integration_state_schema": 1,
   "installed_integrations": [
+    "pi",
     "opencode"
   ],
   "integration_settings": {
+    "pi": {
+      "script": "sh",
+      "invoke_separator": "."
+    },
     "opencode": {
       "script": "sh",
       "invoke_separator": "."
     }
   },
-  "integration": "opencode",
-  "default_integration": "opencode"
+  "integration": "pi",
+  "default_integration": "pi"
 }
