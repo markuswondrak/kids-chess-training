@@ -1,0 +1,14 @@
+# A project-level catalog file replaces the built-in catalog stack, so both
+# upstream sources are re-declared here. `community` is flipped to install-allowed
+# on purpose: this project trusts the community catalog as a whole.
+catalogs:
+- name: default
+  url: https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.json
+  priority: 1
+  install_allowed: true
+  description: "Built-in catalog of installable extensions."
+- name: community
+  url: https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json
+  priority: 2
+  install_allowed: true
+  description: "Community-contributed extensions, installable in this project."

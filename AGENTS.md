@@ -42,14 +42,14 @@ Adventure Chess (German: Schach Abenteurer) is a kid-friendly chess puzzle app f
 
 Principle: only project intent is versioned; anything generated or installed by `specify init` is reconstructed after a clone.
 
-- Versioned: the constitution (`.specify/memory/constitution.md`), `.specify/integration.json`, `.specify/init-options.json`, `.specify/extensions.yml` and the extension configs `.specify/extensions/*/*-config.yml`, plus the ignore rules in the root `.gitignore` (deliberately there instead of `.specify/.gitignore`, which `specify init --force` overwrites).
+- Versioned: the constitution (`.specify/memory/constitution.md`), `.specify/integration.json`, `.specify/init-options.json`, `.specify/extensions.yml`, `.specify/bundle.yml` (the pinned extension/preset stack), `.specify/extension-catalogs.yml` (catalog stack; makes the community catalog installable here), the extension configs `.specify/extensions/*/*-config.yml`, plus the ignore rules in the root `.gitignore` (deliberately there instead of `.specify/.gitignore`, which `specify init --force` overwrites).
 - Ignored: `.specify/scripts/`, `.specify/templates/`, `.specify/presets/`, `.specify/workflows/`, `.specify/feature.json`, `.specify/integrations/*.manifest.json` (install records with timestamps), `.specify/integrations/.cache/`, `.opencode/`, the generated Pi commands `.pi/prompts/speckit.*.md` (hand-written Pi prompts stay versioned) and `specs/`.
-- Reconstruction after a fresh clone (scripts, templates, the `speckit` workflow and the `lean` preset are bundled with the specify-cli package; the CLI version comes from `init-options.json`, currently 1.0.13):
+- Reconstruction after a fresh clone (the CLI version comes from `init-options.json`, currently 1.0.13):
 
   ```bash
-  specify init --here --force --non-interactive --integration pi --script sh --preset lean
+  specify init --here --force --non-interactive --integration pi --script sh
   specify integration install opencode
-  specify extension add wireframe --from https://github.com/TortoiseWolfe/spec-kit-extension-wireframe/archive/refs/tags/v0.1.1.zip
+  specify bundle install .specify/bundle.yml
   ```
 
-  Afterwards `git status` is clean; without `--preset lean` the full commands are created instead of the lean ones.
+  Afterwards `git status` is clean. `bug` is pinned in the bundle to the CLI version (`init-options.json`), since it ships with the CLI. `wireframe` comes from the community catalog, which `.specify/extension-catalogs.yml` declares install-allowed.
