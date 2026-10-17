@@ -22,8 +22,6 @@ provides:
     - id: "wireframe"
       version: "0.1.1"
       source: "community"
-  presets:
-    - id: "lean"
-      version: "1.0.0"
-      priority: 10
-      strategy: "replace"
+# No presets: the lean preset replaces the core specify/plan/tasks/implement
+# commands and thereby drops their "Mandatory Post-Execution Hooks" section, so
+# extension hooks (e.g. the wireframe gates) never run. See PR for details.
