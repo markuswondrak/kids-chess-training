@@ -3,8 +3,8 @@ import { MAP_W, chestSpot, pathD, seeded, type Pt } from '../game/mapPath'
 
 const INK = '#2F2420'
 
-function Tree({ x, y, s = 1, kind = 0 }: { x: number; y: number; s?: number; kind?: number }) {
-  const leaf = ['#5E9A4E', '#4E8A4F', '#6FAA55'][kind % 3]
+function Tree({ x, y, s = 1, kind = 0, color }: { x: number; y: number; s?: number; kind?: number; color?: string }) {
+  const leaf = color ?? ['#5E9A4E', '#4E8A4F', '#6FAA55'][kind % 3]
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
       <ellipse cx="0" cy="2" rx="16" ry="4.5" fill="rgba(47,36,32,.16)" />
@@ -15,7 +15,6 @@ function Tree({ x, y, s = 1, kind = 0 }: { x: number; y: number; s?: number; kin
           <path d="M0 -56 L20 -26 Q0 -30 -20 -26 Z" fill={leaf} />
           <path d="M0 -72 L15 -43 Q0 -46 -15 -43 Z" fill={leaf} />
           <path d="M-5 -50 L-11 -34 M-8 -64 L-3 -54" stroke="rgba(255,255,255,.28)" strokeWidth={2.4} strokeLinecap="round" fill="none" />
-          <path d="M0 -84 L2.6 -77.5 L9 -77.5 L4 -73.5 L6 -67 L0 -71 L-6 -67 L-4 -73.5 L-9 -77.5 L-2.6 -77.5 Z" fill="#FFD84A" strokeWidth={1.6} />
         </g>
       ) : (
         <g>
@@ -232,10 +231,7 @@ export function MapArt({ height, pts, walkedTo, stones }: MapArtProps) {
           [352, 120, 1],
           [376, 104, 1.15],
         ].map(([x, y, s], i) => (
-          <g key={i} transform={`translate(${x} ${y}) scale(${s})`}>
-            <path d="M0 -52 L16 -12 H-16 Z M0 -38 L20 -2 H-20 Z" fill="#3E5A4A" stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
-            <rect x="-3" y="-2" width="6" height="8" fill="#5A3E2A" />
-          </g>
+          <Tree key={i} x={x} y={y} s={s} kind={1} color="#3E5A4A" />
         ))}
       </g>
       <Cloud x={60} y={118} s={1.15} />
