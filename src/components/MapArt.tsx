@@ -10,7 +10,13 @@ function Tree({ x, y, s = 1, kind = 0 }: { x: number; y: number; s?: number; kin
       <ellipse cx="0" cy="2" rx="16" ry="4.5" fill="rgba(47,36,32,.16)" />
       <rect x="-3.5" y="-16" width="7" height="18" rx="2" fill="#8A5A34" stroke={INK} strokeWidth={2.2} />
       {kind === 1 ? (
-        <path d="M0 -58 L18 -14 H-18 Z M0 -44 L22 -8 H-22 Z" fill={leaf} stroke={INK} strokeWidth={2.4} strokeLinejoin="round" />
+        <g stroke={INK} strokeWidth={2.4} strokeLinejoin="round">
+          <path d="M0 -40 L25 -9 Q0 -14 -25 -9 Z" fill={leaf} />
+          <path d="M0 -56 L20 -26 Q0 -30 -20 -26 Z" fill={leaf} />
+          <path d="M0 -72 L15 -43 Q0 -46 -15 -43 Z" fill={leaf} />
+          <path d="M-5 -50 L-11 -34 M-8 -64 L-3 -54" stroke="rgba(255,255,255,.28)" strokeWidth={2.4} strokeLinecap="round" fill="none" />
+          <path d="M0 -84 L2.6 -77.5 L9 -77.5 L4 -73.5 L6 -67 L0 -71 L-6 -67 L-4 -73.5 L-9 -77.5 L-2.6 -77.5 Z" fill="#FFD84A" strokeWidth={1.6} />
+        </g>
       ) : (
         <g>
           <circle cx="0" cy="-30" r="17" fill={leaf} stroke={INK} strokeWidth={2.4} />
