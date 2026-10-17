@@ -65,18 +65,27 @@ function soundFor(e: PuzzleEvent) {
   }
 }
 
-interface PuzzleScreenProps {
+interface PuzzleScreenCommon {
   world: World
-  index: number
   puzzle: Puzzle
-  onSolved: (stars: StarCount) => void
+  /** Endet den Lauf sofort (Karte). */
   onBack: () => void
   /** Wird angezeigt, sobald das Puzzle gelöst ist. */
   renderResult: (stars: StarCount) => ReactNode
   topRight: ReactNode
 }
 
-export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderResult, topRight }: PuzzleScreenProps) {
+/**
+ * `world`: Aufgabe einer Welt mit Sternen und Fortschritt.
+ * `endless`: Lauf ohne Bewertung – hat bewusst kein `onSolved`, damit nichts gespeichert werden kann.
+ */
+export type PuzzleScreenProps =
+  | (PuzzleScreenCommon & { variant: 'world'; index: number; onSolved: (stars: StarCount) => void })
+  | (PuzzleScreenCommon & { variant: 'endless' })
+
+export function PuzzleScreen(props: PuzzleScreenProps) {
+  const { world, puzzle, onBack, renderResult, topRight } = props
+  const onSolved = props.variant === 'world' ? props.onSolved : undefined
   const { t, tn } = useI18n()
   const pz = usePuzzle(puzzle)
   const [message, setMessage] = useState<Bubble>(() => ({
@@ -103,7 +112,7 @@ export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderRes
     }
     if (msg) setMessage({ id: e.id, ...msg })
     if (e.kind === 'solved') {
-      onSolved(pz.stars)
+      onSolved?.(pz.stars)
       const timer = setTimeout(() => setShowResult(true), 1100)
       return () => clearTimeout(timer)
     }
@@ -122,17 +131,25 @@ export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderRes
         <div className="level-tag">
           <small>{t(`world.${world.id}.name`)}</small>
           <strong>
-            {t('puzzle.level', { n: index + 1 })}
-            <span>{t('puzzle.levelTotal', { total: world.puzzles.length })}</span>
+            {props.variant === 'world' ? (
+              <>
+                {t('puzzle.level', { n: props.index + 1 })}
+                <span>{t('puzzle.levelTotal', { total: world.puzzles.length })}</span>
+              </>
+            ) : (
+              t('endless.tag')
+            )}
           </strong>
         </div>
-        <div className="live-stars" aria-label={tn('puzzle.liveStars', pz.stars)}>
-          {[1, 2, 3].map((i) => (
-            <span key={`${i}-${pz.stars >= i}`} className={pz.stars >= i ? 'live-star' : 'live-star live-star--lost'}>
-              <StarIcon empty={pz.stars < i} />
-            </span>
-          ))}
-        </div>
+        {props.variant === 'world' && (
+          <div className="live-stars" aria-label={tn('puzzle.liveStars', pz.stars)}>
+            {[1, 2, 3].map((i) => (
+              <span key={`${i}-${pz.stars >= i}`} className={pz.stars >= i ? 'live-star' : 'live-star live-star--lost'}>
+                <StarIcon empty={pz.stars < i} />
+              </span>
+            ))}
+          </div>
+        )}
         {topRight}
       </header>
 
@@ -177,9 +194,11 @@ export function PuzzleScreen({ world, index, puzzle, onSolved, onBack, renderRes
         >
           <LanternIcon className="btn--hint__icon" />
           {t('puzzle.hint')}
-          <span className="btn--hint__cost">
-            −1 <StarIcon />
-          </span>
+          {props.variant === 'world' && (
+            <span className="btn--hint__cost">
+              −1 <StarIcon />
+            </span>
+          )}
         </button>
       </div>
 
