@@ -57,6 +57,13 @@ export const en = {
   'result.chest.title': 'World complete!',
   'result.chest.subtitle': 'You collected {got} of {max} stars. The journey continues soon to {world}!',
   'result.chest.button': 'Hooray!',
+  'endless.tag': 'Endless',
+  'endless.button': 'Play endless',
+  'endless.next': 'Next puzzle',
+  'endless.toMap': 'Back to the map',
+  'endless.solved.title': 'Well done!',
+  'endless.solved.subtitle': 'Do you want another puzzle?',
+  'endless.unavailable': 'To keep playing you need an internet connection. Try again later!',
 
   'board.label': 'Chessboard',
   'board.square': 'Square {square}, {side} {piece}',
