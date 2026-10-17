@@ -11,7 +11,8 @@
    "endgame",
    "mateIn1",
    "pillsburysMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8ORd3",
@@ -26,7 +27,8 @@
    "endgame",
    "mateIn1",
    "queenRookEndgame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "7cUFW",
@@ -40,7 +42,8 @@
    "backRankMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "64XGX",
@@ -54,7 +57,8 @@
    "endgame",
    "mateIn1",
    "operaMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3lzGn",
@@ -68,7 +72,8 @@
    "arabianMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "38Gfc",
@@ -82,7 +87,8 @@
    "attackingF2F7",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8u62S",
@@ -96,7 +102,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "0ZhNe",
@@ -111,7 +118,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4B9rU",
@@ -126,7 +134,8 @@
    "hangingPiece",
    "mateIn1",
    "pillsburysMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2uyVT",
@@ -139,7 +148,8 @@
   "themes": [
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "5TLRH",
@@ -153,7 +163,8 @@
    "backRankMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "5k74D",
@@ -167,7 +178,8 @@
    "attackingF2F7",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "6iB2t",
@@ -180,7 +192,8 @@
   "themes": [
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8VCGN",
@@ -194,7 +207,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4Vtl0",
@@ -208,7 +222,8 @@
    "bodenMate",
    "mateIn1",
    "opening"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2K7EP",
@@ -222,7 +237,8 @@
    "mateIn1",
    "middlegame",
    "operaMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3TPxW",
@@ -237,7 +253,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3nlQK",
@@ -250,7 +267,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "6iYvg",
@@ -264,7 +282,8 @@
    "endgame",
    "hangingPiece",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3atb4",
@@ -277,7 +296,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "5ztTl",
@@ -292,7 +312,8 @@
    "endgame",
    "hangingPiece",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4ATYJ",
@@ -306,7 +327,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8MJab",
@@ -320,7 +342,8 @@
    "endgame",
    "mateIn1",
    "rookEndgame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4zw1R",
@@ -334,7 +357,8 @@
    "endgame",
    "mateIn1",
    "queenRookEndgame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8G37Z",
@@ -349,7 +373,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2S9Sl",
@@ -362,7 +387,8 @@
   "themes": [
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "32sUU",
@@ -377,7 +403,8 @@
    "hangingPiece",
    "mateIn1",
    "pillsburysMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3es5m",
@@ -390,7 +417,8 @@
   "themes": [
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "5n0Xl",
@@ -405,7 +433,8 @@
    "hangingPiece",
    "master",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "7gJ3X",
@@ -419,7 +448,8 @@
    "backRankMate",
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "9Rvm3",
@@ -433,7 +463,8 @@
    "hangingPiece",
    "mateIn1",
    "opening"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3CPGi",
@@ -447,7 +478,8 @@
    "backRankMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3v55R",
@@ -460,7 +492,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8RF7u",
@@ -474,7 +507,8 @@
    "arabianMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3ZljU",
@@ -488,7 +522,8 @@
    "master",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4iLbS",
@@ -501,7 +536,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "9Ph1U",
@@ -515,7 +551,8 @@
    "endgame",
    "master",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2z5Tl",
@@ -529,7 +566,8 @@
    "attackingF2F7",
    "mateIn1",
    "opening"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4RP9y",
@@ -543,7 +581,8 @@
    "endgame",
    "mateIn1",
    "rookEndgame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8S1JM",
@@ -558,7 +597,8 @@
    "hangingPiece",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "7QtD4",
@@ -571,7 +611,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8QxSt",
@@ -585,7 +626,8 @@
    "master",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2IOMH",
@@ -598,7 +640,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "91q7l",
@@ -612,7 +655,8 @@
    "mateIn1",
    "middlegame",
    "queensideAttack"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "08wWv",
@@ -625,7 +669,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2HadE",
@@ -639,7 +684,8 @@
    "backRankMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "73KWo",
@@ -654,7 +700,8 @@
    "hangingPiece",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3SodL",
@@ -668,7 +715,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "91W0T",
@@ -681,7 +729,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "6BJY2",
@@ -694,7 +743,8 @@
   "themes": [
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "927bl",
@@ -708,7 +758,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2YiXf",
@@ -723,7 +774,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3THwu",
@@ -736,7 +788,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4uqhG",
@@ -751,7 +804,8 @@
    "mateIn1",
    "middlegame",
    "queensideAttack"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2RxLL",
@@ -765,7 +819,8 @@
    "endgame",
    "master",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2hzT4",
@@ -779,7 +834,8 @@
    "hangingPiece",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "7eHfI",
@@ -792,7 +848,8 @@
   "themes": [
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "9UEEG",
@@ -806,7 +863,8 @@
    "attackingF2F7",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "9dmAK",
@@ -820,7 +878,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "5sPs1",
@@ -834,7 +893,8 @@
    "endgame",
    "kingsideAttack",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "6BUPs",
@@ -848,7 +908,8 @@
    "endgame",
    "master",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "09LTe",
@@ -863,7 +924,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "6TJwr",
@@ -878,7 +940,8 @@
    "kingsideAttack",
    "mateIn1",
    "pillsburysMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8spUC",
@@ -891,7 +954,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "16JfP",
@@ -906,7 +970,8 @@
    "mateIn1",
    "middlegame",
    "queensideAttack"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2Vozi",
@@ -921,7 +986,8 @@
    "endgame",
    "hangingPiece",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2dKdW",
@@ -935,7 +1001,8 @@
    "endgame",
    "hangingPiece",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4G1ie",
@@ -948,7 +1015,8 @@
   "themes": [
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "9hSKW",
@@ -962,7 +1030,8 @@
    "endgame",
    "mateIn1",
    "operaMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8cGAK",
@@ -977,7 +1046,8 @@
    "hangingPiece",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "0hbeR",
@@ -991,7 +1061,8 @@
    "endgame",
    "mateIn1",
    "pillsburysMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "9G4wZ",
@@ -1005,7 +1076,8 @@
    "endgame",
    "mateIn1",
    "queenRookEndgame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "0vTpF",
@@ -1019,7 +1091,8 @@
    "backRankMate",
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2cAVm",
@@ -1033,7 +1106,8 @@
    "endgame",
    "hangingPiece",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "9H3KC",
@@ -1048,7 +1122,8 @@
    "endgame",
    "hangingPiece",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3750W",
@@ -1062,7 +1137,8 @@
    "endgame",
    "mateIn1",
    "pillsburysMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8mEDw",
@@ -1076,7 +1152,8 @@
    "backRankMate",
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "7vaMe",
@@ -1090,7 +1167,8 @@
    "mateIn1",
    "middlegame",
    "operaMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "1SVDW",
@@ -1105,7 +1183,8 @@
    "kingsideAttack",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "6WaHS",
@@ -1120,7 +1199,8 @@
    "endgame",
    "hangingPiece",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "6d5tE",
@@ -1133,7 +1213,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8VEBw",
@@ -1147,7 +1228,8 @@
    "doubleBishopMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "5GDYl",
@@ -1161,7 +1243,8 @@
    "bodenMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "90pjs",
@@ -1176,7 +1259,8 @@
    "master",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8B2ne",
@@ -1192,7 +1276,8 @@
    "masterVsMaster",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "0DMIm",
@@ -1206,7 +1291,8 @@
    "mateIn1",
    "middlegame",
    "smotheredMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "9Zaj9",
@@ -1219,7 +1305,8 @@
   "themes": [
    "endgame",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "1BxJg",
@@ -1233,7 +1320,8 @@
    "cornerMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "9Q9Kw",
@@ -1247,7 +1335,8 @@
    "endgame",
    "hangingPiece",
    "mateIn1"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "8YYwB",
@@ -1261,7 +1350,8 @@
    "bodenMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4432c",
@@ -1277,7 +1367,8 @@
    "mateIn1",
    "middlegame",
    "smotheredMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3vnoO",
@@ -1291,7 +1382,8 @@
    "attackingF2F7",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "1GP2S",
@@ -1305,7 +1397,8 @@
    "bodenMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2iT4j",
@@ -1319,7 +1412,8 @@
    "doubleBishopMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "14G5p",
@@ -1333,7 +1427,8 @@
    "doubleBishopMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4D1h7",
@@ -1347,7 +1442,8 @@
    "doubleBishopMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "0acZr",
@@ -1361,7 +1457,8 @@
    "attackingF2F7",
    "mateIn1",
    "opening"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "3AuAT",
@@ -1375,7 +1472,8 @@
    "mateIn1",
    "middlegame",
    "smotheredMate"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "4Zcon",
@@ -1389,7 +1487,8 @@
    "doubleBishopMate",
    "mateIn1",
    "middlegame"
-  ]
+  ],
+  "motif": "mateIn1"
  },
  {
   "id": "2SuiT",
@@ -1404,6 +1503,7 @@
    "doubleCheck",
    "mateIn1",
    "opening"
-  ]
+  ],
+  "motif": "mateIn1"
  }
 ]
