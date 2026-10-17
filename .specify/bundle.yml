@@ -1,0 +1,29 @@
+schema_version: "1.0"
+
+bundle:
+  id: "adventure-chess"
+  name: "Adventure Chess Tooling"
+  version: "0.1.0"
+  role: "developer"
+  description: "The spec-kit stack this project needs after a fresh clone."
+  author: "Markus Wondrak"
+  license: "MIT"
+
+requires:
+  speckit_version: ">=1.0.0,<2.0.0"
+
+provides:
+  extensions:
+    # Ships with the CLI, so this pin follows the CLI version (see init-options.json).
+    - id: "bug"
+      version: "1.0.0"
+    # Only listed in the community catalog, which this project installs from (see
+    # .specify/extension-catalogs.yml).
+    - id: "wireframe"
+      version: "0.1.1"
+      source: "community"
+  presets:
+    - id: "lean"
+      version: "1.0.0"
+      priority: 10
+      strategy: "replace"
