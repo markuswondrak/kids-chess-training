@@ -46,14 +46,17 @@ npm run dev
 
 ```
 src/game/            worlds, progress, map geometry, sounds
+src/game/endless.ts  endless mode: loads the pool of a world, shuffled runs
 src/hooks/usePuzzle.ts   the flow of one puzzle (opponent move, move checks, stars)
 src/components/      screens and the cartoon SVGs (pieces, Knight Kuno, map)
 src/data/puzzles.json    generated puzzle data – do not edit by hand
-scripts/extract-puzzles.mjs   generates puzzles.json from the Lichess DB
+src/data/endless.burgdorf.json   generated endless-mode pool – do not edit by hand
+scripts/extract-puzzles.mjs   generates puzzles.json and the endless pools from the Lichess DB
 ```
 
-A new world takes three steps: add the world at the top of `scripts/extract-puzzles.mjs`,
-run `npm run puzzles`, register it in `src/game/worlds.ts`.
+A new world takes four steps: add the world at the top of `scripts/extract-puzzles.mjs`,
+run `npm run puzzles`, register it in `src/game/worlds.ts`, add its loader in `src/game/endless.ts`
+(the type `Record<WorldId, …>` enforces it).
 
 ## Tech
 
