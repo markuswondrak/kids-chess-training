@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 import { MAP_W, chestSpot, pathD, seeded, type Pt } from '../game/mapPath'
+import type { WorldId } from '../game/worlds'
+import { MapArtDarkwood } from './MapArtDarkwood'
 
 const INK = '#2F2420'
 
@@ -106,6 +108,7 @@ function Flower({ x, y, color }: { x: number; y: number; color: string }) {
 }
 
 interface MapArtProps {
+  worldId: WorldId
   height: number
   pts: Pt[]
   /** Wegpunkt-Index, bis zu dem der Weg schon gegangen wurde. */
@@ -113,8 +116,15 @@ interface MapArtProps {
   stones: number
 }
 
-/** Die gemalte Landschaft unter den Level-Steinen. */
-export function MapArt({ height, pts, walkedTo, stones }: MapArtProps) {
+/** Die gemalte Landschaft unter den Level-Steinen – je Welt eine eigene Szene. */
+export function MapArt({ worldId, ...props }: MapArtProps) {
+  return worldId === 'finsterwald' ? <MapArtDarkwood {...props} /> : <MeadowMap {...props} />
+}
+
+type SceneProps = Omit<MapArtProps, 'worldId'>
+
+/** Burgdorf: Wiese, Burg und Dorf. */
+function MeadowMap({ height, pts, walkedTo, stones }: SceneProps) {
   const rand = seeded(7)
   const chest = chestSpot(pts)
   const skyEnd = chest.y - 40

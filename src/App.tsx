@@ -8,9 +8,9 @@ import { Chest } from './components/Treasure'
 import { GitHubIcon, SoundOffIcon, SoundOnIcon } from './components/icons'
 import { LanguageSwitch } from './components/LanguageSwitch'
 import { createRun, loadEndlessPool, type EndlessRun } from './game/endless'
-import { frontier, useProgress, worldStars, type StarCount } from './game/progress'
+import { currentWorld, frontier, useProgress, worldStars, type StarCount } from './game/progress'
 import { setMuted, sfx } from './game/sounds'
-import { COMING_SOON, WORLDS, type Puzzle } from './game/worlds'
+import { nextBuiltWorld, upcomingWorld, type Puzzle, type World, type WorldId } from './game/worlds'
 import { useI18n, type MessageKey } from './i18n'
 
 type Route = { screen: 'map' } | { screen: 'puzzle'; index: number } | { screen: 'endless' }
@@ -18,9 +18,8 @@ type Route = { screen: 'map' } | { screen: 'puzzle'; index: number } | { screen:
 /** Vorrat des Endlosmodus. Er wird höchstens einmal pro Sitzung geladen (FR-015). */
 type PoolAvailability = { status: 'unknown' } | { status: 'ready'; pool: Puzzle[] } | { status: 'unavailable' }
 
-const world = WORLDS[0]
-
-function parseHash(): Route {
+/** Hash-Route: nur Aufgaben der angezeigten Welt (kein Zurück zu fertigen Welten, FR-011). */
+function parseHash(world: World): Route {
   const m = window.location.hash.match(/^#\/([\w-]+)\/(\d+)$/)
   if (m && m[1] === world.id) {
     const index = Number(m[2]) - 1
@@ -38,15 +37,19 @@ const RESULT_KEYS: Record<StarCount, { title: MessageKey; subtitle: MessageKey }
 export default function App() {
   const { t, lang } = useI18n()
   const { progress, recordStars, openChest } = useProgress()
-  const [route, setRoute] = useState<Route>(parseHash)
+  /** Die Welt, die gerade auf der Karte gezeigt wird. Wechselt nur über den Banner-Knopf. */
+  const [viewedWorld, setViewedWorld] = useState<World>(() => currentWorld(progress))
+  const world = viewedWorld
+  const [route, setRoute] = useState<Route>(() => parseHash(viewedWorld))
   const [attempt, setAttempt] = useState(0)
   const [walk, setWalk] = useState<Walk | null>(null)
   const pendingWalk = useRef<Walk | null>(null)
   const [muted, setMutedState] = useState(false)
   const [confetti, setConfetti] = useState(false)
   const [chestBanner, setChestBanner] = useState(false)
-  const [availability, setAvailability] = useState<PoolAvailability>({ status: 'unknown' })
-  const poolRequested = useRef(false)
+  const [availability, setAvailability] = useState<Partial<Record<WorldId, PoolAvailability>>>({})
+  const poolRequested = useRef(new Set<WorldId>())
+  const poolState: PoolAvailability = availability[world.id] ?? { status: 'unknown' }
   const [run, setRun] = useState<EndlessRun | null>(null)
   const [endlessPuzzle, setEndlessPuzzle] = useState<Puzzle | null>(null)
 
@@ -63,7 +66,7 @@ export default function App() {
   useEffect(() => {
     history.scrollRestoration = 'manual'
     const onPop = () => {
-      const next = parseHash()
+      const next = parseHash(viewedWorld)
       setRoute(next)
       // Zurück auf der Karte: Endlos-Lauf verwerfen (FR-009) und offenen Laufweg gleich mitstarten.
       if (next.screen === 'map') {
@@ -77,7 +80,7 @@ export default function App() {
     }
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
-  }, [])
+  }, [viewedWorld])
 
   useEffect(() => {
     if (!confetti) return
@@ -99,13 +102,26 @@ export default function App() {
     }
   }, [])
 
-  // Beim Öffnen der Truhen-Ansicht einmal pro Sitzung den Vorrat laden (FR-015).
-  const requestPool = () => {
-    if (poolRequested.current) return
-    poolRequested.current = true
-    loadEndlessPool(world.id).then((pool) =>
-      setAvailability(pool ? { status: 'ready', pool } : { status: 'unavailable' }),
+  // Beim Öffnen der Truhen-Ansicht einmal pro Sitzung und Welt den Vorrat laden (FR-015).
+  const requestPool = (worldId: WorldId) => {
+    if (poolRequested.current.has(worldId)) return
+    poolRequested.current.add(worldId)
+    loadEndlessPool(worldId).then((pool) =>
+      setAvailability((prev) => ({ ...prev, [worldId]: pool ? { status: 'ready', pool } : { status: 'unavailable' } })),
     )
+  }
+
+  /** Banner-Knopf „Auf nach …!“: die nächste Welt wird angezeigt, Kuno steht am ersten Stein. */
+  const continueTo = (next: World) => {
+    setConfetti(false)
+    setChestBanner(false)
+    setRun(null)
+    setEndlessPuzzle(null)
+    setWalk(null)
+    pendingWalk.current = null
+    history.replaceState(null, '', window.location.pathname)
+    setRoute({ screen: 'map' })
+    setViewedWorld(next)
   }
 
   const startEndless = (pool: Puzzle[]) => {
@@ -153,13 +169,16 @@ export default function App() {
   )
 
   const total = worldStars(world, progress)
+  const next = nextBuiltWorld(world)
+  const upcoming = upcomingWorld()
 
   return (
-    <div className="app">
+    <div className="app" data-world={world.id}>
       <div className="grain" />
 
       {route.screen === 'map' && (
         <MapScreen
+          key={world.id}
           world={world}
           progress={progress}
           walk={walk}
@@ -170,7 +189,7 @@ export default function App() {
             sfx.chest()
             setConfetti(true)
             setChestBanner(true)
-            requestPool()
+            requestPool(world.id)
           }}
           header={
             <header className="topbar topbar--map">
@@ -255,24 +274,43 @@ export default function App() {
       {chestBanner && (
         <ResultBanner
           title={t('result.chest.title')}
-          subtitle={t('result.chest.subtitle', {
-            got: total,
-            max: world.puzzles.length * 3,
-            world: t(`world.${COMING_SOON.id}.name`),
-          })}
+          subtitle={
+            next
+              ? t('result.chest.subtitleNext', {
+                  got: total,
+                  max: world.puzzles.length * 3,
+                  world: t(`world.${next.id}.name`),
+                })
+              : upcoming
+                ? t('result.chest.subtitle', {
+                    got: total,
+                    max: world.puzzles.length * 3,
+                    world: t(`world.${upcoming.id}.name`),
+                  })
+                : ''
+          }
           emblem={<Chest open className="banner__chest" />}
-          note={availability.status === 'unavailable' ? t('endless.unavailable') : undefined}
+          note={poolState.status === 'unavailable' ? t('endless.unavailable') : undefined}
         >
-          {availability.status === 'ready' && (
+          {next && (
+            <button type="button" className="btn btn--red btn--big" onClick={() => continueTo(next)}>
+              {t('result.chest.next', { world: t(`world.${next.id}.name`) })}
+            </button>
+          )}
+          {poolState.status === 'ready' && (
             <button
               type="button"
               className="btn btn--gold btn--big"
-              onClick={() => startEndless(availability.pool)}
+              onClick={() => startEndless(poolState.pool)}
             >
               {t('endless.button')}
             </button>
           )}
-          <button type="button" className="btn btn--red btn--big" onClick={() => setChestBanner(false)}>
+          <button
+            type="button"
+            className={next ? 'btn' : 'btn btn--red btn--big'}
+            onClick={() => setChestBanner(false)}
+          >
             {t('result.chest.button')}
           </button>
         </ResultBanner>

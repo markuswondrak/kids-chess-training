@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type 
 import { MAP_W, chestSpot, mapHeight, pointOn, waypoints, type Pt } from '../game/mapPath'
 import { frontier, worldStars, type Progress } from '../game/progress'
 import { sfx } from '../game/sounds'
-import { COMING_SOON, type World } from '../game/worlds'
+import { findWorld, roadmapAfter, type World } from '../game/worlds'
 import { useI18n } from '../i18n'
 import { CoachKnight } from './CoachKnight'
 import { MapArt } from './MapArt'
@@ -37,6 +37,8 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
   const front = frontier(world, progress)
   const allSolved = front === n
   const chestOpen = !!progress.chests[world.id]
+  /** Die geplante Welt nach dieser – „bald!“ nur, solange sie noch nicht gebaut ist. */
+  const after = roadmapAfter(world)
 
   // Standort des Ritters als Wegpunkt-Index (Stein i → i + 1, Truhe → n + 1).
   const home = front + 1
@@ -123,6 +125,7 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
 
       <div className="map" style={{ aspectRatio: `${MAP_W} / ${height}` }}>
         <MapArt
+          worldId={world.id}
           height={height}
           pts={pts}
           walkedTo={walking ? (walk?.from ?? home) : home}
@@ -132,11 +135,13 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
         <div className="map-sign map-sign--start" style={at({ x: pts[0].x - 74, y: pts[0].y - 40 })}>
           {t(`world.${world.id}.name`)}
         </div>
-        <div className="map-sign map-sign--next" style={at({ x: 112, y: 52 })}>
-          <small>{t('map.nextWorld', { n: COMING_SOON.number })}</small>
-          {t(`world.${COMING_SOON.id}.name`)}
-          <em>{t('map.soon')}</em>
-        </div>
+        {after && (
+          <div className="map-sign map-sign--next" style={at({ x: 112, y: 52 })}>
+            <small>{t('map.nextWorld', { n: after.number })}</small>
+            {t(`world.${after.id}.name`)}
+            {!findWorld(after.id) && <em>{t('map.soon')}</em>}
+          </div>
+        )}
 
         {world.puzzles.map((puzzle, i) => {
           const stars = progress.stars[puzzle.id] ?? 0

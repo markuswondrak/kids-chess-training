@@ -38,9 +38,7 @@ button {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(520px 360px at 86% 6%, rgba(255, 236, 170, 0.75), transparent 70%),
-    linear-gradient(180deg, #7fbbe6 0%, #a9d3ef 30%, #d9ecf0 58%, #f1e6c8 82%, #ecdcb4 100%);
+  background: var(--world-sky);
   pointer-events: none;
 }
 
