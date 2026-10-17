@@ -56,6 +56,13 @@ export const de: Partial<Messages> = {
   'result.chest.title': 'Welt geschafft!',
   'result.chest.subtitle': 'Du hast {got} von {max} Sternen gesammelt. Bald geht die Reise weiter nach {world}!',
   'result.chest.button': 'Hurra!',
+  'endless.tag': 'Endlos',
+  'endless.button': 'Endlos spielen',
+  'endless.next': 'Nächste Aufgabe',
+  'endless.toMap': 'Zur Karte',
+  'endless.solved.title': 'Super gemacht!',
+  'endless.solved.subtitle': 'Möchtest du noch eine Aufgabe lösen?',
+  'endless.unavailable': 'Zum Weiterspielen brauchst du eine Internetverbindung. Probier es später noch einmal!',
 
   'board.label': 'Schachbrett',
   'board.square': 'Feld {square}, {side} {piece}',

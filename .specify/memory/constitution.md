@@ -1,18 +1,27 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 1.0.0 → 1.1.0 (MINOR: Prinzip III neu gefasst, abwärtskompatibel)
-Modified principles: III. Kindgerechte Bedienung – die Sprachfestlegung
-(„die Oberfläche ist auf Deutsch“) entfällt. Prinzip III regelt nur noch die
-kindgerechte Bedienung; den Sprachumfang steuern Roadmap-Issues und Specs.
+Version change: 1.1.1 → 1.1.2 (PATCH: Schrittliste für neue Welten entfernt)
+Version 1.1.1 (PATCH): Prinzip II präzisiert, Bedeutung unverändert
+Modified principles: II. Nur Browser, keine Server – die Formulierung „keine
+Netzwerkaufrufe zur Laufzeit“ war zu weit gefasst: sie hätte auch das
+bedarfsgerechte Nachladen eigener statischer Assets verboten (Feature
+003-endless-mode, FR-015/SC-006, Issue #23). Verboten bleiben Backend, Konten
+und fremde Dienste; ergänzt wurden die Pflicht zur kindgerechten Rückmeldung
+bei fehlgeschlagenem Nachladen und der Verweis auf Issue #4 (PWA) für Offline.
 Added sections: keine
-Removed sections: keine
-Templates requiring updates: keine
-Begründung: Issue #7 – die Oberfläche wird mehrsprachig (Deutsch, Englisch,
-Französisch). Eine Sprachliste in der Verfassung müsste bei jeder weiteren
-Sprache erneut geändert werden und gehört daher nicht hierher.
-Follow-up: Der Sprachhinweis in AGENTS.md („Die Oberfläche ist auf Deutsch“)
-wird mit Feature 002-i18n (Task T022) angeglichen.
+Removed sections: 1.1.2 – Aufzählung „Neue Welten entstehen in drei Schritten“ im
+Abschnitt „Technischer Rahmen“. Ein Arbeitsablauf, kein Grundsatz; er veraltet
+mit dem Code (Feature 003 hat einen vierten Schritt ergänzt). Maßgeblich ist
+README.md.
+Templates requiring updates: keine (den Constitution Check im Plan-Template
+füllt jedes Feature selbst)
+Follow-up:
+- AGENTS.md: die gespiegelten Prinzipien-Absätze sind entfernt (Abschnitt „Top
+  rule: keep it simple“ gestrichen) – kein Angleichen nötig, die Verfassung ist
+  damit die einzige Quelle der Grundsätze.
+- Feature 003-endless-mode: der Eintrag unter „Complexity Tracking“ zur
+  Abweichung von Prinzip II ist mit dieser Änderung erledigt.
 -->
 
 # Burgensturm Constitution
@@ -37,14 +46,26 @@ einfachen Geräten wartbar und schnell.
 
 Die App läuft vollständig im Browser (statisches Build).
 
-- Kein Backend, keine Konten, keine Netzwerkaufrufe zur Laufzeit.
+- Kein Backend, keine Konten, keine Aufrufe an fremde Dienste zur Laufzeit.
+  Die App DARF sich nicht auf eine Serverkomponente und nicht auf einen
+  Drittanbieter verlassen.
+- Eigene statische Assets der Auslieferung DÜRFEN bedarfsgerecht nachgeladen
+  werden – etwa um den ersten Start klein zu halten. Ein solches Nachladen
+  MUSS ausfallen dürfen, ohne die App unbenutzbar zu machen: statt Fehler- oder
+  Leerbildschirm gibt es eine kindgerechte Rückmeldung mit einem Weg zurück
+  (Kindgerechte Bedienung, Prinzip III).
+- Offline-Verfügbarkeit nachgeladener Daten ist ein eigenes Vorhaben
+  (Roadmap-Issue #4, PWA) und DARF NICHT stillschweigend vorausgesetzt werden.
 - Fortschritt und Nutzerdaten liegen ausschließlich lokal (`localStorage`) oder
-  in gebündelten JSON-Dateien.
+  in eigenen JSON-Dateien der Auslieferung.
 - Puzzle-Daten MÜSSEN aus der Lichess-Puzzle-Datenbank (CC0) stammen; der
   Lizenzhinweis bleibt erhalten.
 
-Rationale: Ohne Server gibt es keine Betriebskosten, keine Datenschutzfragen und
-keine Ausfälle – Kinder können jederzeit spielen.
+Rationale: Ohne Server gibt es keine Betriebskosten, keine Datenschutzfragen
+und keine Ausfälle – Kinder können jederzeit spielen. Ein statisches Build darf
+seine eigenen Dateien trotzdem bei Bedarf holen; entscheidend ist, dass keine
+Serverlogik und kein fremder Dienst nötig ist und dass ein fehlgeschlagenes
+Nachladen die App nicht blockiert.
 
 ### III. Kindgerechte Bedienung
 
@@ -89,10 +110,9 @@ einzige verlässliche Qualitätstor dieses Projekts.
 ## Technischer Rahmen
 
 - Stack: React 19, Vite und chess.js – nichts darüber hinaus.
-- Sprache: TypeScript; keine Laufzeit-Netzwerkzugriffe, keine Datenbank.
-- Neue Welten entstehen in drei Schritten: Welt in `WORLDS` in
-  `scripts/extract-puzzles.mjs` eintragen, `npm run puzzles` ausführen, in
-  `src/game/worlds.ts` registrieren.
+- Sprache: TypeScript; keine Server- oder Fremddienst-Aufrufe zur Laufzeit,
+  keine Datenbank. Eigene statische Assets DÜRFEN bedarfsgerecht nachgeladen
+  werden (Prinzip II).
 - Repository-Struktur: `src/game/` (Logik und Daten), `src/components/`
   (Screens und Darstellung), `src/hooks/` (Abläufe wie `usePuzzle.ts`),
   `scripts/` (Datengenerierung).
@@ -121,4 +141,4 @@ Diese Verfassung hat Vorrang vor allen anderen Praktiken des Projekts.
 - Laufzeit-Hinweise für den Entwicklungsalltag stehen in `AGENTS.md`; bei
   Konflikt gilt diese Verfassung.
 
-**Version**: 1.1.0 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-10-16
+**Version**: 1.1.2 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-10-17

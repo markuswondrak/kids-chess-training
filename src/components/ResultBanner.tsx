@@ -7,11 +7,13 @@ interface ResultBannerProps {
   title: string
   subtitle: string
   emblem?: ReactNode
+  /** Kurzer Hinweis über den Knöpfen (z. B. wenn ein Zusatzinhalt fehlt). */
+  note?: ReactNode
   children: ReactNode
 }
 
 /** Sieg-Overlay mit nacheinander aufploppenden Sternen. */
-export function ResultBanner({ stars, title, subtitle, emblem, children }: ResultBannerProps) {
+export function ResultBanner({ stars, title, subtitle, emblem, note, children }: ResultBannerProps) {
   useEffect(() => {
     if (!stars) return
     const timers = Array.from({ length: stars }, (_, i) => setTimeout(() => sfx.star(i), 380 + i * 280))
@@ -38,6 +40,7 @@ export function ResultBanner({ stars, title, subtitle, emblem, children }: Resul
         )}
         <h2>{title}</h2>
         <p>{subtitle}</p>
+        {note && <div className="banner__note">{note}</div>}
         <div className="banner__buttons">{children}</div>
       </div>
     </div>

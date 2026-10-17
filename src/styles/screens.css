@@ -709,6 +709,14 @@
   line-height: 1.25;
 }
 
+.banner__note {
+  margin: 0 0 18px;
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  color: var(--ink-soft);
+}
+
 .banner__buttons {
   display: flex;
   flex-wrap: wrap;

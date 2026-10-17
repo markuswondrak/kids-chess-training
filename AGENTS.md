@@ -1,14 +1,5 @@
 # Agent Notes
 
-## Top rule: keep it simple
-
-Implement things as simply as possible. The smallest solution that solves the problem wins.
-
-- No new dependencies without a compelling reason – React, Vite and chess.js are enough.
-- No backend, no accounts, no network access at runtime. Progress and data are stored locally (localStorage, bundled JSON files).
-- No feature creep: only implement what is in the GitHub issues (label `roadmap`) or was explicitly requested. New ideas go into an issue instead.
-- Reuse existing components and design tokens rather than building new ones.
-
 ## Git workflow
 
 - Changes are never pushed directly to `main`; always via a branch and a pull request.
