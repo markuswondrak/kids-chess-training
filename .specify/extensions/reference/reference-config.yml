@@ -1,0 +1,11 @@
+# Visual Reference Extension Configuration
+output:
+  guide: "specs/{feature}/art-guide.md"
+  reference_dir: "specs/{feature}/reference"
+  shots_dir: "specs/{feature}/reference/shots"
+
+viewport:
+  width: 360
+  dpr: 2
+  map_height: 2050
+  puzzle_height: 760
