@@ -18,6 +18,10 @@ him one step closer to the castle – and to the treasure chest at the end of th
 
 - **World 1 "Burgdorf":** 12 mate-in-1 puzzles, real positions from the
   [Lichess puzzle database](https://database.lichess.org/) (CC0, Elo ~400–800)
+- **World 2 "Finsterwald" (Darkwood):** 12 hanging-piece puzzles ("Grab the undefended
+  piece!", Elo 550–700) in a dusk forest with its own map, board frame and colours
+- **Worlds in order:** the next world opens with the treasure chest of the previous one;
+  the map previews the next planned world
 - **Kid-friendly controls:** tap a piece, tap a target square. The opponent moves
   automatically, wrong moves wobble.
 - **3-star system:** three stars without help, one star with a hint
@@ -51,12 +55,23 @@ src/hooks/usePuzzle.ts   the flow of one puzzle (opponent move, move checks, sta
 src/components/      screens and the cartoon SVGs (pieces, Knight Kuno, map)
 src/data/puzzles.json    generated puzzle data – do not edit by hand
 src/data/endless.burgdorf.json   generated endless-mode pool – do not edit by hand
+src/data/endless.finsterwald.json   generated endless-mode pool – do not edit by hand
 scripts/extract-puzzles.mjs   generates puzzles.json and the endless pools from the Lichess DB
 ```
 
-A new world takes four steps: add the world at the top of `scripts/extract-puzzles.mjs`,
-run `npm run puzzles`, register it in `src/game/worlds.ts`, add its loader in `src/game/endless.ts`
-(the type `Record<WorldId, …>` enforces it).
+A new world takes these steps:
+
+1. Add it at the top of `WORLDS` in `scripts/extract-puzzles.mjs` (Elo band, motifs,
+   `maxPlayerMoves`, `excludeThemes`, `count`). Build it with `released: false`, run
+   `npm run puzzles`, check the output, then set `released: true` and run it again: the
+   released data is then pinned and a re-run must not change it.
+2. Register it in `WORLDS` in `src/game/worlds.ts` and add its loader in `src/game/endless.ts`
+   (the type `Record<WorldId, …>` enforces it). Its planned entry in `ROADMAP` already exists.
+3. Add `world.{id}.name` and `world.{id}.subtitle` in all three dictionaries in `src/i18n/`.
+4. Draw its map scene and board frame (`src/components/MapArt.tsx` dispatches by world id;
+   `src/styles/tokens.css` holds the per-world colours).
+
+The map preview then moves on to the next planned world by itself.
 
 ## Tech
 
@@ -66,8 +81,8 @@ tablet, portrait).
 
 ## Roadmap
 
-Where the journey goes next – World 2 "Finsterwald", endless mode, offline support as a
-PWA, ranks, and a customizable knight avatar – is tracked in the
+Where the journey goes next – worlds 3 to 8, offline support as a PWA, ranks, and a
+customizable knight avatar – is tracked in the
 [issues](https://github.com/markuswondrak/kids-chess-training/issues).
 
 ---

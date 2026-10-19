@@ -5,7 +5,8 @@ import { WORLDS, type Puzzle, type WorldId } from './worlds'
  * wird als eigener Chunk nachgeladen und nie statisch importiert (FR-015).
  */
 const POOLS: Record<WorldId, () => Promise<{ default: Puzzle[] }>> = {
-  burgdorf: () => import('../data/endless.burgdorf.json'),
+  burgdorf: () => import('../data/endless.burgdorf.json') as Promise<{ default: Puzzle[] }>,
+  finsterwald: () => import('../data/endless.finsterwald.json') as Promise<{ default: Puzzle[] }>,
 }
 
 /**

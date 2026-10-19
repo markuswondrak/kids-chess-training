@@ -3,11 +3,11 @@ import { usePuzzle, type PuzzleEvent } from '../hooks/usePuzzle'
 import type { StarCount } from '../game/progress'
 import { sfx } from '../game/sounds'
 import type { PieceColor } from '../game/types'
-import type { Puzzle, World } from '../game/worlds'
+import { taskKey, type Puzzle, type World } from '../game/worlds'
 import { useI18n, type MessageKey, type TParams } from '../i18n'
 import { Board } from './Board'
 import { CoachKnight } from './CoachKnight'
-import { CastleWall } from './Decor'
+import { CastleWall, ForestFrame } from './Decor'
 import { PieceIcon } from './pieces'
 import { LanternIcon, StarIcon } from './Treasure'
 
@@ -107,7 +107,7 @@ export function PuzzleScreen(props: PuzzleScreenProps) {
     if (e.kind === 'opponent') {
       msg =
         pz.moveCount <= 1
-          ? { key: 'puzzle.yourTurn', params: { side: sideKey(pz.playerColor), task: { key: `world.${world.id}.task` } } }
+          ? { key: 'puzzle.yourTurn', params: { side: sideKey(pz.playerColor), task: { key: taskKey(puzzle.motif) } } }
           : { key: 'puzzle.opponentReplied', params: { side: sideKey(other(pz.playerColor)) } }
     }
     if (msg) setMessage({ id: e.id, ...msg })
@@ -160,8 +160,8 @@ export function PuzzleScreen(props: PuzzleScreenProps) {
         </div>
       </div>
 
-      <div className="board-frame">
-        <CastleWall />
+      <div className={`board-frame${world.id === 'finsterwald' ? ' board-frame--forest' : ''}`}>
+        {world.id === 'finsterwald' ? <ForestFrame /> : <CastleWall />}
         <Board
           key={puzzle.id}
           board={pz.board}

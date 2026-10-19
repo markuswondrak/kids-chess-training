@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import type { World } from './worlds'
+import { WORLDS, type World } from './worlds'
 
 const KEY = 'burgensturm.progress.v1'
 
@@ -37,6 +37,11 @@ function save(p: Progress) {
 export function frontier(world: World, progress: Progress): number {
   const i = world.puzzles.findIndex((p) => !progress.stars[p.id])
   return i === -1 ? world.puzzles.length : i
+}
+
+/** Die Welt, die das Kind als Nächstes spielt: die erste mit noch geschlossener Truhe, sonst die letzte gebaute. */
+export function currentWorld(progress: Progress): World {
+  return WORLDS.find((w) => !progress.chests[w.id]) ?? WORLDS[WORLDS.length - 1]
 }
 
 export function worldStars(world: World, progress: Progress): number {

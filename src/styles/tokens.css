@@ -41,4 +41,64 @@
   --font-display: 'Bree Serif', Georgia, serif;
   --font-body: 'Nunito', sans-serif;
   --font-hand: 'Patrick Hand', cursive;
+
+  /* Dämmerwald (Finsterwald) – Palette, siehe art-guide.md §2 */
+  --dusk: #232c58;
+  --dusk-2: #34356a;
+  --dusk-mid: #47407a;
+  --dusk-plum: #8a5a86;
+  --dusk-rose: #a9668a;
+  --dusk-peach: #d29486;
+  --dusk-glow: #efa978;
+  --dusk-horizon: #ebc08f;
+  --moonlight: rgba(255, 243, 210, 0.5);
+  --moss: #4c7a4b;
+  --moss-deep: #3b6640;
+  --moss-light: #5e9a4e;
+  --moss-gold: #f6dd7c;
+  --forest: #2f6b4f;
+  --forest-deep: #214d39;
+  --bark: #8a5a34;
+  --bark-mid: #6e4c34;
+  --bark-deep: #4b3324;
+  --bark-top: #a2703f;
+  --bark-light: #b07e4d;
+  --lantern: #ffd36b;
+  --lantern-pale: #fff2c4;
+  --lantern-glow: rgba(255, 206, 110, 0.75);
+  --lantern-halo: rgba(255, 211, 107, 0.55);
+  --fog-stone: #ebe6dc;
+  --fog-stone-mid: #c9c2b4;
+  --fog-stone-deep: #9d9586;
+
+  /* Welt-Rollen: Standardwerte = Burgdorf (wie bisher), Finsterwald überschreibt unten */
+  --world-sky:
+    radial-gradient(520px 360px at 86% 6%, rgba(255, 236, 170, 0.75), transparent 70%),
+    linear-gradient(180deg, #7fbbe6 0%, #a9d3ef 30%, #d9ecf0 58%, #f1e6c8 82%, #ecdcb4 100%);
+  --world-ribbon: var(--gules);
+  --world-ribbon-sub: #ffe7a6;
+  --world-ring: #fff6e6;
+  --world-ring-glow: 0 0 0 3px var(--ink);
+  --world-locked-face: radial-gradient(circle at 38% 30%, #ddd7cc, var(--stone) 55%, var(--stone-deep));
+}
+
+.app[data-world='finsterwald'] {
+  --world-sky:
+    radial-gradient(380px 300px at 86% 6%, var(--moonlight), transparent 70%),
+    linear-gradient(
+      180deg,
+      var(--dusk) 0%,
+      var(--dusk-2) 24%,
+      var(--dusk-mid) 46%,
+      var(--dusk-plum) 66%,
+      var(--dusk-peach) 84%,
+      var(--dusk-horizon) 100%
+    );
+  --world-ribbon: linear-gradient(180deg, var(--forest), var(--forest-deep));
+  --world-ribbon-sub: var(--moss-gold);
+  --world-ring: var(--lantern-pale);
+  --world-ring-glow:
+    0 0 0 3px var(--ink),
+    0 0 22px 6px var(--lantern-halo);
+  --world-locked-face: radial-gradient(circle at 38% 30%, var(--fog-stone), var(--fog-stone-mid) 55%, var(--fog-stone-deep));
 }
