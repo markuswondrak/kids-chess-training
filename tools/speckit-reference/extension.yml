@@ -1,0 +1,31 @@
+schema_version: "1.0"
+
+extension:
+  id: "reference"
+  name: "Visual Reference & Prototype Harness"
+  version: "0.1.0"
+  description: "Generate binding visual reference prototypes (art-guide.md, reference components/CSS, preview.tsx, target screenshots) and register them in plan.md."
+  author: "Markus Wondrak"
+  license: "MIT"
+
+requires:
+  speckit_version: ">=1.0.0"
+
+provides:
+  commands:
+    - name: "speckit.reference.generate"
+      file: "commands/generate.md"
+      description: "Build rendered visual reference prototypes, target screenshots, and art-guide.md for the active feature plan"
+  config:
+    - name: "reference-config.yml"
+      template: "reference-config.template.yml"
+      description: "Reference extension configuration (viewport, DPR, output paths)"
+      required: false
+
+hooks:
+  after_plan:
+    command: "speckit.reference.generate"
+    priority: 10
+    optional: true
+    prompt: "Create binding visual reference prototypes and target screenshots for this plan?"
+    description: "Offer visual reference generation after plan creation"

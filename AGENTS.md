@@ -33,7 +33,7 @@ Adventure Chess (German: Schach Abenteurer) is a kid-friendly chess puzzle app f
 
 Principle: only project intent is versioned; anything generated or installed by `specify init` is reconstructed after a clone.
 
-- Versioned: the constitution (`.specify/memory/constitution.md`), `.specify/integration.json`, `.specify/init-options.json`, `.specify/extensions.yml`, `.specify/bundle.yml` (the pinned extension/preset stack), `.specify/extension-catalogs.yml` (catalog stack; makes the community catalog installable here), the extension configs `.specify/extensions/*/*-config.yml`, plus the ignore rules in the root `.gitignore` (deliberately there instead of `.specify/.gitignore`, which `specify init --force` overwrites).
+- Versioned: the constitution (`.specify/memory/constitution.md`), `.specify/integration.json`, `.specify/init-options.json`, `.specify/extensions.yml`, `.specify/bundle.yml` (the pinned extension/preset stack), `.specify/extension-catalogs.yml` (catalog stack; makes the community catalog installable here), the extension configs `.specify/extensions/*/*-config.yml`, the project-local `reference` extension source in `tools/speckit-reference/`, plus the ignore rules in the root `.gitignore` (deliberately there instead of `.specify/.gitignore`, which `specify init --force` overwrites).
 - Ignored: `.specify/scripts/`, `.specify/templates/`, `.specify/presets/`, `.specify/workflows/`, `.specify/feature.json`, `.specify/integrations/*.manifest.json` (install records with timestamps), `.specify/integrations/.cache/`, `.opencode/`, the generated Pi commands `.pi/prompts/speckit.*.md` (hand-written Pi prompts stay versioned) and `specs/`.
 - Reconstruction after a fresh clone (the CLI version comes from `init-options.json`, currently 1.0.13):
 
@@ -41,6 +41,7 @@ Principle: only project intent is versioned; anything generated or installed by 
   specify init --here --force --non-interactive --integration pi --script sh
   specify integration install opencode
   specify bundle install .specify/bundle.yml
+  specify extension add --dev tools/speckit-reference
   ```
 
-  Afterwards `git status` is clean. `bug` is pinned in the bundle to the CLI version (`init-options.json`), since it ships with the CLI. `wireframe` comes from the community catalog, which `.specify/extension-catalogs.yml` declares install-allowed.
+  Afterwards `git status` is clean. `bug` is pinned in the bundle to the CLI version (`init-options.json`), since it ships with the CLI. `wireframe` comes from the community catalog, which `.specify/extension-catalogs.yml` declares install-allowed. `reference` is a project-local extension installed from `tools/speckit-reference`.

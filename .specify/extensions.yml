@@ -1,5 +1,6 @@
 installed:
 - bug
+- reference
 - wireframe
 settings:
   auto_execute_hooks: true
@@ -31,4 +32,14 @@ hooks:
     priority: 10
     prompt: Capture implementation screenshots and compare to signed-off wireframes?
     description: 'Regression check: compare implementation to approved wireframes'
+    condition: null
+  after_plan:
+  - extension: reference
+    command: speckit.reference.generate
+    enabled: true
+    optional: true
+    priority: 10
+    prompt: Create binding visual reference prototypes and target screenshots for
+      this plan?
+    description: Offer visual reference generation after plan creation
     condition: null
