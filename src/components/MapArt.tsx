@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { MAP_W, chestSpot, pathD, seeded, type Pt } from '../game/mapPath'
 import type { WorldId } from '../game/worlds'
 import { MapArtDarkwood } from './MapArtDarkwood'
+import { MapArtMarsh } from './MapArtMarsh'
 
 const INK = '#2F2420'
 
@@ -118,7 +119,9 @@ interface MapArtProps {
 
 /** Die gemalte Landschaft unter den Level-Steinen – je Welt eine eigene Szene. */
 export function MapArt({ worldId, ...props }: MapArtProps) {
-  return worldId === 'finsterwald' ? <MapArtDarkwood {...props} /> : <MeadowMap {...props} />
+  if (worldId === 'finsterwald') return <MapArtDarkwood {...props} />
+  if (worldId === 'nebelsumpf') return <MapArtMarsh {...props} />
+  return <MeadowMap {...props} />
 }
 
 type SceneProps = Omit<MapArtProps, 'worldId'>

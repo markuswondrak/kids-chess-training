@@ -71,6 +71,25 @@
   --fog-stone-mid: #c9c2b4;
   --fog-stone-deep: #9d9586;
 
+  /* Nebelsumpf (Misty Marsh) – Palette, siehe art-guide.md §2 */
+  --mist-sky-top: #a7bdb0;
+  --mist-sky-mid: #c9d7c6;
+  --mist-sky-low: #e6ebda;
+  --mist: #f2f4ea;
+  --mist-sun: rgba(255, 236, 190, 0.8);
+  --bog: #869c5c;
+  --bog-deep: #6a7348;
+  --bog-green: #4a7d6f;
+  --bog-green-deep: #33594f;
+  --bog-glow: rgba(226, 245, 140, 0.65);
+  --reed: #93a452;
+  --reed-gold: #f2d98a;
+  --water: #7fb2ae;
+  --water-deep: #5e9592;
+  --wicker: #c79a5b;
+  --mist-stone-mid: #cfd6c8;
+  --mist-stone-deep: #a3ad9e;
+
   /* Welt-Rollen: Standardwerte = Burgdorf (wie bisher), Finsterwald überschreibt unten */
   --world-sky:
     radial-gradient(520px 360px at 86% 6%, rgba(255, 236, 170, 0.75), transparent 70%),
@@ -101,4 +120,24 @@
     0 0 0 3px var(--ink),
     0 0 22px 6px var(--lantern-halo);
   --world-locked-face: radial-gradient(circle at 38% 30%, var(--fog-stone), var(--fog-stone-mid) 55%, var(--fog-stone-deep));
+}
+
+.app[data-world='nebelsumpf'] {
+  --world-sky:
+    radial-gradient(420px 320px at 84% 6%, var(--mist-sun), transparent 70%),
+    linear-gradient(
+      180deg,
+      var(--mist-sky-top) 0%,
+      var(--mist-sky-mid) 30%,
+      var(--mist-sky-low) 58%,
+      var(--mist) 82%,
+      var(--mist-sky-low) 100%
+    );
+  --world-ribbon: linear-gradient(180deg, var(--bog-green), var(--bog-green-deep));
+  --world-ribbon-sub: var(--reed-gold);
+  --world-ring: var(--lantern-pale);
+  --world-ring-glow:
+    0 0 0 3px var(--ink),
+    0 0 20px 6px var(--bog-glow);
+  --world-locked-face: radial-gradient(circle at 38% 30%, var(--mist), var(--mist-stone-mid) 55%, var(--mist-stone-deep));
 }
