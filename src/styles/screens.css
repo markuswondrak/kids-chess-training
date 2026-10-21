@@ -1016,6 +1016,198 @@
   }
 }
 
+/* ---------- Nebelsumpf: Nebelmoor-Karte (art-guide.md §4–5) ---------- */
+
+.app[data-world='nebelsumpf'] .map-head__world {
+  opacity: 1;
+}
+
+/* Pre-paint-Farbe = Moorboden, damit vor dem SVG kein heller Blitz erscheint. */
+.app[data-world='nebelsumpf'] .map {
+  background: var(--bog-deep);
+}
+
+.ms-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: ms-sway 4.2s ease-in-out infinite;
+}
+.ms-fog {
+  animation: ms-fog 18s ease-in-out infinite alternate;
+}
+.ms-light {
+  animation: ms-light 3.8s ease-in-out infinite;
+}
+.ms-dragonfly {
+  animation: ms-hover 7s ease-in-out infinite;
+}
+.ms-wing {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ms-flutter 2.4s linear infinite;
+}
+.ms-frog-lid {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: ms-blink 5.2s ease-in-out infinite;
+}
+.ms-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ms-ripple 5s ease-out infinite;
+}
+.ms-bob {
+  animation: ms-bob 4s ease-in-out infinite;
+}
+.ms-smoke {
+  animation: ms-smoke 4.8s ease-out infinite;
+}
+.ms-lantern {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  animation: ms-swing 3.6s ease-in-out infinite;
+}
+.ms-glow {
+  animation: ms-glow 3.2s ease-in-out infinite;
+}
+.ms-willow-glow {
+  opacity: 0.3;
+  transition: opacity 0.4s ease;
+}
+.map:has(.chest--ready) .ms-willow-glow,
+.map:has(.chest--open) .ms-willow-glow {
+  opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ms-willow-glow 1.6s ease-in-out infinite;
+}
+
+@keyframes ms-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+@keyframes ms-fog {
+  from {
+    transform: translateX(-14px);
+  }
+  to {
+    transform: translateX(14px);
+  }
+}
+@keyframes ms-light {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translate(0, 0);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-2px, -4px);
+  }
+}
+@keyframes ms-hover {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  30% {
+    transform: translate(6px, -3px);
+  }
+  60% {
+    transform: translate(-4px, 2px);
+  }
+}
+@keyframes ms-flutter {
+  0%,
+  8%,
+  16%,
+  24%,
+  100% {
+    transform: scaleY(1);
+  }
+  4%,
+  12%,
+  20% {
+    transform: scaleY(0.55);
+  }
+}
+@keyframes ms-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(0);
+  }
+  94% {
+    transform: scaleY(1);
+  }
+}
+@keyframes ms-ripple {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+@keyframes ms-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+@keyframes ms-smoke {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  30% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+@keyframes ms-swing {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+@keyframes ms-glow {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes ms-willow-glow {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .knight,
   .knight__sword,
@@ -1033,7 +1225,20 @@
   .dw-smoke,
   .dw-mist,
   .map:has(.chest--ready) .dw-door-glow,
-  .map:has(.chest--open) .dw-door-glow {
+  .map:has(.chest--open) .dw-door-glow,
+  .ms-sway,
+  .ms-fog,
+  .ms-light,
+  .ms-dragonfly,
+  .ms-wing,
+  .ms-frog-lid,
+  .ms-ripple,
+  .ms-bob,
+  .ms-smoke,
+  .ms-lantern,
+  .ms-glow,
+  .map:has(.chest--ready) .ms-willow-glow,
+  .map:has(.chest--open) .ms-willow-glow {
     animation: none;
   }
 }

@@ -20,6 +20,8 @@ him one step closer to the castle – and to the treasure chest at the end of th
   [Lichess puzzle database](https://database.lichess.org/) (CC0, Elo ~400–800)
 - **World 2 "Finsterwald" (Darkwood):** 12 hanging-piece puzzles ("Grab the undefended
   piece!", Elo 550–700) in a dusk forest with its own map, board frame and colours
+- **World 3 "Nebelsumpf" (Misty Marsh):** 12 fork puzzles ("Attack two pieces at once
+  with one piece!", Elo 650–800) in a friendly foggy marsh with reeds, pools and a willow
 - **Worlds in order:** the next world opens with the treasure chest of the previous one;
   the map previews the next planned world
 - **Kid-friendly controls:** tap a piece, tap a target square. The opponent moves
@@ -56,6 +58,7 @@ src/components/      screens and the cartoon SVGs (pieces, Knight Kuno, map)
 src/data/puzzles.json    generated puzzle data – do not edit by hand
 src/data/endless.burgdorf.json   generated endless-mode pool – do not edit by hand
 src/data/endless.finsterwald.json   generated endless-mode pool – do not edit by hand
+src/data/endless.nebelsumpf.json    generated endless-mode pool – do not edit by hand
 scripts/extract-puzzles.mjs   generates puzzles.json and the endless pools from the Lichess DB
 ```
 

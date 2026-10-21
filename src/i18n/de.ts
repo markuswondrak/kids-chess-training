@@ -85,6 +85,7 @@ export const de: Partial<Messages> = {
   'world.finsterwald.name': 'Finsterwald',
   'world.finsterwald.subtitle': 'Ungedeckte Figuren',
   'world.nebelsumpf.name': 'Nebelsumpf',
+  'world.nebelsumpf.subtitle': 'Gabeln',
   'world.frostgipfel.name': 'Frostgipfel',
   'world.glutvulkan.name': 'Glutvulkan',
   'world.wolkeninseln.name': 'Wolkeninseln',

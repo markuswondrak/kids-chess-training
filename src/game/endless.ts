@@ -7,6 +7,7 @@ import { WORLDS, type Puzzle, type WorldId } from './worlds'
 const POOLS: Record<WorldId, () => Promise<{ default: Puzzle[] }>> = {
   burgdorf: () => import('../data/endless.burgdorf.json') as Promise<{ default: Puzzle[] }>,
   finsterwald: () => import('../data/endless.finsterwald.json') as Promise<{ default: Puzzle[] }>,
+  nebelsumpf: () => import('../data/endless.nebelsumpf.json') as Promise<{ default: Puzzle[] }>,
 }
 
 /**
