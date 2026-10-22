@@ -87,6 +87,7 @@ export const fr: Partial<Messages> = {
   'world.nebelsumpf.name': 'Marais Brumeux',
   'world.nebelsumpf.subtitle': 'Fourchettes',
   'world.frostgipfel.name': 'Pic Glacé',
+  'world.frostgipfel.subtitle': 'Mat en 2',
   'world.glutvulkan.name': 'Volcan Ardent',
   'world.wolkeninseln.name': 'Îles des Nuages',
   'world.geisterruine.name': 'Ruines Hantées',

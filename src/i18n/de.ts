@@ -87,6 +87,7 @@ export const de: Partial<Messages> = {
   'world.nebelsumpf.name': 'Nebelsumpf',
   'world.nebelsumpf.subtitle': 'Gabeln',
   'world.frostgipfel.name': 'Frostgipfel',
+  'world.frostgipfel.subtitle': 'Matt in 2',
   'world.glutvulkan.name': 'Glutvulkan',
   'world.wolkeninseln.name': 'Wolkeninseln',
   'world.geisterruine.name': 'Geisterruine',
