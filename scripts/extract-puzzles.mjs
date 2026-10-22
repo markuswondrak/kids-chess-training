@@ -51,6 +51,18 @@ const PIECES = new Set(['p', 'n', 'b', 'r', 'q', 'k'])
  */
 const WORLDS = [
   {
+    id: 'frostgipfel',
+    released: true,
+    minRating: 750,
+    maxRating: 900,
+    motifs: ['mateIn2'],
+    maxPlayerMoves: 2,
+    count: 12,
+    maxPerPiece: 4,
+    endlessCount: 100,
+    endlessMaxPerPiece: 40,
+  },
+  {
     id: 'nebelsumpf',
     released: true,
     minRating: 650,
