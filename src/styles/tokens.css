@@ -141,3 +141,49 @@
     0 0 20px 6px var(--bog-glow);
   --world-locked-face: radial-gradient(circle at 38% 30%, var(--mist), var(--mist-stone-mid) 55%, var(--mist-stone-deep));
 }
+
+:root {
+  /* Frostgipfel (Frostpeak) – Palette, siehe art-guide.md §2 (Feature 006) */
+  --frost-sky: #8ebde6;
+  --frost-sky-mid: #b5d3ef;
+  --frost-sky-low: #dce5f6;
+  --frost-lilac: #ece9f7;
+  --frost-sun: rgba(255, 244, 214, 0.8);
+  --snow: #f7fbff;
+  --snow-blue: #d6e6f3;
+  --snow-deep: #a6bdd8;
+  --ice: #bfe6f2;
+  --ice-deep: #7fc3da;
+  --peak: #97abd2;
+  --peak-deep: #6f86b4;
+  --pine: #2f6e5e;
+  --pine-deep: #1f4f45;
+  --slate: #7d8ba3;
+  --crystal: #e9f8ff;
+  --crystal-glow: rgba(170, 225, 255, 0.75);
+  --alpine: #2f5e9a;
+  --alpine-deep: #1f4374;
+  --frost-gold: #f5e3a6;
+  --volcano: #8a5a4e;
+  --lava: #f2703a;
+}
+
+.app[data-world='frostgipfel'] {
+  --world-sky:
+    radial-gradient(420px 320px at 86% 6%, var(--frost-sun), transparent 70%),
+    linear-gradient(
+      180deg,
+      var(--frost-sky) 0%,
+      var(--frost-sky-mid) 30%,
+      var(--frost-sky-low) 58%,
+      var(--frost-lilac) 82%,
+      var(--snow-blue) 100%
+    );
+  --world-ribbon: linear-gradient(180deg, var(--alpine), var(--alpine-deep));
+  --world-ribbon-sub: var(--frost-gold);
+  --world-ring: var(--crystal);
+  --world-ring-glow:
+    0 0 0 3px var(--ink),
+    0 0 20px 6px var(--crystal-glow);
+  --world-locked-face: radial-gradient(circle at 38% 30%, var(--snow), var(--snow-blue) 55%, var(--snow-deep));
+}
