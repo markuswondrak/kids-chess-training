@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { MAP_W, chestSpot, pathD, seeded, type Pt } from '../game/mapPath'
 import type { WorldId } from '../game/worlds'
 import { MapArtDarkwood } from './MapArtDarkwood'
+import { MapArtFrostpeak } from './MapArtFrostpeak'
 import { MapArtMarsh } from './MapArtMarsh'
 
 const INK = '#2F2420'
@@ -121,6 +122,7 @@ interface MapArtProps {
 export function MapArt({ worldId, ...props }: MapArtProps) {
   if (worldId === 'finsterwald') return <MapArtDarkwood {...props} />
   if (worldId === 'nebelsumpf') return <MapArtMarsh {...props} />
+  if (worldId === 'frostgipfel') return <MapArtFrostpeak {...props} />
   return <MeadowMap {...props} />
 }
 

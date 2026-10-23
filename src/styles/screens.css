@@ -1208,6 +1208,140 @@
   }
 }
 
+/* ---------- Frostgipfel: Gipfelkarte (art-guide.md §4–5, feature 006) ---------- */
+
+.app[data-world='frostgipfel'] .map-head__world {
+  opacity: 1;
+}
+
+/* Pre-paint-Farbe = Schneefeld, damit vor dem SVG kein heller Blitz erscheint. */
+.app[data-world='frostgipfel'] .map {
+  background: var(--snow-blue);
+}
+
+.fp-snow {
+  animation: fp-snow 9s ease-in-out infinite;
+}
+.fp-slip {
+  animation: fp-slip 6.4s ease-in infinite;
+}
+.fp-shimmer {
+  animation: fp-shimmer 4.2s ease-in-out infinite;
+}
+.fp-sparkle {
+  transform-box: fill-box;
+  transform-origin: center; /* star is drawn around its own centre */
+  animation: fp-sparkle 3.4s ease-in-out infinite;
+}
+.fp-lava {
+  animation: fp-lava 3s ease-in-out infinite;
+}
+.fp-smoke {
+  transform-box: fill-box;
+  transform-origin: 50% 100%; /* = the chimney mouth */
+  animation: fp-smoke 5.2s ease-out infinite;
+}
+.fp-summit-glow {
+  opacity: 0.35;
+  transition: opacity 0.4s ease;
+}
+/* chest ready or open → the crystal lantern and gate glow brighter. Pure CSS, no new props. */
+.map:has(.chest--ready) .fp-summit-glow,
+.map:has(.chest--open) .fp-summit-glow {
+  opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fp-summit-glow 1.8s ease-in-out infinite;
+}
+
+@keyframes fp-snow {
+  0%,
+  100% {
+    opacity: 0.95;
+    transform: translate(0, 0);
+  }
+  35% {
+    opacity: 0.7;
+    transform: translate(4px, 5px);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translate(-3px, 9px);
+  }
+}
+@keyframes fp-slip {
+  0%,
+  62% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  88% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  89% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fp-shimmer {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@keyframes fp-sparkle {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(20deg);
+  }
+}
+@keyframes fp-lava {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes fp-smoke {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.8);
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(1.25);
+  }
+}
+@keyframes fp-summit-glow {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .knight,
   .knight__sword,
@@ -1238,10 +1372,19 @@
   .ms-lantern,
   .ms-glow,
   .map:has(.chest--ready) .ms-willow-glow,
-  .map:has(.chest--open) .ms-willow-glow {
+  .map:has(.chest--open) .ms-willow-glow,
+  .fp-snow,
+  .fp-slip,
+  .fp-shimmer,
+  .fp-sparkle,
+  .fp-lava,
+  .fp-smoke,
+  .map:has(.chest--ready) .fp-summit-glow,
+  .map:has(.chest--open) .fp-summit-glow {
     animation: none;
   }
 }
+
 
 /* Holzschilder auf der Karte */
 .map-sign {

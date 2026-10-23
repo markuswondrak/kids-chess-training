@@ -88,6 +88,7 @@ export const en = {
   'world.nebelsumpf.name': 'Misty Marsh',
   'world.nebelsumpf.subtitle': 'Forks',
   'world.frostgipfel.name': 'Frostpeak',
+  'world.frostgipfel.subtitle': 'Mate in 2',
   'world.glutvulkan.name': 'Ember Volcano',
   'world.wolkeninseln.name': 'Cloud Isles',
   'world.geisterruine.name': 'Ghost Ruins',

@@ -22,6 +22,9 @@ him one step closer to the castle – and to the treasure chest at the end of th
   piece!", Elo 550–700) in a dusk forest with its own map, board frame and colours
 - **World 3 "Nebelsumpf" (Misty Marsh):** 12 fork puzzles ("Attack two pieces at once
   with one piece!", Elo 650–800) in a friendly foggy marsh with reeds, pools and a willow
+- **World 4 "Frostgipfel" (Frostpeak):** 12 mate-in-2 puzzles ("Checkmate the king in
+  2 moves!", Elo 750–900) on a snowy alpine ascent with an ice palace, frozen lake and a
+  volcanic teaser for world 5
 - **Worlds in order:** the next world opens with the treasure chest of the previous one;
   the map previews the next planned world
 - **Kid-friendly controls:** tap a piece, tap a target square. The opponent moves
@@ -59,6 +62,7 @@ src/data/puzzles.json    generated puzzle data – do not edit by hand
 src/data/endless.burgdorf.json   generated endless-mode pool – do not edit by hand
 src/data/endless.finsterwald.json   generated endless-mode pool – do not edit by hand
 src/data/endless.nebelsumpf.json    generated endless-mode pool – do not edit by hand
+src/data/endless.frostgipfel.json   generated endless-mode pool – do not edit by hand
 scripts/extract-puzzles.mjs   generates puzzles.json and the endless pools from the Lichess DB
 ```
 
@@ -84,7 +88,7 @@ tablet, portrait).
 
 ## Roadmap
 
-Where the journey goes next – worlds 3 to 8, offline support as a PWA, ranks, and a
+Where the journey goes next – worlds 5 to 8, offline support as a PWA, ranks, and a
 customizable knight avatar – is tracked in the
 [issues](https://github.com/markuswondrak/kids-chess-training/issues).
 

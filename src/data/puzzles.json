@@ -1,4 +1,207 @@
 {
+ "frostgipfel": [
+  {
+   "id": "WlKyq",
+   "fen": "8/8/8/b7/k1K5/8/1r6/7R b - - 20 89",
+   "moves": [
+    "a5d2",
+    "h1a1",
+    "b2a2",
+    "a1a2"
+   ],
+   "rating": 759,
+   "themes": [
+    "endgame",
+    "mateIn2"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "vacv9",
+   "fen": "8/8/6kp/4N1p1/8/7P/6PK/1r6 b - - 7 49",
+   "moves": [
+    "g6h5",
+    "g2g4",
+    "h5h4",
+    "e5f3"
+   ],
+   "rating": 754,
+   "themes": [
+    "endgame",
+    "master",
+    "mateIn2"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "pNCkE",
+   "fen": "6R1/7P/6n1/1p6/8/2k5/P6r/K7 w - - 3 42",
+   "moves": [
+    "g8g6",
+    "h2h1",
+    "g6g1",
+    "h1g1"
+   ],
+   "rating": 757,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "rookEndgame"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "RmeVi",
+   "fen": "8/1P4k1/4Q3/6P1/5rK1/2P5/5r2/8 w - - 4 54",
+   "moves": [
+    "g4h5",
+    "f2h2",
+    "e6h3",
+    "h2h3"
+   ],
+   "rating": 758,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "queenRookEndgame"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "cjj1s",
+   "fen": "8/2B5/8/8/6n1/7k/7P/4nNK1 w - - 30 70",
+   "moves": [
+    "c7b8",
+    "e1f3",
+    "g1h1",
+    "g4f2"
+   ],
+   "rating": 768,
+   "themes": [
+    "endgame",
+    "mateIn2"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "xlvoR",
+   "fen": "5k2/2R5/5K2/3r4/6P1/2p5/8/8 b - - 1 56",
+   "moves": [
+    "d5d3",
+    "c7c8",
+    "d3d8",
+    "c8d8"
+   ],
+   "rating": 783,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "rookEndgame"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "0hE5M",
+   "fen": "1k4r1/7R/2R5/4P1n1/8/7P/7K/8 w - - 2 47",
+   "moves": [
+    "h7e7",
+    "g5f3",
+    "h2h1",
+    "g8g1"
+   ],
+   "rating": 766,
+   "themes": [
+    "arabianMate",
+    "endgame",
+    "mateIn2"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "aWncU",
+   "fen": "8/8/6kp/3N4/3n1BK1/7P/6P1/8 w - - 3 40",
+   "moves": [
+    "g2g3",
+    "h6h5",
+    "g4h4",
+    "d4f5"
+   ],
+   "rating": 769,
+   "themes": [
+    "endgame",
+    "mateIn2"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "JcxwQ",
+   "fen": "r5rk/3R2p1/2q4R/8/8/2PBQ3/1P1K4/8 b - - 0 42",
+   "moves": [
+    "c6h6",
+    "e3h6",
+    "g7h6",
+    "d7h7"
+   ],
+   "rating": 750,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "operaMate"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "KlYo6",
+   "fen": "1Q6/7p/6q1/6p1/p5Pk/7P/5P1K/8 b - - 2 47",
+   "moves": [
+    "g6d3",
+    "b8g3",
+    "d3g3",
+    "f2g3"
+   ],
+   "rating": 771,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "queenEndgame"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "Og6t6",
+   "fen": "4r2k/6pp/8/p4p2/2Q2P2/5K1P/1q2N3/8 b - - 1 38",
+   "moves": [
+    "e8e2",
+    "c4c8",
+    "e2e8",
+    "c8e8"
+   ],
+   "rating": 751,
+   "themes": [
+    "backRankMate",
+    "endgame",
+    "mateIn2"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "OWpMZ",
+   "fen": "4q3/8/8/3p2pP/8/2P3k1/PP4P1/5Q1K w - - 5 50",
+   "moves": [
+    "f1g1",
+    "e8h5",
+    "g1h2",
+    "h5h2"
+   ],
+   "rating": 766,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "queenEndgame"
+   ],
+   "motif": "mateIn2"
+  }
+ ],
  "nebelsumpf": [
   {
    "id": "60kxo",

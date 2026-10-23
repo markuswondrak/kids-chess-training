@@ -8,6 +8,7 @@ const POOLS: Record<WorldId, () => Promise<{ default: Puzzle[] }>> = {
   burgdorf: () => import('../data/endless.burgdorf.json') as Promise<{ default: Puzzle[] }>,
   finsterwald: () => import('../data/endless.finsterwald.json') as Promise<{ default: Puzzle[] }>,
   nebelsumpf: () => import('../data/endless.nebelsumpf.json') as Promise<{ default: Puzzle[] }>,
+  frostgipfel: () => import('../data/endless.frostgipfel.json') as Promise<{ default: Puzzle[] }>,
 }
 
 /**
