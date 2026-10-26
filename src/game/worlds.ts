@@ -18,10 +18,10 @@ export interface Puzzle {
 }
 
 /** Welten mit Daten und Spielbetrieb. */
-export type WorldId = 'burgdorf' | 'finsterwald' | 'nebelsumpf' | 'frostgipfel'
+export type WorldId = 'burgdorf' | 'finsterwald' | 'nebelsumpf' | 'frostgipfel' | 'glutvulkan'
 
 /** Alle geplanten Welten der Karte (Roadmap, Epic #1). Anzeigetexte: `world.{id}.*` (i18n). */
-export type PlannedWorldId = WorldId | 'glutvulkan' | 'wolkeninseln' | 'geisterruine' | 'drachenburg'
+export type PlannedWorldId = WorldId | 'wolkeninseln' | 'geisterruine' | 'drachenburg'
 
 export interface World {
   id: WorldId
@@ -34,6 +34,7 @@ export const WORLDS: World[] = [
   { id: 'finsterwald', number: 2, puzzles: (puzzleData as Record<WorldId, Puzzle[]>).finsterwald },
   { id: 'nebelsumpf', number: 3, puzzles: (puzzleData as Record<WorldId, Puzzle[]>).nebelsumpf },
   { id: 'frostgipfel', number: 4, puzzles: (puzzleData as Record<WorldId, Puzzle[]>).frostgipfel },
+  { id: 'glutvulkan', number: 5, puzzles: (puzzleData as Record<WorldId, Puzzle[]>).glutvulkan },
 ]
 
 /** Reihenfolge und Nummern aller geplanten Welten. Gebaut wird, was in `WORLDS` steht. */
