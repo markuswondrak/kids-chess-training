@@ -1,4 +1,222 @@
 {
+ "glutvulkan": [
+  {
+   "id": "xilVn",
+   "fen": "8/8/K3Q3/6p1/8/7k/8/7q b - - 9 55",
+   "moves": [
+    "h3h4",
+    "e6h6",
+    "h4g3",
+    "h6h1"
+   ],
+   "rating": 861,
+   "themes": [
+    "crushing",
+    "endgame",
+    "master",
+    "queenEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "iLnbS",
+   "fen": "8/8/8/7p/6p1/6k1/1r6/6RK b - - 3 56",
+   "moves": [
+    "g3f2",
+    "g1g2",
+    "f2f3",
+    "g2b2"
+   ],
+   "rating": 860,
+   "themes": [
+    "crushing",
+    "endgame",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "LAqXx",
+   "fen": "8/8/4kr2/1R6/1p2P3/4K3/8/8 b - - 1 46",
+   "moves": [
+    "f6h6",
+    "b5b6",
+    "e6d7",
+    "b6h6"
+   ],
+   "rating": 862,
+   "themes": [
+    "crushing",
+    "endgame",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "0TXpF",
+   "fen": "8/8/5k2/pr4p1/6P1/5RK1/8/8 b - - 6 60",
+   "moves": [
+    "f6e5",
+    "f3f5",
+    "e5d4",
+    "f5b5"
+   ],
+   "rating": 855,
+   "themes": [
+    "crushing",
+    "endgame",
+    "master",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "FPuIv",
+   "fen": "8/2R5/1p5r/1P1k4/7p/7K/8/8 b - - 11 83",
+   "moves": [
+    "d5d6",
+    "c7c6",
+    "d6d5",
+    "c6h6"
+   ],
+   "rating": 857,
+   "themes": [
+    "crushing",
+    "endgame",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "KrmJv",
+   "fen": "6Q1/8/1k2p3/8/2qp4/1N2bK2/6P1/8 b - - 3 46",
+   "moves": [
+    "c4b3",
+    "g8b8",
+    "b6c5",
+    "b8b3"
+   ],
+   "rating": 851,
+   "themes": [
+    "crushing",
+    "endgame",
+    "master",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "1IYoS",
+   "fen": "8/5k2/5n1r/3pQ3/3P2P1/7P/7K/8 w - - 0 51",
+   "moves": [
+    "g4g5",
+    "f6g4",
+    "h2g3",
+    "g4e5"
+   ],
+   "rating": 855,
+   "themes": [
+    "crushing",
+    "endgame",
+    "pin"
+   ],
+   "motif": "pin"
+  },
+  {
+   "id": "d9FoA",
+   "fen": "5r2/3R2pk/4P2p/1n6/6N1/4K2P/8/8 b - - 2 60",
+   "moves": [
+    "f8e8",
+    "g4f6",
+    "h7g6",
+    "f6e8"
+   ],
+   "rating": 850,
+   "themes": [
+    "crushing",
+    "endgame",
+    "pin"
+   ],
+   "motif": "pin"
+  },
+  {
+   "id": "0jLs7",
+   "fen": "8/8/2Q5/1p4p1/1P2k3/3p3P/3K4/5q2 b - - 1 51",
+   "moves": [
+    "e4f4",
+    "c6f6",
+    "f4e4",
+    "f6f1"
+   ],
+   "rating": 866,
+   "themes": [
+    "crushing",
+    "endgame",
+    "master",
+    "queenEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "x0Zdu",
+   "fen": "8/4r1k1/r5p1/8/6R1/4N1P1/5PK1/8 b - - 5 60",
+   "moves": [
+    "a6a2",
+    "e3f5",
+    "g7f6",
+    "f5e7"
+   ],
+   "rating": 871,
+   "themes": [
+    "crushing",
+    "endgame",
+    "master",
+    "pin"
+   ],
+   "motif": "pin"
+  },
+  {
+   "id": "66nP9",
+   "fen": "8/5B2/1p6/1P4R1/3nk2P/P7/1r4PK/8 w - - 7 39",
+   "moves": [
+    "h4h5",
+    "d4f3",
+    "h2g3",
+    "f3g5"
+   ],
+   "rating": 855,
+   "themes": [
+    "advantage",
+    "endgame",
+    "master",
+    "pin"
+   ],
+   "motif": "pin"
+  },
+  {
+   "id": "AWEQQ",
+   "fen": "7Q/1p6/p4NK1/8/P1P2k2/8/8/2b2q2 b - - 0 48",
+   "moves": [
+    "f1c4",
+    "h8h4",
+    "f4e3",
+    "h4c4"
+   ],
+   "rating": 867,
+   "themes": [
+    "crushing",
+    "endgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  }
+ ],
  "frostgipfel": [
   {
    "id": "WlKyq",
