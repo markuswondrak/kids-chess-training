@@ -1342,6 +1342,157 @@
   }
 }
 
+/* ---------- Glutvulkan: Vulkankarte (art-guide.md §4–5, feature 007) ---------- */
+
+.app[data-world='glutvulkan'] .map-head__world {
+  opacity: 1;
+}
+
+.app[data-world='glutvulkan'] .map-head__ribbon strong {
+  font-size: 1.72rem;
+}
+
+/* pre-paint colour = warm volcanic floor, so no bright/dark flash before the SVG paints */
+.app[data-world='glutvulkan'] .map {
+  background: var(--ash-warm);
+}
+
+.ev-ember {
+  animation: ev-ember 6.4s ease-in-out infinite;
+}
+.ev-bubble {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ev-bubble 4.4s ease-in-out infinite;
+}
+.ev-lava {
+  animation: ev-lava 3.2s ease-in-out infinite;
+}
+.ev-sparkle {
+  transform-box: fill-box;
+  transform-origin: center; /* star is drawn around its own centre */
+  animation: ev-sparkle 3.4s ease-in-out infinite;
+}
+.ev-cloud-isle {
+  animation: ev-cloud-isle 6s ease-in-out infinite;
+}
+.ev-smoke {
+  transform-box: fill-box;
+  transform-origin: 50% 100%; /* = the chimney / vent mouth */
+  animation: ev-smoke 5.2s ease-out infinite;
+}
+.ev-salamander-lid {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: ev-blink 5.6s ease-in-out infinite;
+}
+.ev-caldera-glow {
+  opacity: 0.4;
+  transition: opacity 0.4s ease;
+}
+/* chest ready or open → the ember brazier and caldera gate glow brighter. Pure CSS, no new props. */
+.map:has(.chest--ready) .ev-caldera-glow,
+.map:has(.chest--open) .ev-caldera-glow {
+  opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ev-caldera-glow 1.8s ease-in-out infinite;
+}
+
+@keyframes ev-ember {
+  0%,
+  100% {
+    opacity: 0.88;
+    transform: translate(0, 0);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(3px, -7px);
+  }
+  75% {
+    opacity: 0.55;
+    transform: translate(-3px, -12px);
+  }
+}
+@keyframes ev-bubble {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scale(0.82);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+  85% {
+    opacity: 0.35;
+    transform: scale(1.28);
+  }
+}
+@keyframes ev-lava {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes ev-sparkle {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(20deg);
+  }
+}
+@keyframes ev-cloud-isle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes ev-smoke {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.8);
+  }
+  30% {
+    opacity: 0.88;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(1.25);
+  }
+}
+@keyframes ev-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(0);
+  }
+  94% {
+    transform: scaleY(1);
+  }
+}
+@keyframes ev-caldera-glow {
+  0%,
+  100% {
+    opacity: 0.78;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .knight,
   .knight__sword,
@@ -1380,7 +1531,16 @@
   .fp-lava,
   .fp-smoke,
   .map:has(.chest--ready) .fp-summit-glow,
-  .map:has(.chest--open) .fp-summit-glow {
+  .map:has(.chest--open) .fp-summit-glow,
+  .ev-ember,
+  .ev-bubble,
+  .ev-lava,
+  .ev-sparkle,
+  .ev-cloud-isle,
+  .ev-smoke,
+  .ev-salamander-lid,
+  .map:has(.chest--ready) .ev-caldera-glow,
+  .map:has(.chest--open) .ev-caldera-glow {
     animation: none;
   }
 }

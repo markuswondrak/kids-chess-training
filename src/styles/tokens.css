@@ -187,3 +187,48 @@
     0 0 20px 6px var(--crystal-glow);
   --world-locked-face: radial-gradient(circle at 38% 30%, var(--snow), var(--snow-blue) 55%, var(--snow-deep));
 }
+
+:root {
+  /* Glutvulkan (Ember Volcano) – palette, see art-guide.md §2 (feature 007) */
+  --ember-sky-top: #7d4858;
+  --ember-sky-mid: #b86852;
+  --ember-sky-low: #e49b62;
+  --ember-horizon: #f7ca88;
+  --ember-sun: rgba(255, 224, 150, 0.82);
+  --ash-warm: #dfba96;
+  --ash-deep: #c49a76;
+  --ash-stone: #e8cfb2;
+  --ash-stone-mid: #bfa189;
+  --ash-stone-deep: #8f725d;
+  --basalt: #6e5a58;
+  --basalt-deep: #4e3d3c;
+  --obsidian: #463942;
+  --obsidian-deep: #31262e;
+  --magma: #ff7a33;
+  --magma-gold: #ffd466;
+  --magma-glow: rgba(255, 166, 77, 0.78);
+  --caldera: #a83228;
+  --caldera-deep: #7a2019;
+  --ember-gold: #ffe08a;
+  --volcano-ridge: #9c6252;
+}
+
+.app[data-world='glutvulkan'] {
+  --world-sky:
+    radial-gradient(420px 320px at 86% 6%, var(--ember-sun), transparent 70%),
+    linear-gradient(
+      180deg,
+      var(--ember-sky-top) 0%,
+      var(--ember-sky-mid) 30%,
+      var(--ember-sky-low) 58%,
+      var(--ember-horizon) 82%,
+      var(--ash-warm) 100%
+    );
+  --world-ribbon: linear-gradient(180deg, var(--caldera), var(--caldera-deep));
+  --world-ribbon-sub: var(--ember-gold);
+  --world-ring: var(--magma-gold);
+  --world-ring-glow:
+    0 0 0 3px var(--ink),
+    0 0 20px 6px var(--magma-glow);
+  --world-locked-face: radial-gradient(circle at 38% 30%, var(--ash-stone), var(--ash-stone-mid) 55%, var(--ash-stone-deep));
+}
