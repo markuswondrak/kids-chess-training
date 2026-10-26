@@ -25,6 +25,9 @@ him one step closer to the castle – and to the treasure chest at the end of th
 - **World 4 "Frostgipfel" (Frostpeak):** 12 mate-in-2 puzzles ("Checkmate the king in
   2 moves!", Elo 750–900) on a snowy alpine ascent with an ice palace, frozen lake and a
   volcanic teaser for world 5
+- **World 5 "Glutvulkan" (Ember Volcano):** 12 pin and skewer puzzles ("Win a piece!",
+  Elo 850–1000) inside a warm volcanic caldera with a smelting forge, bubbling lava lake and a
+  teaser for World 6 (Cloud Isles)
 - **Worlds in order:** the next world opens with the treasure chest of the previous one;
   the map previews the next planned world
 - **Kid-friendly controls:** tap a piece, tap a target square. The opponent moves
@@ -63,6 +66,7 @@ src/data/endless.burgdorf.json   generated endless-mode pool – do not edit by 
 src/data/endless.finsterwald.json   generated endless-mode pool – do not edit by hand
 src/data/endless.nebelsumpf.json    generated endless-mode pool – do not edit by hand
 src/data/endless.frostgipfel.json   generated endless-mode pool – do not edit by hand
+src/data/endless.glutvulkan.json    generated endless-mode pool – do not edit by hand
 scripts/extract-puzzles.mjs   generates puzzles.json and the endless pools from the Lichess DB
 ```
 
@@ -88,7 +92,7 @@ tablet, portrait).
 
 ## Roadmap
 
-Where the journey goes next – worlds 5 to 8, offline support as a PWA, ranks, and a
+Where the journey goes next – worlds 6 to 8, offline support as a PWA, ranks, and a
 customizable knight avatar – is tracked in the
 [issues](https://github.com/markuswondrak/kids-chess-training/issues).
 
