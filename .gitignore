@@ -22,8 +22,11 @@ npm-debug.log*
 # Bewusst hier statt in .specify/.gitignore, weil `specify init --force` diese
 # Datei überschreibt.
 .opencode/
-# Pi-Prompts der Spec-Kit-Integration (erzeugt); selbst geschriebene Prompts
-# bleiben damit versioniert.
+.agents/skills/
+.agents/
+# Pi-Prompts
+.pi/prompts/
+.p/prompts/
 .pi/prompts/speckit.*.md
 specs/
 .specify/feature.json

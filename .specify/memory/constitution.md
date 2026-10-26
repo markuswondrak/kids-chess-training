@@ -1,27 +1,18 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 1.1.1 → 1.1.2 (PATCH: Schrittliste für neue Welten entfernt)
-Version 1.1.1 (PATCH): Prinzip II präzisiert, Bedeutung unverändert
-Modified principles: II. Nur Browser, keine Server – die Formulierung „keine
-Netzwerkaufrufe zur Laufzeit“ war zu weit gefasst: sie hätte auch das
-bedarfsgerechte Nachladen eigener statischer Assets verboten (Feature
-003-endless-mode, FR-015/SC-006, Issue #23). Verboten bleiben Backend, Konten
-und fremde Dienste; ergänzt wurden die Pflicht zur kindgerechten Rückmeldung
-bei fehlgeschlagenem Nachladen und der Verweis auf Issue #4 (PWA) für Offline.
+Version change: 2.0.0 → 2.0.1 (PATCH: SVG-Szenenwerte präzisiert)
+Modified principles: IV. Wiederverwendung von Design und Komponenten – die
+Token-Regel gilt für CSS und wiederverwendete/geteilte Komponentenwerte.
+Szenenspezifische SVG-Füllungen dürfen weiterhin als Literale in der jeweiligen
+Szenenkomponente stehen. Dies dokumentiert die bestehende Konvention der
+Art-Guides; gemeinsame SVG- und CSS-Werte bleiben Tokens.
+Modified workflow: keine
 Added sections: keine
-Removed sections: 1.1.2 – Aufzählung „Neue Welten entstehen in drei Schritten“ im
-Abschnitt „Technischer Rahmen“. Ein Arbeitsablauf, kein Grundsatz; er veraltet
-mit dem Code (Feature 003 hat einen vierten Schritt ergänzt). Maßgeblich ist
-README.md.
-Templates requiring updates: keine (den Constitution Check im Plan-Template
-füllt jedes Feature selbst)
-Follow-up:
-- AGENTS.md: die gespiegelten Prinzipien-Absätze sind entfernt (Abschnitt „Top
-  rule: keep it simple“ gestrichen) – kein Angleichen nötig, die Verfassung ist
-  damit die einzige Quelle der Grundsätze.
-- Feature 003-endless-mode: der Eintrag unter „Complexity Tracking“ zur
-  Abweichung von Prinzip II ist mit dieser Änderung erledigt.
+Removed sections: keine
+Templates requiring updates: keine
+Follow-up: Die Art-Guides von 004 und 005 entsprechen der präzisierten Regel
+bereits; keine Portierungs- oder Referenzänderung nötig.
 -->
 
 # Burgensturm Constitution
@@ -34,9 +25,8 @@ Die kleinste Lösung, die das Problem löst, gewinnt.
 
 - Neue Abhängigkeiten sind nur mit zwingendem Grund zulässig; React, Vite und
   chess.js reichen für dieses Projekt.
-- Kein Feature-Creep: Umgesetzt wird ausschließlich, was als Roadmap-Issue
-  (Label `roadmap`) existiert oder ausdrücklich gefragt wurde. Neue Ideen werden
-  zuerst als Issue angelegt.
+- Kein Feature-Creep: Umgesetzt wird nur, was für dieses Projekt vereinbart
+  oder ausdrücklich angefragt wurde. Neue Ideen werden zuerst abgestimmt.
 - Vorhandene Komponenten und Muster wiederverwenden, statt Neues zu bauen.
 
 Rationale: Eine einfache Codebasis bleibt von einer kleinen Zielgruppe auf
@@ -87,8 +77,11 @@ spielen können.
 
 Das Erscheinungsbild bleibt konsistent.
 
-- Farben, Radien, Schatten und Abstände kommen aus den Design-Tokens in
-  `src/styles/tokens.css`; keine frei gewählten Werte.
+- Farben, Radien, Schatten und Abstände in CSS sowie wiederverwendete oder
+  zwischen Komponenten geteilte Werte kommen aus den Design-Tokens in
+  `src/styles/tokens.css`. Ausschließlich szenenspezifische SVG-Füllungen
+  dürfen als Literale in der betreffenden Szenenkomponente stehen; Werte, die
+  auch in CSS verwendet werden, MÜSSEN Tokens sein.
 - Der Kunststil sind rundliche Cartoon-SVGs mit Tintenumriss (`--ink`); neue
   Grafiken MÜSSEN diesem Stil folgen.
 - Vor neuen Bausteinen: bestehende Komponenten prüfen und erweitern.
@@ -120,8 +113,8 @@ einzige verlässliche Qualitätstor dieses Projekts.
 ## Entwicklungsworkflow
 
 - Jede Änderung endet mit erfolgreichem `npm run build`.
-- Der Backlog sind die GitHub-Issues mit Label `roadmap`; nichts anderes wird
-  umgesetzt.
+- GitHub-Issues dienen als Backlog; ihre Priorisierung wird je Vorhaben
+  entschieden.
 - Änderungen bleiben klein und fokussiert; bestehende Konventionen des
   Projekts haben Vorrang vor persönlichem Stil.
 - Änderungen an generierten Dateien sind nie manuell, sondern immer über den
@@ -141,4 +134,4 @@ Diese Verfassung hat Vorrang vor allen anderen Praktiken des Projekts.
 - Laufzeit-Hinweise für den Entwicklungsalltag stehen in `AGENTS.md`; bei
   Konflikt gilt diese Verfassung.
 
-**Version**: 1.1.2 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-10-17
+**Version**: 2.0.1 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-10-19
