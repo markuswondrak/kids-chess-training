@@ -866,7 +866,8 @@ function VolcanoCaldera({ x, y }: { x: number; y: number }) {
       <path className="ev-lava" d="M-45 -24 L-48 -56 L-41 -82 M45 -24 L48 -56 L41 -82" stroke={EV.magmaGold} strokeWidth={2} fill="none" strokeLinecap="round" />
       {/* side pennants on the obsidian horns */}
       <path d="M-34 -122 V-140 M34 -122 V-140" stroke={INK} strokeWidth={2.2} />
-      <path className="map-flag" d="M-34 -140 L-16 -135 L-34 -130 Z M34 -140 L52 -135 L34 -130 Z" fill={EV.pennant} stroke={INK} strokeWidth={1.8} />
+      <path className="map-flag" d="M-34 -140 L-16 -135 L-34 -130 Z" fill={EV.pennant} stroke={INK} strokeWidth={1.8} />
+      <path className="map-flag" d="M34 -140 L52 -135 L34 -130 Z" fill={EV.pennant} stroke={INK} strokeWidth={1.8} />
 
       {/* central Caldera Arch Gate with inner magma glow & golden sun-anvil crest */}
       <circle className="ev-caldera-glow" cx="0" cy="-24" r="50" fill="url(#ev-glow-magma)" />

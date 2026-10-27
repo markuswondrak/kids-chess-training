@@ -75,7 +75,8 @@ function Castle({ x, y }: { x: number; y: number }) {
       <path d="M0 -120 V-160" stroke={INK} strokeWidth={2.6} />
       <path className="map-flag" d="M0 -160 L30 -152 L0 -144 Z" fill="#C9372C" stroke={INK} strokeWidth={2} />
       <path d="M-118 -134 V-150 M118 -134 V-150" stroke={INK} strokeWidth={2.2} />
-      <path className="map-flag" d="M-118 -150 L-100 -145 L-118 -140 Z M118 -150 L136 -145 L118 -140 Z" fill="#F3B630" stroke={INK} strokeWidth={1.8} />
+      <path className="map-flag" d="M-118 -150 L-100 -145 L-118 -140 Z" fill="#F3B630" stroke={INK} strokeWidth={1.8} />
+      <path className="map-flag" d="M118 -150 L136 -145 L118 -140 Z" fill="#F3B630" stroke={INK} strokeWidth={1.8} />
       <rect x="-124" y="-74" width="10" height="16" rx="5" fill="#4A3A30" />
       <rect x="114" y="-74" width="10" height="16" rx="5" fill="#4A3A30" />
       <rect x="-26" y="-100" width="10" height="16" rx="5" fill="#4A3A30" />
