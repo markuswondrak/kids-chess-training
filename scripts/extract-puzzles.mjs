@@ -51,6 +51,19 @@ const PIECES = new Set(['p', 'n', 'b', 'r', 'q', 'k'])
  */
 const WORLDS = [
   {
+    id: 'glutvulkan',
+    released: true,
+    minRating: 850,
+    maxRating: 1000,
+    motifs: ['pin', 'skewer'],
+    maxPlayerMoves: 2,
+    excludeThemes: ['mateIn1', 'mateIn2'],
+    count: 12,
+    maxPerPiece: 4,
+    endlessCount: 100,
+    endlessMaxPerPiece: 40,
+  },
+  {
     id: 'frostgipfel',
     released: true,
     minRating: 750,

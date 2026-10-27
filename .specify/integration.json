@@ -3,7 +3,8 @@
   "integration_state_schema": 1,
   "installed_integrations": [
     "pi",
-    "opencode"
+    "opencode",
+    "agy"
   ],
   "integration_settings": {
     "pi": {
@@ -13,8 +14,12 @@
     "opencode": {
       "script": "sh",
       "invoke_separator": "."
+    },
+    "agy": {
+      "script": "sh",
+      "invoke_separator": "-"
     }
   },
-  "integration": "pi",
-  "default_integration": "pi"
+  "integration": "agy",
+  "default_integration": "agy"
 }

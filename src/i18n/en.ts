@@ -90,6 +90,7 @@ export const en = {
   'world.frostgipfel.name': 'Frostpeak',
   'world.frostgipfel.subtitle': 'Mate in 2',
   'world.glutvulkan.name': 'Ember Volcano',
+  'world.glutvulkan.subtitle': 'Pin & skewer',
   'world.wolkeninseln.name': 'Cloud Isles',
   'world.geisterruine.name': 'Ghost Ruins',
   'world.drachenburg.name': 'Dragon Castle',
