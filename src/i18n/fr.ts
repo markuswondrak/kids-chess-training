@@ -90,6 +90,7 @@ export const fr: Partial<Messages> = {
   'world.frostgipfel.subtitle': 'Mat en 2',
   'world.glutvulkan.name': 'Volcan Ardent',
   'world.glutvulkan.subtitle': 'Clouage & enfilade',
+  'world.wolkeninseln.subtitle': 'Attaque à la découverte & échec double',
   'world.wolkeninseln.name': 'Îles des Nuages',
   'world.geisterruine.name': 'Ruines Hantées',
   'world.drachenburg.name': 'Château du Dragon',
