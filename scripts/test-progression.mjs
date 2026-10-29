@@ -19,6 +19,7 @@ const WORLDS = [
   { id: 'nebelsumpf', number: 3, puzzles: puzzles.nebelsumpf },
   { id: 'frostgipfel', number: 4, puzzles: puzzles.frostgipfel },
   { id: 'glutvulkan', number: 5, puzzles: puzzles.glutvulkan },
+  { id: 'wolkeninseln', number: 6, puzzles: puzzles.wolkeninseln },
 ]
 
 const ROADMAP = [
@@ -130,8 +131,8 @@ if (!afterGlut || afterGlut.id !== 'wolkeninseln') {
   throw new Error('5. Schritt fehlgeschlagen: Roadmap nach Glutvulkan ist nicht Wolkeninseln')
 }
 const wolkenBuilt = findWorld('wolkeninseln')
-if (wolkenBuilt !== undefined) throw new Error('Wolkeninseln sollte noch nicht gebaut sein')
-console.log('✓ 5. Glutvulkan Schild-Vorschau zeigt ungebautes Wolkeninseln (bald-Badge aktiv)')
+if (wolkenBuilt === undefined) throw new Error('Wolkeninseln sollte gebaut sein')
+console.log('✓ 5. Glutvulkan Schild-Vorschau zeigt gebautes Wolkeninseln (ohne bald-Badge)')
 
 const afterFrost = roadmapAfter(frostgipfelWorld)
 const frostBuilt = findWorld(afterFrost.id)
