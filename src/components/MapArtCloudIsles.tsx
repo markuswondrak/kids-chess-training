@@ -1268,12 +1268,61 @@ function SkyBridge({ pts, seg, t0, t1 }: { pts: Pt[]; seg: number; t0: number; t
   )
 }
 
-/** Tiny drifting rock islet (no turf) for the open sky between the islands. */
-function Pebble({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
+/**
+ * One big floating island made of overlapping turf lobes (one shared ink outline), with a single
+ * rock underside below its lowest lobe and cloud collars only at its two ends.
+ */
+function IslandMass({ lobes, waterfall = 0 }: { lobes: Isle[]; waterfall?: -1 | 0 | 1 }) {
+  const low = lobes.reduce((a, b) => (b.y > a.y ? b : a))
+  const left = lobes.reduce((a, b) => (b.x - b.rx < a.x - a.rx ? b : a))
+  const right = lobes.reduce((a, b) => (b.x + b.rx > a.x + a.rx ? b : a))
+  const w = low.rx * 0.94
+  const d = low.depth
   return (
-    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s})`}>
-      <path d="M-12 0 L-6 12 L2 8 L8 14 L13 0 Z" fill={CI.isleRock} stroke={INK} strokeWidth={1.6} strokeLinejoin="round" />
-      <ellipse cx="0" cy="-1" rx="14" ry="5" fill={CI.grass} stroke={INK} strokeWidth={1.6} />
+    <g>
+      {/* soft shadow on the cloud sea + rock underside of the lowest lobe */}
+      <ellipse cx={low.x} cy={low.y + d + 12} rx={low.rx * 0.8} ry={13} fill={CI.cloudSeaShade} />
+      <g transform={`translate(${low.x.toFixed(1)} ${low.y.toFixed(1)})`}>
+        <path d={`M-22 ${d - 2} L-13 ${d + 10} L-6 ${d - 1} Z M16 ${d - 5} L23 ${d + 6} L29 ${d - 4} Z`} fill={CI.isleRockDeep} stroke={INK} strokeWidth={1.6} strokeLinejoin="round" />
+        <path d={`M${-w} 2 L${-w * 0.72} ${d * 0.68} L${-w * 0.32} ${d * 0.52} L0 ${d} L${w * 0.32} ${d * 0.56} L${w * 0.72} ${d * 0.72} L${w} 2 Z`} fill={CI.isleRock} stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
+        <path d={`M0 6 L0 ${d} L${w * 0.32} ${d * 0.56} L${w * 0.72} ${d * 0.72} L${w} 2 Z`} fill={CI.isleRockDeep} opacity={0.68} />
+        <path d={`M${-w * 0.32} ${d * 0.52} L${-w * 0.36} 10 M0 ${d} V12 M${w * 0.32} ${d * 0.56} L${w * 0.36} 10`} stroke={INK} strokeWidth={1.5} strokeLinecap="round" opacity={0.65} />
+        <path d={`M${-w * 0.16} 12 C${-w * 0.18} 22 ${-w * 0.12} 30 ${-w * 0.15} 38`} stroke={CI.grassDeep} strokeWidth={2.2} fill="none" strokeLinecap="round" />
+      </g>
+      {/* one outline around all lobes: ink, limestone rim, turf */}
+      {lobes.map((e, i) => <ellipse key={`ro${i}`} cx={e.x} cy={e.y + 4} rx={e.rx * 0.98 + 2} ry={e.ry * 0.98 + 2} fill={INK} />)}
+      {lobes.map((e, i) => <ellipse key={`to${i}`} cx={e.x} cy={e.y - 2} rx={e.rx + 2.3} ry={e.ry + 2.3} fill={INK} />)}
+      {lobes.map((e, i) => <ellipse key={`r${i}`} cx={e.x} cy={e.y + 4} rx={e.rx * 0.98} ry={e.ry * 0.98} fill={CI.marbleShade} />)}
+      {lobes.map((e, i) => <ellipse key={`t${i}`} cx={e.x} cy={e.y - 2} rx={e.rx} ry={e.ry} fill={CI.grass} />)}
+      {lobes.map((e, i) => <ellipse key={`h${i}`} cx={e.x - 6} cy={e.y - 5} rx={e.rx * 0.8} ry={e.ry * 0.7} fill={CI.grassLight} opacity={0.35} />)}
+      <path
+        d={`M${low.x - low.rx * 0.78} ${low.y + low.ry * 0.62} Q${low.x - low.rx * 0.4} ${low.y + low.ry * 1.06} ${low.x} ${low.y + low.ry * 0.92} Q${low.x + low.rx * 0.4} ${low.y + low.ry * 1.06} ${low.x + low.rx * 0.78} ${low.y + low.ry * 0.62}`}
+        fill="none"
+        stroke={CI.grassDeep}
+        strokeWidth={3.2}
+        strokeLinecap="round"
+      />
+      {/* cloud collars only at the two ends of the island */}
+      <path
+        d={`M${left.x - left.rx - 6} ${left.y + 12} c-14 0 -14 -16 0 -18 c4 -10 22 -10 28 0 c12 0 12 18 -2 20 Z`}
+        fill={CI.cloud}
+        stroke={INK}
+        strokeWidth={1.9}
+        strokeLinejoin="round"
+      />
+      <path
+        d={`M${right.x + right.rx + 6} ${right.y + 12} c14 0 14 -16 0 -18 c-4 -10 -22 -10 -28 0 c-12 0 -12 18 2 20 Z`}
+        fill={CI.cloud}
+        stroke={INK}
+        strokeWidth={1.9}
+        strokeLinejoin="round"
+      />
+      {waterfall !== 0 && (
+        <g transform={`translate(${(low.x + waterfall * low.rx * 0.54).toFixed(1)} ${(low.y + low.ry * 0.76).toFixed(1)})`}>
+          <path className="ci-shimmer" d={`M-6 0 C-7 12 -8 24 -9 ${d * 0.56} L7 ${d * 0.56} C6 24 5 12 4 0 Z`} fill={CI.water} stroke={INK} strokeWidth={1.5} />
+          <path className="ci-shimmer" d={`M-2 2 V${d * 0.52}`} stroke={CI.waterFoam} strokeWidth={2} strokeLinecap="round" strokeDasharray="4 6" />
+        </g>
+      )}
     </g>
   )
 }
@@ -1302,27 +1351,34 @@ export function MapArtCloudIsles({ height, pts, walkedTo, stones }: MapArtProps)
   const skyEnd = chest.y - 40
   const S = (i: number) => pts[Math.max(1, Math.min(stones, i))]
 
-  // Island chain: stones that share an island are joined by a land bridge; between islands the trail
-  // crosses open sky on a rope bridge. The joins vary (2, 3, 1 stones per island) so the chain never repeats.
-  const joined = (i: number) => [1, 3, 4, 6, 8, 10, 11].includes(i) // stone i shares its island with stone i + 1
-  const pathIsles: Isle[] = []
+  // Four big islands instead of a chain of small pads: stones on one island are joined by turf,
+  // between islands the trail crosses open sky on a rope bridge.
+  const breaks = [2, 6, 9] // the trail leaves an island after these stones
+  const joined = (i: number) => !breaks.includes(i)
+  const groups: number[][] = [[]]
   for (let i = 1; i <= stones; i++) {
-    const p = pts[i]
-    pathIsles.push({ x: p.x, y: p.y + 14, rx: 78 + ((i * 7) % 3) * 6, ry: 34, depth: 46, wf: i === 5 ? 1 : i === 9 ? -1 : 0 })
-    if (i < stones && joined(i)) {
-      const m = pointOn(pts, i, 0.5)
-      pathIsles.push({ x: m.x, y: m.y + 14, rx: 70, ry: 32, depth: 40 })
-    }
+    groups[groups.length - 1].push(i)
+    if (i < stones && !joined(i)) groups.push([])
   }
+  const islands: Isle[][] = groups.map((g) =>
+    g.flatMap((i, k) => {
+      const p = pts[i]
+      const lobe: Isle = { x: p.x, y: p.y + 14, rx: 82, ry: 36, depth: 50 }
+      if (k === g.length - 1) return [lobe]
+      return [lobe, ...[0.25, 0.5, 0.75].map((t) => {
+        const m = pointOn(pts, i, t)
+        return { x: m.x, y: m.y + 14, rx: 80, ry: 36, depth: 50 }
+      })]
+    }),
+  )
+  const pathIsles = islands.flat()
   const bridgeSegs = Array.from({ length: stones - 1 }, (_, k) => k + 1).filter((i) => !joined(i))
 
-  // Satellite isles float in the open bays of the S-curve – each one carries its own little scene.
+  // Only two satellite isles, in the widest bays.
   const bayX = (i: number) => (S(i).x > MAP_W / 2 ? 78 : MAP_W - 78)
   const sats = [
-    { kind: 'lagoon', at: 2, dy: 10 },
     { kind: 'griffin', at: 5, dy: -50 },
-    { kind: 'waterfall', at: 8, dy: 40 },
-    { kind: 'shrine', at: 11, dy: -10 },
+    { kind: 'waterfall', at: 9, dy: 10 },
   ]
     .filter((s) => s.at <= stones)
     .map((s) => ({ ...s, x: bayX(s.at), y: S(s.at).y + s.dy }))
@@ -1345,16 +1401,11 @@ export function MapArtCloudIsles({ height, pts, walkedTo, stones }: MapArtProps)
   })
   deco.sort((a, b) => a.y - b.y)
 
-  // Cloud-sea waves in the open sky; little drifting pebble isles between the islands.
+  // Cloud-sea waves in the open sky.
   const waves: ReactNode[] = []
-  const pebbles: ReactNode[] = []
-  for (let i = 0; i < stones * 4; i++) {
+  for (let i = 0; i < stones * 3; i++) {
     const p = { x: rand() * MAP_W, y: skyEnd + 140 + rand() * (height - skyEnd - 160) }
     const rx = 36 + rand() * 44
-    if (i % 4 === 3) {
-      if (!onIsle(p) && !nearSat(p) && pts.every((q) => Math.hypot(q.x - p.x, q.y - p.y) > 70)) pebbles.push(<Pebble key={`pb${i}`} x={p.x} y={p.y} s={0.7 + rand() * 0.5} />)
-      continue
-    }
     waves.push(
       <g key={`cw${i}`} transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`}>
         <ellipse rx={rx} ry={10 + rand() * 8} fill={CI.cloudSeaWave} />
@@ -1477,16 +1528,14 @@ export function MapArtCloudIsles({ height, pts, walkedTo, stones }: MapArtProps)
       <path className="ci-shimmer" d={`M48 ${skyEnd - 82} C46 ${skyEnd - 60} 44 ${skyEnd - 34} 42 ${skyEnd - 10}`} stroke={CI.water} strokeWidth={6} fill="none" strokeLinecap="round" />
       <rect y={skyEnd - 50} width={MAP_W} height={50} fill="url(#ci-haze)" />
 
-      {/* 4 cloud sea, pebbles, the island chain with satellites */}
+      {/* 4 cloud sea, four big islands, two satellites */}
       {waves}
-      {pebbles}
-      <FloatingIslePad x={92} y={height - 70} rx={110} ry={50} depth={46} lobe={0} />
-      <FloatingIslePad x={334} y={height - 46} rx={70} ry={30} depth={34} lobe={0} />
-      {[...pathIsles].sort((a, b) => a.y - b.y).map((e, i) => (
-        <FloatingIslePad key={`pi${i}`} x={e.x} y={e.y} rx={e.rx} ry={e.ry} depth={e.depth} lobe={0} waterfall={e.wf ?? 0} />
+      <FloatingIslePad x={110} y={height - 66} rx={124} ry={50} depth={46} lobe={0} />
+      {[...islands].sort((a, b) => Math.min(...a.map((e) => e.y)) - Math.min(...b.map((e) => e.y))).map((lobes, i) => (
+        <IslandMass key={`im${i}`} lobes={lobes} waterfall={i === 1 ? 1 : 0} />
       ))}
       {sats.map((s) => (
-        <FloatingIslePad key={`sat${s.at}`} x={s.x} y={s.y} rx={s.kind === 'waterfall' ? 72 : 66} ry={28} depth={40} lobe={0} waterfall={s.kind === 'shrine' ? (s.x < MAP_W / 2 ? -1 : 1) : 0} />
+        <FloatingIslePad key={`sat${s.at}`} x={s.x} y={s.y} rx={s.kind === 'waterfall' ? 72 : 66} ry={28} depth={40} lobe={0} />
       ))}
       {pts.slice(1, stones + 1).map((p, i) => (
         <ellipse key={`cl${i}`} cx={p.x} cy={p.y + 8} rx={46} ry={28} fill={CI.clearing} />
@@ -1495,26 +1544,13 @@ export function MapArtCloudIsles({ height, pts, walkedTo, stones }: MapArtProps)
 
       {/* 5 satellite scenes */}
       {sats.map((s) => {
-        if (s.kind === 'lagoon')
-          return (
-            <g key="sl">
-              <CloudLagoon x={s.x + 6} y={s.y - 6} rx={40} ry={14} seed={19} />
-              <CloudSheep x={s.x - 34} y={s.y + 4} s={0.85} />
-            </g>
-          )
         if (s.kind === 'griffin')
           return (
             <CloudLagoon key="sg" x={s.x} y={s.y - 4} rx={50} ry={18} seed={37}>
               <SkyGriffin x={-6} y={4} s={0.95} flip={s.x > MAP_W / 2} />
             </CloudLagoon>
           )
-        if (s.kind === 'waterfall') return <SkyWaterfall key="sw" x={s.x} y={s.y} s={1} flip={s.x > MAP_W / 2} />
-        return (
-          <g key="ss">
-            <LevitationCrystal x={s.x - 18} y={s.y} s={0.95} />
-            <MarbleColumns x={s.x + 26} y={s.y + 2} s={0.8} flip />
-          </g>
-        )
+        return <SkyWaterfall key="sw" x={s.x} y={s.y} s={1} flip={s.x > MAP_W / 2} />
       })}
 
       {/* 6 marble skyway trail: same widths as Burgdorf; rope bridges wherever it leaves an island */}
@@ -1541,7 +1577,7 @@ export function MapArtCloudIsles({ height, pts, walkedTo, stones }: MapArtProps)
 
       {/* 8 start: windmill on the LEFT start isle, cloud sheep grazing on a small isle to the right */}
       <SkyWindmill x={68} y={height - 92} s={0.95} />
-      <CloudSheep x={330} y={height - 50} s={1} />
+      <CloudSheep x={216} y={height - 30} s={0.9} />
       <Signpost x={pts[0].x - 74} y={pts[0].y - 6} />
 
       {/* 9 magic layer */}
