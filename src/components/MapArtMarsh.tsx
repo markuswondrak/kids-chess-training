@@ -7,7 +7,7 @@
  * Bildsprache: art-guide.md (Feature 005).
  */
 import type { ReactNode } from 'react'
-import { MAP_W, chestSpot, pathD, pointOn, seeded, type Pt } from '../game/mapPath'
+import { MAP_W, chestSpot, pathD, pointOn, scatterSpots, seeded, type Pt } from '../game/mapPath'
 
 const INK = '#2F2420'
 
@@ -243,24 +243,6 @@ function Ripple({ x, y, r = 14, delay = 0 }: { x: number; y: number; r?: number;
   return (
     <g transform={`translate(${x} ${y})`}>
       <ellipse className="ms-ripple" style={{ animationDelay: `${delay}s` }} rx={r} ry={r * 0.36} fill="none" stroke="#FFFFFF" strokeWidth={1.6} opacity={0.6} />
-    </g>
-  )
-}
-
-/** Shallow pool: muddy bank, water with ink outline, shallow rim, shine, ripples. */
-function Pool({ x, y, rx, ry, seed, children }: { x: number; y: number; rx: number; ry: number; seed: number; children?: ReactNode }) {
-  const r = seeded(seed)
-  return (
-    <g transform={`translate(${x} ${y})`}>
-      <ellipse rx={rx + 8} ry={ry + 5} cy={2} fill={MS.mud} opacity={0.55} />
-      <ellipse rx={rx} ry={ry} fill="url(#ms-water)" stroke={INK} strokeWidth={2.4} />
-      <ellipse rx={rx - 7} ry={ry - 5} cy={-2} fill="none" stroke={MS.waterLight} strokeWidth={2} opacity={0.6} />
-      <path d={`M${-rx * 0.55} ${-ry * 0.2} q8 -5 16 0 M${rx * 0.1} ${ry * 0.35} q8 -5 16 0`} stroke="#FFFFFF" strokeWidth={2} fill="none" strokeLinecap="round" opacity={0.55} />
-      <Ripple x={-rx * 0.25} y={ry * 0.05} r={rx * 0.24} delay={-r() * 5} />
-      <Ripple x={rx * 0.35} y={-ry * 0.15} r={rx * 0.18} delay={-r() * 5} />
-      <LilyPad x={-rx * 0.6} y={ry * 0.25} r={7} rot={r() * 360} />
-      <LilyPad x={rx * 0.55} y={ry * 0.35} r={6} rot={r() * 360} flower />
-      {children}
     </g>
   )
 }
@@ -574,19 +556,6 @@ function PaleFir({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
   )
 }
 
-function Cloud({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
-  return (
-    <path
-      transform={`translate(${x} ${y}) scale(${s})`}
-      d="M-40 14 C-56 14 -58 -4 -44 -8 C-46 -24 -24 -30 -14 -18 C-8 -34 18 -36 24 -18 C38 -26 56 -16 50 0 C64 2 62 14 50 14 Z"
-      fill="#FBFBF5"
-      stroke="rgba(47,36,32,.12)"
-      strokeWidth={2}
-      opacity={0.92}
-    />
-  )
-}
-
 /** Reed bank silhouette: wavy base with thin blade spikes – reads as distant reeds. */
 function reedBank(base: number, bottom: number, amp: number, rand: () => number, tails: Pt[]) {
   let d = `M0 ${base}`
@@ -599,6 +568,46 @@ function reedBank(base: number, bottom: number, amp: number, rand: () => number,
   return `${d} V${bottom} H0 Z`
 }
 
+/** Submerged ruins: a broken mossy arch and two column stumps poking out of the lagoon. */
+function SunkenRuins({ x, y, s = 1, flip = false }: { x: number; y: number; s?: number; flip?: boolean }) {
+  const stone = '#B9B6A2'
+  const stoneDeep = '#8F8C78'
+  return (
+    <g transform={`translate(${x} ${y}) scale(${flip ? -s : s} ${s})`}>
+      {/* broken arch */}
+      <path d="M-44 2 V-34 A22 22 0 0 1 -4 -40 L-2 -30 A12 12 0 0 0 -32 -26 V2 Z" fill={stone} stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
+      <path d="M-40 -6 V-30 M-36 -36 l4 -4" stroke={stoneDeep} strokeWidth={1.6} strokeLinecap="round" />
+      <path d="M-46 -30 q10 -14 24 -14 q-4 6 -12 8 q-6 2 -12 6 Z" fill={MS.moss} stroke={INK} strokeWidth={1.4} strokeLinejoin="round" />
+      <path d="M-30 -20 v14 M-24 -24 v8" stroke={MS.willowStrand} strokeWidth={2} strokeLinecap="round" />
+      {/* column stumps */}
+      <rect x="10" y="-22" width="14" height="24" rx="2" fill={stone} stroke={INK} strokeWidth={2} />
+      <path d="M8 -22 h18 l-2 -5 l-5 3 l-4 -4 l-4 4 Z" fill={stoneDeep} stroke={INK} strokeWidth={1.4} strokeLinejoin="round" />
+      <path d="M14 -18 V-2 M20 -18 V-2" stroke={stoneDeep} strokeWidth={1.3} />
+      <rect x="34" y="-10" width="12" height="12" rx="2" fill={stone} stroke={INK} strokeWidth={1.8} />
+      <path d="M33 -10 q6 -6 14 0 Z" fill={MS.moss} stroke={INK} strokeWidth={1.2} />
+      {/* water line */}
+      <path d="M-50 2 q6 -3 12 0 q6 3 12 0 M4 2 q6 -3 12 0 q6 3 12 0 q6 -3 12 0 q4 2 6 1" stroke="#FFFFFF" strokeWidth={1.6} fill="none" strokeLinecap="round" opacity={0.7} />
+      <LilyPad x={-14} y={4} r={6} rot={40} flower />
+    </g>
+  )
+}
+
+/** Old half-sunken rowing boat with a leaning mast stump and a frog-friendly lily pad. */
+function SunkenBoat({ x, y, s = 1, flip = false }: { x: number; y: number; s?: number; flip?: boolean }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${flip ? -s : s} ${s}) rotate(-8)`}>
+      <path d="M-34 0 L-26 -12 H18 L30 -4 L28 0 Z" fill={MS.boatDeep} stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
+      <path d="M-24 -8 H20" stroke={MS.boat} strokeWidth={2.4} strokeLinecap="round" />
+      <path d="M-12 -12 V-6 M4 -12 V-6" stroke={INK} strokeWidth={1.6} />
+      <path d="M-4 -12 L4 -40" stroke={INK} strokeWidth={5} strokeLinecap="round" />
+      <path d="M-4 -12 L4 -40" stroke={MS.driftwood} strokeWidth={2.6} strokeLinecap="round" />
+      <path d="M3 -36 q10 6 6 18" stroke={MS.rope} strokeWidth={1.6} fill="none" />
+      <path d="M-36 1 q8 -3 16 0 q8 3 16 0 q8 -3 16 0 q8 3 16 0" stroke="#FFFFFF" strokeWidth={1.6} fill="none" strokeLinecap="round" opacity={0.7} />
+      <Reeds x={-30} y={2} s={0.55} cattails={1} delay={-1.7} />
+    </g>
+  )
+}
+
 // ---------------------------------------------------------------- scene
 
 interface MapArtProps {
@@ -608,99 +617,149 @@ interface MapArtProps {
   stones: number
 }
 
+interface Ell {
+  x: number
+  y: number
+  rx: number
+  ry: number
+}
+
 export function MapArtMarsh({ height, pts, walkedTo, stones }: MapArtProps) {
   const rand = seeded(31)
   const chest = chestSpot(pts)
   const skyEnd = chest.y - 40
-  const freeSide = (p: Pt) => (p.x > MAP_W / 2 ? -1 : 1)
-  const free = (p: Pt, min: number, spread: number) => (p.x > MAP_W / 2 ? min + rand() * spread : MAP_W - min - rand() * spread)
+  const S = (i: number) => pts[Math.max(1, Math.min(stones, i))]
+  const mid = (k: number) => pointOn(pts, Math.max(1, Math.min(stones - 1, k)), 0.5)
 
-  // Pools sit on the free side of three stones; those stones get reeds instead of trees.
-  const smallIdx = Math.min(3, stones)
-  const frogIdx = Math.min(6, stones)
-  const heronIdx = Math.min(9, stones)
-  const poolAt = (i: number, dy: number) => {
-    const p = pts[i]
-    return { x: p.x > MAP_W / 2 ? 92 : MAP_W - 100, y: p.y + dy }
+  // One connected lagoon system: three bays on alternating sides, joined by channels the boardwalk crosses.
+  const bayA: Ell[] = [
+    { x: 300, y: S(2).y + 4, rx: 104, ry: 64 },
+    { x: 322, y: S(3).y - 6, rx: 88, ry: 56 },
+  ]
+  const bayB: Ell[] = [
+    { x: 84, y: S(6).y + 40, rx: 100, ry: 66 },
+    { x: 104, y: S(7).y + 44, rx: 86, ry: 52 },
+  ]
+  const bayC: Ell[] = [
+    { x: 304, y: S(10).y - 50, rx: 100, ry: 70 },
+    { x: 330, y: S(11).y - 30, rx: 76, ry: 48 },
+  ]
+  const startPond: Ell = { x: 58, y: height - 132, rx: 70, ry: 32 }
+  const lakes: Ell[] = [...bayA, ...bayB, ...bayC, startPond]
+  const m45 = mid(4)
+  const m89 = mid(8)
+  const channels: { pts: Pt[]; w: number }[] = [
+    { w: 44, pts: [{ x: 300, y: S(3).y - 40 }, { x: m45.x + 34, y: m45.y + 40 }, m45, { x: m45.x - 50, y: m45.y - 50 }, { x: 110, y: S(6).y + 60 }] },
+    { w: 44, pts: [{ x: 110, y: S(7).y + 20 }, { x: m89.x - 30, y: m89.y + 70 }, m89, { x: m89.x + 50, y: m89.y - 40 }, { x: 290, y: S(10).y - 30 }] },
+    { w: 36, pts: [{ x: 340, y: S(11).y - 40 }, { x: 372, y: S(12).y - 30 }, { x: 384, y: skyEnd + 90 }] },
+  ]
+  const chanD = (c: Pt[]) => c.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ')
+  const segDist = (p: Pt, a: Pt, b: Pt) => {
+    const dx = b.x - a.x
+    const dy = b.y - a.y
+    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / (dx * dx + dy * dy || 1)))
+    return Math.hypot(p.x - a.x - t * dx, p.y - a.y - t * dy)
   }
-  const poolSmall = poolAt(smallIdx, 24)
-  const poolFrog = poolAt(frogIdx, 26)
-  const poolHeron = poolAt(heronIdx, 28)
+  const inWater = (p: Pt, pad = 0) =>
+    lakes.some((e) => ((p.x - e.x) / (e.rx + pad)) ** 2 + ((p.y - e.y) / (e.ry + pad)) ** 2 < 1) ||
+    channels.some((c) => c.pts.slice(1).some((b, i) => segDist(p, c.pts[i], b) < c.w / 2 + pad))
 
-  const deco: { y: number; node: ReactNode }[] = []
-  for (let i = 1; i <= stones; i++) {
-    const p = pts[i]
-    const side = freeSide(p)
-    if (i === smallIdx || i === frogIdx || i === heronIdx) {
-      const pool = i === smallIdx ? poolSmall : i === frogIdx ? poolFrog : poolHeron
-      deco.push({ y: pool.y - 14, node: <Reeds key={`pr${i}`} x={pool.x + side * 54} y={pool.y - 14} s={1.05} delay={-rand() * 4} /> })
-      deco.push({ y: pool.y + 22, node: <Reeds key={`ps${i}`} x={pool.x - side * 50} y={pool.y + 22} s={0.85} cattails={1} delay={-rand() * 4} flip /> })
-      continue
-    }
-    const x1 = free(p, 22, 60)
-    const y1 = p.y + 36 + rand() * 24
-    if (i % 3 === 1) deco.push({ y: y1, node: <Willow key={`w${i}`} x={x1} y={y1} s={1 + rand() * 0.2} flip={p.x > MAP_W / 2} /> })
-    else deco.push({ y: y1, node: <Alder key={`a${i}`} x={x1} y={y1} s={0.95 + rand() * 0.3} color={MS.alder[i % 3]} /> })
-    if (rand() > 0.25) {
-      const x2 = free(p, 36, 50)
-      const y2 = p.y - 24 + rand() * 16
-      deco.push({ y: y2, node: <Reeds key={`r${i}`} x={x2} y={y2} s={0.9 + rand() * 0.3} cattails={1 + Math.floor(rand() * 3)} delay={-rand() * 4} /> })
-    }
-    if ([2, 7, 11].includes(i)) {
-      deco.push({ y: p.y + 44, node: <MossMound key={`m${i}`} x={p.x + side * 80} y={p.y + 44} /> })
-    }
-    if ([4, 10].includes(i)) {
-      deco.push({ y: p.y - 30, node: <Driftwood key={`d${i}`} x={p.x + side * 76} y={p.y - 30} flip={side < 0} /> })
+  // Hummocks: every stone stands on a small mossy island, even where a channel runs close by.
+  const hummocks = pts.slice(1, stones + 1)
+
+  // Boardwalk stilts wherever the plank road runs over open water.
+  const stilts: ReactNode[] = []
+  for (let i = 1; i < stones; i++) {
+    for (let s = 2; s < 18; s += 3) {
+      const a = pointOn(pts, i, s / 18)
+      const b = pointOn(pts, i, (s + 1) / 18)
+      if (!inWater(a, -4) || hummocks.some((h) => Math.hypot(h.x - a.x, h.y - a.y) < 46)) continue
+      const len = Math.hypot(b.x - a.x, b.y - a.y) || 1
+      const nx = -(b.y - a.y) / len
+      for (const sgn of [-1, 1]) {
+        const px = a.x + nx * 15 * sgn
+        const py = a.y + ((b.x - a.x) / len) * 15 * sgn
+        stilts.push(
+          <g key={`st${i}-${s}-${sgn}`} transform={`translate(${px.toFixed(1)} ${py.toFixed(1)})`}>
+            <rect x="-3" y="-2" width="6" height="16" rx="2" fill={MS.bark} stroke={INK} strokeWidth={1.5} />
+            <ellipse cx="0" cy="14" rx="7" ry="2.2" fill="none" stroke="#FFFFFF" strokeWidth={1.2} opacity={0.7} />
+          </g>,
+        )
+      }
     }
   }
-  // Heron stands in the shallow edge of its pool, the frog sits on a lily pad in the middle of its pool.
-  deco.push({ y: poolHeron.y + 6, node: <Heron key="heron" x={poolHeron.x + (poolHeron.x < MAP_W / 2 ? 14 : -14)} y={poolHeron.y + 6} flip={poolHeron.x > MAP_W / 2} /> })
+
+  // Shore reeds trace the lagoon edges instead of sitting on fixed stones.
+  const road = pathD(pts, 0, stones + 1)
+  const roadPts = Array.from({ length: (stones + 1) * 12 + 1 }, (_, k) => pointOn(pts, Math.floor(k / 12), (k % 12) / 12))
+  const nearRoad = (p: Pt, d: number) => roadPts.some((q) => Math.hypot(q.x - p.x, q.y - p.y) < d)
+  const shore: { y: number; node: ReactNode }[] = []
+  ;[...bayA, ...bayB, ...bayC].forEach((e, k) => {
+    for (let j = 0; j < 4; j++) {
+      const a = rand() * Math.PI * 2
+      const p = { x: e.x + Math.cos(a) * e.rx, y: e.y + Math.sin(a) * e.ry }
+      if (p.x < 14 || p.x > MAP_W - 14 || nearRoad(p, 44) || inWater(p, -8)) continue
+      shore.push({ y: p.y, node: <Reeds key={`sr${k}-${j}`} x={p.x} y={p.y + 4} s={0.8 + rand() * 0.35} cattails={1 + Math.floor(rand() * 3)} delay={-rand() * 4} flip={rand() > 0.5} /> })
+    }
+  })
+
+  // Trees, mounds and driftwood on both sides of the boardwalk wherever there is dry ground.
+  const spots = scatterSpots({ pts, stones, rand, clear: 56, gap: 62, spread: 110, blocked: (p) => inWater(p, 18) })
+  const deco: { y: number; node: ReactNode }[] = [...shore]
+  spots.forEach((p, k) => {
+    const r = rand()
+    const node =
+      r < 0.3 ? <Willow key={`w${k}`} x={p.x} y={p.y} s={0.9 + rand() * 0.25} flip={p.side < 0} />
+      : r < 0.6 ? <Alder key={`a${k}`} x={p.x} y={p.y} s={0.9 + rand() * 0.3} color={MS.alder[k % 3]} />
+      : r < 0.75 ? <MossMound key={`m${k}`} x={p.x} y={p.y} s={0.85 + rand() * 0.2} mushrooms={rand() > 0.3} />
+      : r < 0.87 ? <Driftwood key={`d${k}`} x={p.x} y={p.y} flip={p.side < 0} />
+      : <Reeds key={`r${k}`} x={p.x} y={p.y} s={1} cattails={3} delay={-rand() * 4} />
+    deco.push({ y: p.y, node })
+  })
+  // Characters live where the water is: heron fishing in the first bay, ruins and wreck in the others.
+  const heron = { x: bayA[0].x + 40, y: bayA[0].y + 26 }
+  deco.push({ y: heron.y, node: <Heron key="heron" x={heron.x} y={heron.y} flip /> })
   deco.sort((a, b) => a.y - b.y)
 
-  // Ground cover: grass tufts, marigolds, moss specks – under the path, never on the pools.
+  // Ground cover only on dry land.
   const cover: ReactNode[] = []
-  for (let i = 0; i < stones * 5; i++) {
-    const x = 12 + rand() * (MAP_W - 24)
-    const y = skyEnd + 140 + rand() * (height - skyEnd - 160)
-    const r = rand()
-    if (r < 0.5) cover.push(<GrassTuft key={`g${i}`} x={x} y={y} />)
-    else if (r < 0.8) cover.push(<Marigold key={`f${i}`} x={x} y={y} />)
-    else cover.push(<ellipse key={`p${i}`} cx={x} cy={y} rx={9} ry={3.4} fill={MS.waterDeep} opacity={0.35} />)
-  }
-
-  // Waterlogged patches give the floor texture.
   const patches: ReactNode[] = []
-  for (let i = 0; i < stones * 2; i++) {
-    const x = rand() * MAP_W
-    const y = skyEnd + 140 + rand() * (height - skyEnd - 160)
-    patches.push(<ellipse key={`bp${i}`} cx={x} cy={y} rx={30 + rand() * 40} ry={9 + rand() * 9} fill={MS.bogDark} />)
+  for (let i = 0; i < stones * 7; i++) {
+    const p = { x: 12 + rand() * (MAP_W - 24), y: skyEnd + 140 + rand() * (height - skyEnd - 160) }
+    const r = rand()
+    if (inWater(p, 8)) continue
+    if (r < 0.18) patches.push(<ellipse key={`bp${i}`} cx={p.x} cy={p.y} rx={26 + rand() * 30} ry={8 + rand() * 7} fill={MS.bogDark} />)
+    else if (r < 0.55) cover.push(<GrassTuft key={`g${i}`} x={p.x} y={p.y} />)
+    else if (r < 0.85) cover.push(<Marigold key={`f${i}`} x={p.x} y={p.y} />)
+    else cover.push(<ellipse key={`p${i}`} cx={p.x} cy={p.y} rx={9} ry={3.4} fill={MS.waterDeep} opacity={0.35} />)
   }
 
-  // Gravel / driftwood banks along the walkway edges (between stones).
-  const banks: ReactNode[] = []
-  for (let i = 0; i < stones; i++) {
-    const a = pointOn(pts, i, 0.45)
-    const b = pointOn(pts, i, 0.5)
-    const len = Math.hypot(b.x - a.x, b.y - a.y) || 1
-    const nx = -(b.y - a.y) / len
-    const ny = (b.x - a.x) / len
-    const sgn = i % 2 ? 1 : -1
-    const cx = b.x + nx * 24 * sgn
-    const cy = b.y + ny * 24 * sgn
-    banks.push(
-      <g key={`gb${i}`} transform={`translate(${cx.toFixed(1)} ${cy.toFixed(1)})`}>
-        <ellipse cx="-5" cy="0" rx="5" ry="3.2" fill={MS.pebble} stroke={INK} strokeWidth={1} />
-        <ellipse cx="4" cy="2" rx="4" ry="2.6" fill={MS.pebble} stroke={INK} strokeWidth={1} />
-        <ellipse cx="1" cy="-4" rx="3.2" ry="2.2" fill={MS.pebble} stroke={INK} strokeWidth={1} />
-      </g>,
-    )
-  }
+  // Lily pads and ripples spread over the open water.
+  const surface: ReactNode[] = []
+  ;[...bayA, ...bayB, ...bayC].forEach((e, k) => {
+    for (let j = 0; j < 4; j++) {
+      const a = rand() * Math.PI * 2
+      const d = 0.25 + rand() * 0.55
+      const p = { x: e.x + Math.cos(a) * e.rx * d, y: e.y + Math.sin(a) * e.ry * d }
+      if (nearRoad(p, 30) || p.x < 8 || p.x > MAP_W - 8) continue
+      surface.push(
+        j % 2 ? (
+          <LilyPad key={`lp${k}-${j}`} x={p.x} y={p.y} r={6 + rand() * 3} rot={rand() * 360} flower={rand() > 0.6} />
+        ) : (
+          <Ripple key={`rp${k}-${j}`} x={p.x} y={p.y} r={10 + rand() * 8} delay={-rand() * 5} />
+        ),
+      )
+    }
+  })
 
-  // Marsh lights: 12, on the free side, staggered pulse.
+  // Will-o'-wisps hover over the water, not over the floor.
   const lights: ReactNode[] = []
-  for (let i = 0; i < 12; i++) {
-    const p = pts[1 + Math.floor(rand() * stones)]
-    lights.push(<MarshLight key={`ml${i}`} x={free(p, 24, 90)} y={p.y - 46 + rand() * 80} delay={-rand() * 4} />)
+  for (let i = 0; i < 14; i++) {
+    const e = lakes[i % (lakes.length - 1)]
+    const a = rand() * Math.PI * 2
+    const p = { x: e.x + Math.cos(a) * e.rx * 0.8, y: e.y - 20 + Math.sin(a) * e.ry * 0.7 }
+    if (nearRoad(p, 34)) continue
+    lights.push(<MarshLight key={`ml${i}`} x={p.x} y={p.y} delay={-rand() * 4} />)
   }
 
   // Rope rail along the last stretch (stone n → chest island).
@@ -709,12 +768,20 @@ export function MapArtMarsh({ height, pts, walkedTo, stones }: MapArtProps) {
   const rope = (dx: number) =>
     `M${rp1.x + dx} ${rp1.y - 20} Q${(rp1.x + rp2.x) / 2 + dx} ${(rp1.y + rp2.y) / 2 - 8} ${rp2.x + dx} ${rp2.y - 20}`
 
-  const road = pathD(pts, 0, stones + 1)
   const walked = walkedTo > 0 ? pathD(pts, 0, Math.min(walkedTo, stones + 1)) : ''
   const tailsFar: Pt[] = []
   const tailsMid: Pt[] = []
   const farBank = reedBank(skyEnd - 96, skyEnd + 20, 10, rand, tailsFar)
   const midBank = reedBank(skyEnd - 48, skyEnd + 20, 8, rand, tailsMid)
+
+  const waterShapes = (pad: number, fill: string, stroke?: string) => (
+    <g fill={fill}>
+      {lakes.map((e, i) => <ellipse key={`e${i}`} cx={e.x} cy={e.y} rx={e.rx + pad} ry={e.ry + pad} />)}
+      {channels.map((c, i) => (
+        <path key={`c${i}`} d={chanD(c.pts)} fill="none" stroke={stroke ?? fill} strokeWidth={c.w + pad * 2} strokeLinecap="round" strokeLinejoin="round" />
+      ))}
+    </g>
+  )
 
   return (
     <svg className="map__art" viewBox={`0 0 ${MAP_W} ${height}`} aria-hidden="true">
@@ -761,20 +828,24 @@ export function MapArtMarsh({ height, pts, walkedTo, stones }: MapArtProps) {
         </radialGradient>
       </defs>
 
-      {/* 1 morning fog sky, low sun, high clouds */}
+      {/* 1 morning fog sky: a pale sun hanging low on the LEFT, long stratus streaks instead of puffy clouds */}
       <rect width={MAP_W} height={height} fill="url(#ms-floor)" />
       <rect width={MAP_W} height={skyEnd + 10} fill="url(#ms-sky)" />
-      <circle cx="306" cy="70" r="80" fill="url(#ms-sun-glow)" />
-      <circle cx="306" cy="70" r="22" fill={MS.sun} stroke="rgba(47,36,32,.22)" strokeWidth={2} />
-      <Cloud x={226} y={30} s={0.75} />
-      <Cloud x={386} y={150} s={0.7} />
+      <circle cx="74" cy="118" r="96" fill="url(#ms-sun-glow)" />
+      <circle cx="74" cy="118" r="26" fill={MS.sun} stroke="rgba(47,36,32,.16)" strokeWidth={2} opacity={0.9} />
+      <g fill={MS.mist} opacity={0.85}>
+        <rect x="-20" y="96" width="190" height="9" rx="4.5" />
+        <rect x="40" y="132" width="140" height="7" rx="3.5" />
+        <rect x="150" y="34" width="210" height="8" rx="4" />
+        <rect x="230" y="18" width="120" height="6" rx="3" />
+      </g>
 
-      {/* 2 Frostgipfel teaser (next world) behind the "coming soon" sign */}
+      {/* 2 Frostgipfel teaser (next world) on the RIGHT, behind its sign */}
       <g opacity={0.92}>
-        <Peak x={118} y={58} w={150} h={150} />
-        <Peak x={30} y={104} w={110} h={100} />
-        <Peak x={356} y={96} w={130} h={110} />
-        {[[22, 196, 0.9], [44, 192, 1.05], [70, 198, 0.85], [318, 196, 0.95], [340, 192, 1.1], [378, 198, 0.9]].map(([fx, fy, fs], i) => (
+        <Peak x={296} y={64} w={150} h={150} />
+        <Peak x={378} y={104} w={110} h={104} />
+        <Peak x={214} y={112} w={100} h={96} />
+        {[[236, 196, 0.85], [262, 192, 1], [300, 198, 0.9], [330, 194, 1.05], [360, 198, 0.85], [386, 192, 1]].map(([fx, fy, fs], i) => (
           <PaleFir key={`pf${i}`} x={fx} y={fy} s={fs} />
         ))}
         <rect y={150} width={MAP_W} height={56} fill="url(#ms-haze)" />
@@ -800,32 +871,43 @@ export function MapArtMarsh({ height, pts, walkedTo, stones }: MapArtProps) {
       <Ripple x={300} y={skyEnd + 96} r={16} delay={-1} />
       <Ripple x={46} y={skyEnd + 84} r={13} delay={-3.4} />
       <LilyPad x={270} y={skyEnd + 112} r={8} rot={30} flower />
-      <LilyPad x={350} y={skyEnd + 92} r={7} rot={200} />
       <LilyPad x={20} y={skyEnd + 112} r={7} rot={120} />
       <ellipse cx={188} cy={skyEnd + 44} rx={158} ry={36} fill={MS.mud} stroke={INK} strokeWidth={2.4} />
       <ellipse cx={188} cy={skyEnd + 38} rx={150} ry={30} fill={MS.bogTop} />
       <path d={`M60 ${skyEnd + 36} q8 -6 16 -2 M290 ${skyEnd + 30} q8 -6 16 -2`} stroke={MS.mossLight} strokeWidth={2.4} fill="none" strokeLinecap="round" />
       <OldWillow x={MAP_W / 2 - 30} y={chest.y - 16} />
       <Reeds x={44} y={skyEnd + 60} s={1.1} delay={-0.6} />
-      <Reeds x={330} y={skyEnd + 64} s={1.05} delay={-2.1} flip />
-      <Reeds x={372} y={skyEnd + 112} s={0.9} cattails={1} delay={-3.3} />
+      <Reeds x={336} y={skyEnd + 58} s={1.05} delay={-2.1} flip />
 
-      {/* 5 floor texture, clearings keep every stone readable */}
+      {/* 5 floor texture */}
       {patches}
-      {pts.slice(1, stones + 1).map((p, i) => (
-        <ellipse key={`c${i}`} cx={p.x} cy={p.y + 8} rx={50} ry={34} fill={MS.clearing} />
-      ))}
       {cover}
 
-      {/* 6 pools */}
-      <Pool x={poolSmall.x} y={poolSmall.y} rx={54} ry={20} seed={3} />
-      <Pool x={poolFrog.x} y={poolFrog.y} rx={74} ry={27} seed={8}>
-        <Frog x={-8} y={4} s={1.05} />
-      </Pool>
-      <Pool x={poolHeron.x} y={poolHeron.y} rx={66} ry={24} seed={13} />
+      {/* 6 the lagoon system: mud bank, ink rim, water, shallows – drawn as one connected body */}
+      <g opacity={0.6}>{waterShapes(9, MS.mud)}</g>
+      {waterShapes(2.4, INK)}
+      {waterShapes(0, MS.water)}
+      <g opacity={0.5}>{waterShapes(-7, MS.waterDeep)}</g>
+      {surface}
+      <SunkenRuins x={bayB[0].x - 10} y={bayB[0].y + 18} s={1} />
+      <SunkenBoat x={bayC[0].x + 26} y={bayC[0].y + 30} s={1.05} flip />
+      <g transform={`translate(${bayC[1].x - 10} ${bayC[1].y + 8})`}>
+        <Frog x={0} y={0} s={1.05} />
+      </g>
+      <Ripple x={bayA[1].x - 20} y={bayA[1].y + 10} r={22} delay={-0.8} />
 
-      {/* 7 plank walkway: same stroke widths as Burgdorf; seams = dashes across the plank band */}
-      {banks}
+      {/* 7 mossy hummocks keep every stone on dry ground; boardwalk stilts stand in the open water */}
+      {hummocks.map((p, i) => (
+        <g key={`hm${i}`}>
+          {inWater(p, 40) && <ellipse cx={p.x} cy={p.y + 10} rx={46} ry={26} fill={MS.mud} stroke={INK} strokeWidth={2} />}
+          <ellipse cx={p.x} cy={p.y + 6} rx={44} ry={24} fill={MS.bogTop} />
+          <ellipse cx={p.x} cy={p.y + 8} rx={50} ry={30} fill={MS.clearing} />
+        </g>
+      ))}
+      {stilts}
+
+      {/* 8 plank walkway: same stroke widths as Burgdorf; seams = dashes across the plank band */}
+      <path d={road} fill="none" stroke="rgba(47,36,32,.18)" strokeWidth={40} strokeLinecap="round" strokeLinejoin="round" transform="translate(0 7)" />
       <path d={road} fill="none" stroke={INK} strokeWidth={34} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={MS.plank} strokeWidth={28} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={MS.plankSeam} strokeWidth={26} strokeDasharray="1.6 13" />
@@ -843,34 +925,29 @@ export function MapArtMarsh({ height, pts, walkedTo, stones }: MapArtProps) {
 
       {deco.map((d) => d.node)}
 
-      {/* 8 start bank: stilt hut over the water, jetty, rowing boat, signpost */}
-      <ellipse cx={322} cy={height - 34} rx={96} ry={30} fill="url(#ms-water)" stroke={INK} strokeWidth={2.4} />
-      <path d={`M262 ${height - 22} q8 -4 16 0 M344 ${height - 14} q8 -4 16 0`} stroke="#FFFFFF" strokeWidth={2} fill="none" strokeLinecap="round" opacity={0.5} />
-      <Ripple x={300} y={height - 30} r={14} delay={-2.2} />
-      <StiltHut x={334} y={height - 84} />
-      <Jetty x={252} y={height - 54} w={48} />
-      <Boat x={264} y={height - 26} />
-      <Reeds x={392} y={height - 70} s={1} delay={-1.4} flip />
-      <Willow x={44} y={height - 142} s={0.95} />
-      <MossMound x={118} y={height - 142} s={0.85} />
-      <Reeds x={124} y={height - 6} s={0.9} cattails={2} delay={-2.6} />
-      <Alder x={30} y={height - 10} s={1.05} color={MS.alder[1]} />
+      {/* 9 start: the stilt hut stands on the LEFT bank in its own pond; meadow, willow and reeds on the right */}
+      <StiltHut x={startPond.x - 4} y={startPond.y - 34} />
+      <Jetty x={startPond.x + 34} y={startPond.y - 18} w={30} />
+      <Boat x={startPond.x - 28} y={startPond.y + 10} />
+      <Reeds x={14} y={startPond.y - 26} s={0.9} delay={-1.4} />
+      <Willow x={326} y={height - 26} s={1.05} flip />
+      <Alder x={258} y={height - 92} s={0.95} color={MS.alder[2]} />
+      <MossMound x={378} y={height - 120} s={0.8} />
+      <Reeds x={226} y={height - 14} s={0.9} cattails={2} delay={-2.6} />
       <Signpost x={pts[0].x - 74} y={pts[0].y - 6} />
 
       {lights}
 
-      {/* 9 magic layer: dragonflies near the pools */}
-      <Dragonfly x={poolSmall.x + 44} y={poolSmall.y - 44} delay={-0.4} rot={-14} color={MS.dragonfly[0]} />
-      <Dragonfly x={poolFrog.x - 34} y={poolFrog.y - 52} delay={-2.1} rot={196} color={MS.dragonfly[1]} />
-      <Dragonfly x={poolHeron.x + 118} y={poolHeron.y - 12} delay={-1.3} rot={8} s={0.9} color={MS.dragonfly[2]} />
+      {/* 10 magic layer: dragonflies over the bays */}
+      <Dragonfly x={bayA[0].x - 64} y={bayA[0].y - 10} delay={-0.4} rot={-14} color={MS.dragonfly[0]} />
+      <Dragonfly x={bayB[1].x + 40} y={bayB[1].y - 30} delay={-2.1} rot={196} color={MS.dragonfly[1]} />
+      <Dragonfly x={bayC[0].x - 50} y={bayC[0].y + 10} delay={-1.3} rot={8} s={0.9} color={MS.dragonfly[2]} />
 
-      {/* 10 low fog banks in front (between stone rows) */}
-      {[11, 8, 5, 2].map((i, k) => {
-        const a = pts[Math.min(i, stones)]
-        const b = pts[Math.min(i + 1, stones)]
-        return <FogBank key={`fb${k}`} x={a.x > MAP_W / 2 ? 120 : MAP_W - 120} y={(a.y + b.y) / 2 + 6} s={0.9} opacity={0.5} delay={-k * 4.5} />
-      })}
-      <FogBank x={200} y={height - 150} s={1.3} opacity={0.36} delay={-14} />
+      {/* 11 low fog lying on the bays */}
+      <FogBank x={bayA[0].x} y={bayA[0].y + 20} s={0.8} opacity={0.45} delay={-2} />
+      <FogBank x={bayB[0].x} y={bayB[0].y + 24} s={0.8} opacity={0.45} delay={-7} />
+      <FogBank x={bayC[0].x} y={bayC[0].y + 30} s={0.8} opacity={0.45} delay={-11} />
+      <FogBank x={200} y={height - 170} s={1.3} opacity={0.32} delay={-14} />
     </svg>
   )
 }

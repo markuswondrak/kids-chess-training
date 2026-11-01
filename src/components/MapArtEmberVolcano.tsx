@@ -12,7 +12,7 @@
  * Bildsprache: art-guide.md (Feature 007).
  */
 import type { ReactNode } from 'react'
-import { MAP_W, chestSpot, pathD, pointOn, seeded, type Pt } from '../game/mapPath'
+import { MAP_W, chestSpot, distTo, pathD, pathSamples, pointOn, scatterSpots, seeded, type Pt } from '../game/mapPath'
 
 const INK = '#2F2420'
 
@@ -895,13 +895,6 @@ function VolcanoCaldera({ x, y }: { x: number; y: number }) {
 }
 
 /**
- * Stepped flat-topped basalt mesa cliff wall (`basaltMesaPath`) across the horizon.
- */
-function basaltMesaPath(baseY: number, bottomY: number) {
-  return `M0 ${baseY - 18} H44 L58 ${baseY - 52} H136 L152 ${baseY - 22} H248 L266 ${baseY - 58} H352 L368 ${baseY - 26} H${MAP_W} V${bottomY} H0 Z`
-}
-
-/**
  * Wolkeninseln teaser (World 6 · Cloud Isles): floating sky islands on fluffy golden-white clouds
  * with a sky-tower and waterfall (`.ev-cloud-isle`).
  */
@@ -954,21 +947,6 @@ function CloudIslesTeaser({ x, y, s = 1 }: { x: number; y: number; s?: number })
   )
 }
 
-function Cloud({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
-  return (
-    <g transform={`translate(${x} ${y}) scale(${s})`}>
-      <path
-        d="M-40 14 C-56 14 -58 -4 -44 -8 C-46 -24 -24 -30 -14 -18 C-8 -34 18 -36 24 -18 C38 -26 56 -16 50 0 C64 2 62 14 50 14 Z"
-        fill={EV.cloud}
-        stroke="rgba(47,36,32,.14)"
-        strokeWidth={2}
-        opacity={0.95}
-      />
-      <path d="M-38 11 H46" stroke={EV.cloudShade} strokeWidth={3} strokeLinecap="round" opacity={0.7} />
-    </g>
-  )
-}
-
 /** Two warm basalt rocks beside the flagstone trail (between stones). */
 function TrailBasalt({ x, y }: { x: number; y: number }) {
   return (
@@ -989,124 +967,125 @@ interface MapArtProps {
   stones: number
 }
 
+/** Basalt parapets where the trail bridges the magma river (oriented along the trail). */
+function BasaltBridge({ x, y, angle }: { x: number; y: number; angle: number }) {
+  return (
+    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${angle.toFixed(1)})`}>
+      {[-22, 22].map((o) => (
+        <g key={o}>
+          <rect x="-34" y={o - 5} width="68" height="10" rx="4" fill={EV.basaltDeep} stroke={INK} strokeWidth={2} />
+          {[-27, -9, 9, 27].map((bx) => (
+            <rect key={bx} x={bx - 7} y={o - 8} width="14" height="9" rx="2.5" fill={EV.basaltLight} stroke={INK} strokeWidth={1.6} />
+          ))}
+          <path d={`M-30 ${o - 6} h10 M-2 ${o - 6} h8`} stroke={EV.keepTrim} strokeWidth={1.4} strokeLinecap="round" />
+        </g>
+      ))}
+    </g>
+  )
+}
+
 export function MapArtEmberVolcano({ height, pts, walkedTo, stones }: MapArtProps) {
   const rand = seeded(53)
   const chest = chestSpot(pts)
   const skyEnd = chest.y - 40
-  const freeSide = (p: Pt) => (p.x > MAP_W / 2 ? -1 : 1)
-  const free = (p: Pt, min: number, spread: number) => (p.x > MAP_W / 2 ? min + rand() * spread : MAP_W - min - rand() * spread)
+  const S = (i: number) => pts[Math.max(1, Math.min(stones, i))]
+  const mid = (k: number) => pointOn(pts, Math.max(1, Math.min(stones - 1, k)), 0.5)
 
-  // Special stones: small magma pool (3), bubbling lava lake + fire salamander (6), stepped lava cascade + geode (9).
-  const pondIdx = Math.min(3, stones)
-  const lakeIdx = Math.min(6, stones)
-  const cascadeIdx = Math.min(9, stones)
-  const sideX = (p: Pt, d: number) => (p.x > MAP_W / 2 ? d : MAP_W - d)
-  const pond = { x: sideX(pts[pondIdx], 90), y: pts[pondIdx].y + 26 }
-  const lake = { x: sideX(pts[lakeIdx], 104), y: pts[lakeIdx].y + 30 }
-
-  const deco: { y: number; node: ReactNode }[] = []
-  for (let i = 1; i <= stones; i++) {
-    const p = pts[i]
-    const side = freeSide(p)
-    if (i === pondIdx) {
-      deco.push({ y: pond.y - 12, node: <DragonTree key={`dt${i}`} x={pond.x + side * 62} y={pond.y - 12} s={0.96} /> })
-      deco.push({ y: pond.y + 50, node: <FlameAgave key={`fa${i}`} x={pond.x - side * 62} y={pond.y + 50} s={0.92} /> })
-      continue
-    }
-    if (i === lakeIdx) {
-      deco.push({ y: lake.y - 18, node: <BasaltColumns key={`lc${i}`} x={lake.x + side * 72} y={lake.y - 18} s={1.06} /> })
-      deco.push({ y: lake.y + 50, node: <GeyserVent key={`lg${i}`} x={lake.x + side * 38} y={lake.y + 50} s={0.92} flip delay={-1.8} /> })
-      continue
-    }
-    if (i === cascadeIdx) {
-      const sx = sideX(p, 96)
-      deco.push({ y: p.y + 28, node: <LavaCascade key={`ls${i}`} x={sx} y={p.y + 28} s={1.12} flip={side < 0} /> })
-      deco.push({ y: p.y + 60, node: <MagmaGeode key={`mg${i}`} x={sx - side * 36} y={p.y + 60} s={1.02} /> })
-      deco.push({ y: p.y - 24, node: <DragonTree key={`sc${i}`} x={sx + side * 34} y={p.y - 24} s={0.9} /> })
-      continue
-    }
-    const x1 = free(p, 28, 54)
-    const y1 = p.y + 36 + rand() * 22
-    if (i % 2 === 1) {
-      deco.push({ y: y1, node: <DragonTree key={`d${i}`} x={x1} y={y1} s={0.95 + rand() * 0.22} flip={rand() > 0.5} /> })
-    } else {
-      deco.push({ y: y1, node: <BasaltColumns key={`b${i}`} x={x1} y={y1} s={0.95 + rand() * 0.2} flip={rand() > 0.5} /> })
-    }
-    const x2 = x1 < MAP_W / 2 ? (x1 < 56 ? x1 + 44 : x1 - 30) : x1 > MAP_W - 56 ? x1 - 44 : x1 + 30
-    const y2 = p.y - 26 + rand() * 16
-    if (i % 3 === 0) deco.push({ y: y2, node: <ObsidianMonolith key={`o${i}`} x={x2} y={y2} s={0.95 + rand() * 0.18} /> })
-    else if (i % 3 === 1) deco.push({ y: y2, node: <FlameAgave key={`f${i}`} x={x2} y={y2} s={0.92 + rand() * 0.18} stalk={i % 2 === 1} /> })
-    else deco.push({ y: y2, node: <GeyserVent key={`g${i}`} x={x2} y={y2} s={0.9 + rand() * 0.16} smoke={i > 4} delay={-rand() * 5} /> })
-    if ([2, 7, 11].includes(i)) deco.push({ y: p.y + 68, node: <GeyserVent key={`gv${i}`} x={sideX(p, 96)} y={p.y + 68} flip={side < 0} smoke delay={-i * 1.1} /> })
-    if ([4, 10].includes(i)) deco.push({ y: p.y - 32, node: <MagmaGeode key={`x${i}`} x={sideX(p, 92)} y={p.y - 32} s={0.92} /> })
+  // The magma river: pours from a cascade below the caldera, snakes down the map and crosses the trail twice.
+  const c1 = mid(stones - 2)
+  const c2 = mid(stones - 6)
+  const lake = { x: 72, y: S(3).y - 10 }
+  const source = { x: 44, y: skyEnd + 84 }
+  const riverPts: Pt[] = [
+    source,
+    { x: 70, y: S(stones).y + 10 },
+    { x: c1.x - 50, y: c1.y - 40 },
+    c1,
+    { x: c1.x + 80, y: c1.y + 60 },
+    { x: 310, y: S(stones - 3).y },
+    { x: 300, y: S(stones - 4).y + 10 },
+    { x: c2.x + 60, y: c2.y - 60 },
+    c2,
+    { x: c2.x - 70, y: c2.y + 50 },
+    { x: 56, y: S(5).y },
+    { x: 50, y: S(4).y },
+    { x: lake.x, y: lake.y - 6 },
+  ]
+  const river = pathD(riverPts, 0, riverPts.length - 1, 14)
+  const riverCloud = pathSamples(riverPts, 8)
+  const nearRiver = (p: Pt, pad: number) => distTo(p, riverCloud) < 14 + pad || ((p.x - lake.x) / (62 + pad)) ** 2 + ((p.y - lake.y) / (24 + pad)) ** 2 < 1
+  const bridgeAt = (k: number) => {
+    const a = pointOn(pts, k, 0.44)
+    const b = pointOn(pts, k, 0.56)
+    return { ...pointOn(pts, k, 0.5), angle: (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI }
   }
+  const bridges = [bridgeAt(Math.max(1, Math.min(stones - 1, stones - 2))), bridgeAt(Math.max(1, Math.min(stones - 1, stones - 6)))]
+  const forge = { x: 66, y: S(2).y + 30 }
+
+  // Decor on both sides of the trail, kept off the river, the lake and the forge yard.
+  const spots = scatterSpots({
+    pts,
+    stones,
+    rand,
+    clear: 54,
+    gap: 60,
+    spread: 110,
+    blocked: (p) => nearRiver(p, 26) || Math.hypot(p.x - forge.x, p.y - forge.y + 30) < 100 || p.y > height - 190,
+  })
+  const deco: { y: number; node: ReactNode }[] = spots.map((p, k) => {
+    const r = rand()
+    const node =
+      r < 0.28 ? <DragonTree key={`d${k}`} x={p.x} y={p.y} s={0.9 + rand() * 0.22} flip={rand() > 0.5} />
+      : r < 0.46 ? <BasaltColumns key={`b${k}`} x={p.x} y={p.y} s={0.9 + rand() * 0.2} flip={rand() > 0.5} />
+      : r < 0.62 ? <FlameAgave key={`f${k}`} x={p.x} y={p.y} s={0.92 + rand() * 0.18} stalk={k % 2 === 1} />
+      : r < 0.76 ? <GeyserVent key={`g${k}`} x={p.x} y={p.y} s={0.9} flip={p.side < 0} smoke={k % 3 !== 0} delay={-rand() * 5} />
+      : r < 0.88 ? <MagmaGeode key={`m${k}`} x={p.x} y={p.y} s={0.9} />
+      : <ObsidianMonolith key={`o${k}`} x={p.x} y={p.y} s={0.95} />
+    return { y: p.y, node }
+  })
   deco.sort((a, b) => a.y - b.y)
 
-  // Floor texture: warm darker ash patches, glowing ember cracks, pumice pebbles, and spiky cinder-grass tufts.
+  // Floor texture: ash patches, glowing cracks, pumice and cinder-grass – never on the river.
   const patches: ReactNode[] = []
-  for (let i = 0; i < stones * 3; i++) {
-    const x = rand() * MAP_W
-    const y = skyEnd + 140 + rand() * (height - skyEnd - 160)
-    patches.push(<ellipse key={`ep${i}`} cx={x} cy={y} rx={30 + rand() * 40} ry={8 + rand() * 8} fill={EV.floorPatch} />)
-  }
   const cover: ReactNode[] = []
-  for (let i = 0; i < stones * 5; i++) {
+  for (let i = 0; i < stones * 8; i++) {
     const x = 12 + rand() * (MAP_W - 24)
     const y = skyEnd + 140 + rand() * (height - skyEnd - 160)
     const r = rand()
-    if (r < 0.28)
-      cover.push(<circle key={`p${i}`} cx={x} cy={y} r={2} fill={EV.ashLight} stroke={EV.ashStoneDeep} strokeWidth={0.9} />)
-    else if (r < 0.54)
-      cover.push(
-        <path
-          key={`t${i}`}
-          d={`M${x - 5} ${y} q2 -7 3 -9 M${x} ${y} q0 -8 1 -11 M${x + 5} ${y} q-2 -7 -3 -9`}
-          stroke={EV.agave}
-          strokeWidth={1.9}
-          fill="none"
-          strokeLinecap="round"
-        />,
-      )
-    else if (r < 0.8)
+    if (nearRiver({ x, y }, 10)) continue
+    if (r < 0.22) patches.push(<ellipse key={`ep${i}`} cx={x} cy={y} rx={30 + rand() * 40} ry={8 + rand() * 8} fill={EV.floorPatch} />)
+    else if (r < 0.42) cover.push(<circle key={`p${i}`} cx={x} cy={y} r={2} fill={EV.ashLight} stroke={EV.ashStoneDeep} strokeWidth={0.9} />)
+    else if (r < 0.64)
+      cover.push(<path key={`t${i}`} d={`M${x - 5} ${y} q2 -7 3 -9 M${x} ${y} q0 -8 1 -11 M${x + 5} ${y} q-2 -7 -3 -9`} stroke={EV.agave} strokeWidth={1.9} fill="none" strokeLinecap="round" />)
+    else
       cover.push(
         <g key={`c${i}`}>
           <path d={`M${x - 12} ${y} l8 -4 l6 3 l9 -4`} stroke={EV.basaltDeep} strokeWidth={3.2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
           <path className="ev-lava" d={`M${x - 11} ${y} l8 -4 l6 3 l8 -3.5`} stroke={EV.magmaGold} strokeWidth={1.4} fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </g>,
       )
-    else
-      // small volcanic cinder-pod puffball
-      cover.push(
-        <g key={`h${i}`} transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}>
-          <ellipse cx="0" cy="1" rx="9" ry="2.5" fill={EV.floorPatch} />
-          <path d="M-7 0 C-8 -7 8 -7 7 0 Z" fill={EV.basalt} stroke={INK} strokeWidth={1.3} />
-          <circle cx="-2" cy="-3.5" r="1.2" fill={EV.magmaGold} />
-          <circle cx="2.5" cy="-2.5" r="1" fill={EV.magma} />
-        </g>,
-      )
   }
 
-  // Basalt rocks along the trail edges (between stones, alternating sides).
+  // Basalt rocks along the trail edges (between stones, alternating sides), skipped on the bridges.
   const rocks: ReactNode[] = []
   for (let i = 0; i < stones; i++) {
     const a = pointOn(pts, i, 0.45)
     const b = pointOn(pts, i, 0.5)
+    if (nearRiver(b, 30)) continue
     const len = Math.hypot(b.x - a.x, b.y - a.y) || 1
     const sgn = i % 2 ? 1 : -1
     rocks.push(<TrailBasalt key={`tr${i}`} x={b.x - ((b.y - a.y) / len) * 25 * sgn} y={b.y + ((b.x - a.x) / len) * 25 * sgn} />)
   }
 
-  // Magic layer: 16 floating embers and 9 crystal sparkles, seeded, on the free side.
+  // Magic layer: embers rise from the river, sparkles glint on the basalt.
   const embers: ReactNode[] = []
-  for (let i = 0; i < 16; i++) {
-    const p = pts[1 + Math.floor(rand() * stones)]
-    embers.push(<Ember key={`em${i}`} x={free(p, 20, 100)} y={p.y - 50 + rand() * 90} s={0.85 + rand() * 0.4} delay={-rand() * 6.4} />)
+  for (let i = 0; i < 18; i++) {
+    const q = riverCloud[Math.floor(rand() * riverCloud.length)]
+    embers.push(<Ember key={`em${i}`} x={q.x + (rand() - 0.5) * 30} y={q.y - 10 - rand() * 30} s={0.8 + rand() * 0.4} delay={-rand() * 6.4} />)
   }
-  const sparkles: ReactNode[] = []
-  for (let i = 0; i < 6; i++) {
-    const p = pts[1 + Math.floor(rand() * stones)]
-    sparkles.push(<Sparkle key={`sk${i}`} x={free(p, 30, 80)} y={p.y + 10 + rand() * 40} s={0.8 + rand() * 0.4} delay={-rand() * 3.4} />)
-  }
+  const sparkles: ReactNode[] = spots.slice(0, 7).map((p, i) => (
+    <Sparkle key={`sk${i}`} x={p.x + (i % 2 ? 24 : -24)} y={p.y - 30} s={0.8 + rand() * 0.4} delay={-rand() * 3.4} />
+  ))
 
   const road = pathD(pts, 0, stones + 1)
   const walked = walkedTo > 0 ? pathD(pts, 0, Math.min(walkedTo, stones + 1)) : ''
@@ -1149,125 +1128,98 @@ export function MapArtEmberVolcano({ height, pts, walkedTo, stones }: MapArtProp
         </radialGradient>
       </defs>
 
-      {/* 1 warm ember-sunset sky, crater sun, soft ash-tinted clouds */}
+      {/* 1 ember-sunset sky: a big, low, smouldering sun sinking on the LEFT horizon */}
       <rect width={MAP_W} height={height} fill="url(#ev-floor)" />
       <rect width={MAP_W} height={skyEnd + 10} fill="url(#ev-sky)" />
-      <circle cx="320" cy="62" r="86" fill="url(#ev-sun-glow)" />
-      <circle cx="320" cy="62" r="22" fill={EV.sun} stroke="rgba(47,36,32,.22)" strokeWidth={2} />
-      <Cloud x={236} y={28} s={0.7} />
-      <Cloud x={390} y={128} s={0.62} />
+      <circle cx="72" cy={skyEnd - 64} r="150" fill="url(#ev-sun-glow)" />
+      <circle cx="72" cy={skyEnd - 64} r="40" fill={EV.sun} stroke="rgba(47,36,32,.22)" strokeWidth={2} />
+      <path d={`M24 ${skyEnd - 70} H120 M34 ${skyEnd - 56} H112`} stroke={EV.skyLow} strokeWidth={4} strokeLinecap="round" opacity={0.7} />
 
-      {/* 2 distant smoking stratovolcano + Wolkeninseln teaser (World 6) behind the generic sign */}
-      <g opacity={0.92}>
-        {/* billowing ash plume from distant volcano */}
-        <g fill={EV.smoke} stroke="rgba(47,36,32,.24)" strokeWidth={1.6}>
-          <circle cx="292" cy="76" r="14" />
-          <circle cx="316" cy="68" r="17" />
-          <circle cx="346" cy="64" r="19" />
-          <circle cx="376" cy="66" r="15" />
-        </g>
-        <path d="M180 280 C216 210 248 136 266 92 H310 C328 136 360 210 396 280 Z" fill={EV.farPeak} stroke="rgba(47,36,32,.28)" strokeWidth={2} />
-        <path d="M294 92 L310 92 C328 136 360 210 396 280 H312 Z" fill={EV.farPeakShade} />
-        <ellipse cx="288" cy="92" rx="22" ry="5" fill={EV.nearPeakShade} stroke="rgba(47,36,32,.3)" strokeWidth={1.6} />
-        <ellipse className="ev-lava" cx="288" cy="92" rx="15" ry="2.8" fill={EV.magmaGold} />
+      {/* 2 Wolkeninseln teaser (World 6) high on the RIGHT, behind its sign */}
+      <CloudIslesTeaser x={290} y={118} s={0.8} />
+
+      {/* 3 asymmetric crater ridges: a low broken rim on the left, a tall smoking cone on the right */}
+      <path
+        d={`M-6 ${skyEnd - 40} L24 ${skyEnd - 58} L58 ${skyEnd - 44} L92 ${skyEnd - 52} L128 ${skyEnd - 30} L170 ${skyEnd - 36} L200 ${skyEnd + 30} H-6 Z`}
+        fill={EV.midPeak}
+        stroke="rgba(47,36,32,.4)"
+        strokeWidth={2}
+        strokeLinejoin="round"
+      />
+      <g fill={EV.smoke} stroke="rgba(47,36,32,.24)" strokeWidth={1.6}>
+        <circle cx="356" cy={skyEnd - 176} r="13" />
+        <circle cx="376" cy={skyEnd - 196} r="16" />
+        <circle cx="398" cy={skyEnd - 220} r="18" />
       </g>
-      <CloudIslesTeaser x={108} y={124} s={0.82} />
-      <rect y={skyEnd - 150} width={MAP_W} height={80} fill="url(#ev-haze)" />
-
-      {/* 3 stepped basalt mesa cliff wall with cascading lava waterfalls */}
-      <path d={basaltMesaPath(skyEnd - 44, skyEnd + 20)} fill={EV.midPeak} stroke="rgba(47,36,32,.38)" strokeWidth={2} strokeLinejoin="round" />
-      <path d={`M96 ${skyEnd - 96} H136 L152 ${skyEnd - 66} V${skyEnd + 20} H96 Z M308 ${skyEnd - 102} H352 L368 ${skyEnd - 70} V${skyEnd + 20} H308 Z`} fill={EV.midPeakShade} opacity={0.65} />
-      {/* lava falls pouring over the mesa ledges */}
       <path
-        className="ev-lava"
-        d={`M82 ${skyEnd - 95} C80 ${skyEnd - 68} 76 ${skyEnd - 40} 74 ${skyEnd - 10}
-           M296 ${skyEnd - 101} C298 ${skyEnd - 72} 302 ${skyEnd - 42} 304 ${skyEnd - 10}`}
-        stroke={EV.magma}
-        strokeWidth={6.5}
-        fill="none"
-        strokeLinecap="round"
-      />
-      <path
-        className="ev-lava"
-        d={`M82 ${skyEnd - 95} C80 ${skyEnd - 68} 76 ${skyEnd - 40} 74 ${skyEnd - 10}
-           M296 ${skyEnd - 101} C298 ${skyEnd - 72} 302 ${skyEnd - 42} 304 ${skyEnd - 10}`}
-        stroke={EV.magmaGold}
-        strokeWidth={2.4}
-        fill="none"
-        strokeLinecap="round"
-      />
-      <rect y={skyEnd - 80} width={MAP_W} height={60} fill="url(#ev-haze)" />
-
-      {/* 4 near jagged obsidian crags framing the caldera */}
-      <path
-        d={`M-8 ${skyEnd + 40} L8 ${skyEnd - 48} L32 ${skyEnd - 14} L52 ${skyEnd - 38} L78 ${skyEnd + 40} Z
-           M322 ${skyEnd + 40} L348 ${skyEnd - 42} L368 ${skyEnd - 16} L392 ${skyEnd - 52} L410 ${skyEnd + 40} Z`}
+        d={`M200 ${skyEnd + 30} L262 ${skyEnd - 96} L300 ${skyEnd - 110} L334 ${skyEnd - 160} H374 L${MAP_W + 6} ${skyEnd - 120} V${skyEnd + 30} Z`}
         fill={EV.nearPeak}
         stroke="rgba(47,36,32,.5)"
         strokeWidth={2}
         strokeLinejoin="round"
       />
-      <rect y={skyEnd - 30} width={MAP_W} height={40} fill="url(#ev-haze)" />
+      <path d={`M354 ${skyEnd - 160} H374 L${MAP_W + 6} ${skyEnd - 120} V${skyEnd + 30} H340 C350 ${skyEnd - 40} 356 ${skyEnd - 110} 354 ${skyEnd - 160} Z`} fill={EV.nearPeakShade} opacity={0.7} />
+      <ellipse className="ev-lava" cx="354" cy={skyEnd - 160} rx="22" ry="5" fill={EV.magmaGold} />
+      <path className="ev-lava" d={`M346 ${skyEnd - 156} C340 ${skyEnd - 120} 352 ${skyEnd - 90} 344 ${skyEnd - 50}`} stroke={EV.magma} strokeWidth={5} fill="none" strokeLinecap="round" />
+      <rect y={skyEnd - 40} width={MAP_W} height={40} fill="url(#ev-haze)" />
 
-      {/* 5 caldera rim + VolcanoCaldera + chained FireCauldron */}
+      {/* 4 caldera rim */}
       <path
         d={`M0 ${skyEnd + 30} C80 ${skyEnd - 34} 320 ${skyEnd - 34} ${MAP_W} ${skyEnd + 30} V${skyEnd + 90} H0 Z`}
         fill={EV.floorTop}
         stroke="rgba(47,36,32,.22)"
         strokeWidth={2}
       />
-      <path
-        d={`M0 ${skyEnd + 34} C80 ${skyEnd - 28} 320 ${skyEnd - 28} ${MAP_W} ${skyEnd + 34} V${skyEnd + 52} C320 ${skyEnd} 80 ${skyEnd} 0 ${skyEnd + 52} Z`}
-        fill={EV.ashLight}
-        opacity={0.75}
-      />
-      <VolcanoCaldera x={MAP_W / 2} y={chest.y - 24} />
-      <g transform={`translate(46 ${chest.y + 8}) scale(1.08)`}>
-        <FireCauldron x={0} y={0} />
-      </g>
-      <Sparkle x={70} y={chest.y - 150} s={1.1} delay={-0.4} />
-      <Sparkle x={338} y={chest.y - 128} s={0.9} delay={-1.6} />
-      <Sparkle x={256} y={chest.y - 182} s={0.8} delay={-2.5} />
-      <GeyserVent x={356} y={chest.y + 30} s={0.9} flip smoke delay={-2.2} />
 
-      {/* 6 floor texture; pale warm clearing under every stone keeps it readable */}
+      {/* 5 floor texture */}
       {patches}
-      {pts.slice(1, stones + 1).map((p, i) => (
-        <ellipse key={`cl${i}`} cx={p.x} cy={p.y + 8} rx={50} ry={34} fill={EV.clearing} />
-      ))}
       {cover}
 
-      {/* 7 bubbling lava lake with sinuous fire salamander, plus second magma pool */}
-      <LavaLake x={pond.x} y={pond.y} rx={52} ry={19} seed={15} />
-      <LavaLake x={lake.x} y={lake.y} rx={78} ry={28} seed={29}>
-        <FireSalamander x={-12} y={5} s={1.05} flip={lake.x < MAP_W / 2} />
+      {/* 6 THE MAGMA RIVER: basalt banks, glowing flow, crust, then a lava lake with the salamander */}
+      <path d={river} stroke={EV.basaltDeep} strokeWidth={46} fill="none" strokeLinecap="round" strokeLinejoin="round" opacity={0.55} />
+      <path d={river} stroke={INK} strokeWidth={33} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path d={river} stroke={EV.magmaDeep} strokeWidth={28} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path className="ev-lava" d={river} stroke={EV.magma} strokeWidth={18} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path className="ev-lava" d={river} stroke={EV.magmaGold} strokeWidth={5} fill="none" strokeLinecap="round" strokeDasharray="16 26" />
+      <path d={river} stroke={EV.magmaCrust} strokeWidth={3} fill="none" strokeLinecap="round" strokeDasharray="6 40" strokeDashoffset={20} />
+      <LavaLake x={lake.x} y={lake.y} rx={62} ry={24} seed={29}>
+        <FireSalamander x={-6} y={6} s={1} />
       </LavaLake>
+      <LavaCascade x={source.x + 6} y={source.y - 8} s={1.05} />
 
-      {/* 8 basalt flagstone trail: same widths as Burgdorf; warm ash-stone edge + pale sandstone centre */}
+      {/* 7 basalt flagstone trail: same widths as Burgdorf */}
       {rocks}
       <path d={road} fill="none" stroke={INK} strokeWidth={34} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={EV.trailEdge} strokeWidth={28} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={EV.trail} strokeWidth={20} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={EV.trailDash} strokeWidth={4} strokeLinecap="round" strokeDasharray="6 16" />
       {walked && <path d={walked} fill="none" stroke="#C9372C" strokeWidth={5} strokeLinecap="round" strokeDasharray="10 12" opacity={0.8} />}
+      {bridges.map((b, i) => (
+        <BasaltBridge key={`br${i}`} x={b.x} y={b.y} angle={b.angle} />
+      ))}
 
       {deco.map((d) => d.node)}
 
-      {/* 9 start: open-air LavaForge dome kiln with lava wheel & anvil, MagmaTortoise, DragonTree, Signpost */}
-      <LavaForge x={316} y={height - 48} s={1.14} />
-      <DragonTree x={386} y={height - 148} s={1.02} flip />
-      <BasaltColumns x={30} y={height - 134} s={1.06} />
-      <MagmaTortoise x={106} y={height - 128} s={1.08} />
-      <FlameAgave x={56} y={height - 12} s={1} />
-      <GeyserVent x={224} y={height - 6} s={0.88} flip smoke delay={-3.1} />
+      {/* 8 summit: caldera, the fire cauldron now stands on the RIGHT */}
+      <VolcanoCaldera x={MAP_W / 2} y={chest.y - 24} />
+      <g transform={`translate(${MAP_W - 40} ${chest.y + 18}) scale(1.05)`}>
+        <FireCauldron x={0} y={0} flip />
+      </g>
+      <GeyserVent x={34} y={chest.y + 34} s={0.85} smoke delay={-2.2} />
+
+      {/* 9 the forge works mid-map beside the lava lake; start yard keeps tortoise, trees and columns */}
+      <LavaForge x={forge.x} y={forge.y} s={1} />
+      <MagmaTortoise x={44} y={height - 120} s={1.05} />
+      <DragonTree x={336} y={height - 36} s={1.05} flip />
+      <BasaltColumns x={384} y={height - 150} s={1} />
+      <FlameAgave x={262} y={height - 120} s={0.95} />
+      <GeyserVent x={228} y={height - 18} s={0.85} smoke delay={-3.1} />
+      <MagmaGeode x={300} y={height - 190} s={0.85} />
       <Signpost x={pts[0].x - 74} y={pts[0].y - 6} />
 
-      {/* 10 magic layer: sparkles & floating embers */}
+      {/* 10 magic layer */}
       {sparkles}
       {embers}
-      <Ember x={206} y={56} s={1.05} delay={-1.5} />
-      <Ember x={370} y={208} s={0.9} delay={-4.1} />
-      <Ember x={26} y={238} s={0.95} delay={-5.3} />
     </svg>
   )
 }
