@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
-import { MAP_W, chestSpot, mapHeight, pointOn, waypoints, type Pt } from '../game/mapPath'
+import { MAP_W, chestSpot, mapHeight, mapLayout, pointOn, waypoints, type Pt } from '../game/mapPath'
 import { frontier, worldStars, type Progress } from '../game/progress'
 import { sfx } from '../game/sounds'
 import { findWorld, roadmapAfter, type World } from '../game/worlds'
@@ -33,7 +33,8 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
   const { t, tn } = useI18n()
   const n = world.puzzles.length
   const height = mapHeight(n)
-  const pts = waypoints(n)
+  const layout = mapLayout(world.id)
+  const pts = waypoints(n, layout.path)
   const front = frontier(world, progress)
   const allSolved = front === n
   const chestOpen = !!progress.chests[world.id]
@@ -136,7 +137,7 @@ export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, 
           {t(`world.${world.id}.name`)}
         </div>
         {after && (
-          <div className="map-sign map-sign--next" style={at({ x: 112, y: 52 })}>
+          <div className="map-sign map-sign--next" style={at(layout.nextSign)}>
             <small>{t('map.nextWorld', { n: after.number })}</small>
             {t(`world.${after.id}.name`)}
             {!findWorld(after.id) && <em>{t('map.soon')}</em>}

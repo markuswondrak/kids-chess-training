@@ -13,7 +13,7 @@
  * Bildsprache: art-guide.md (Feature 008).
  */
 import type { ReactNode } from 'react'
-import { MAP_W, chestSpot, pathD, pointOn, seeded, type Pt } from '../game/mapPath'
+import { MAP_W, chestSpot, pathD, pointOn, scatterSpots, seeded, type Pt } from '../game/mapPath'
 
 const INK = '#2F2420'
 
@@ -1211,21 +1211,6 @@ function GhostRuinsTeaser({ x, y, s = 1 }: { x: number; y: number; s?: number })
   )
 }
 
-function Cloud({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
-  return (
-    <g transform={`translate(${x} ${y}) scale(${s})`}>
-      <path
-        d="M-40 14 C-56 14 -58 -4 -44 -8 C-46 -24 -24 -30 -14 -18 C-8 -34 18 -36 24 -18 C38 -26 56 -16 50 0 C64 2 62 14 50 14 Z"
-        fill={CI.cloud}
-        stroke="rgba(47,36,32,.18)"
-        strokeWidth={2}
-        opacity={0.96}
-      />
-      <path d="M-38 11 H46" stroke={CI.cloudGold} strokeWidth={3} strokeLinecap="round" opacity={0.8} />
-    </g>
-  )
-}
-
 /** Puffy cloud-stone & golden-trimmed cloud-pillow beside the skyway trail (between stones). */
 function TrailCloud({ x, y }: { x: number; y: number }) {
   return (
@@ -1242,6 +1227,57 @@ function TrailCloud({ x, y }: { x: number; y: number }) {
   )
 }
 
+/** Plank-and-rope sky bridge laid over the trail where it leaves one island for the next. */
+function SkyBridge({ pts, seg, t0, t1 }: { pts: Pt[]; seg: number; t0: number; t1: number }) {
+  const n = 10
+  const line = Array.from({ length: n + 1 }, (_, k) => pointOn(pts, seg, t0 + ((t1 - t0) * k) / n))
+  const normal = (k: number) => {
+    const a = line[Math.max(0, k - 1)]
+    const b = line[Math.min(n, k + 1)]
+    const len = Math.hypot(b.x - a.x, b.y - a.y) || 1
+    return { x: -(b.y - a.y) / len, y: (b.x - a.x) / len }
+  }
+  const deck = line.map((p, k) => `${k ? 'L' : 'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ')
+  const rail = (o: number) =>
+    line
+      .map((p, k) => {
+        const nn = normal(k)
+        const sag = Math.sin((k / n) * Math.PI) * 6
+        return `${k ? 'L' : 'M'}${(p.x + nn.x * o).toFixed(1)} ${(p.y + nn.y * o + sag).toFixed(1)}`
+      })
+      .join(' ')
+  const posts = [0, n].flatMap((k) => [-19, 19].map((o) => ({ x: line[k].x + normal(k).x * o, y: line[k].y + normal(k).y * o })))
+  return (
+    <g>
+      <path d={deck} fill="none" stroke={INK} strokeWidth={30} strokeLinecap="butt" />
+      <path d={deck} fill="none" stroke={CI.timber} strokeWidth={25} strokeLinecap="butt" />
+      <path d={deck} fill="none" stroke={CI.timberDeep} strokeWidth={25} strokeDasharray="2 9" />
+      {[-19, 19].map((o) => (
+        <g key={o}>
+          <path d={rail(o)} fill="none" stroke={INK} strokeWidth={3.6} strokeLinecap="round" />
+          <path d={rail(o)} fill="none" stroke={CI.goldLight} strokeWidth={1.6} strokeLinecap="round" />
+        </g>
+      ))}
+      {posts.map((p, i) => (
+        <g key={i} transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`}>
+          <rect x="-3" y="-14" width="6" height="16" rx="2.5" fill={CI.timberDeep} stroke={INK} strokeWidth={1.6} />
+          <circle cx="0" cy="-14" r="3" fill={CI.gold} stroke={INK} strokeWidth={1.2} />
+        </g>
+      ))}
+    </g>
+  )
+}
+
+/** Tiny drifting rock islet (no turf) for the open sky between the islands. */
+function Pebble({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
+  return (
+    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s})`}>
+      <path d="M-12 0 L-6 12 L2 8 L8 14 L13 0 Z" fill={CI.isleRock} stroke={INK} strokeWidth={1.6} strokeLinejoin="round" />
+      <ellipse cx="0" cy="-1" rx="14" ry="5" fill={CI.grass} stroke={INK} strokeWidth={1.6} />
+    </g>
+  )
+}
+
 // ---------------------------------------------------------------- scene
 
 interface MapArtProps {
@@ -1251,227 +1287,116 @@ interface MapArtProps {
   stones: number
 }
 
+interface Isle {
+  x: number
+  y: number
+  rx: number
+  ry: number
+  depth: number
+  wf?: -1 | 0 | 1
+}
+
 export function MapArtCloudIsles({ height, pts, walkedTo, stones }: MapArtProps) {
   const rand = seeded(67)
   const chest = chestSpot(pts)
   const skyEnd = chest.y - 40
+  const S = (i: number) => pts[Math.max(1, Math.min(stones, i))]
 
-  // Special stones: mirror cloud-lagoon (3), large cloud-lagoon + baby sky-griffin (6), stepped sky-waterfall (9).
-  const pondIdx = Math.min(3, stones)
-  const lakeIdx = Math.min(6, stones)
-  const cascadeIdx = Math.min(9, stones)
-  const pond = { x: 96, y: pts[pondIdx].y + 18 }
-  const lake = { x: 290, y: pts[lakeIdx].y + 20 }
-  const cascade = { x: 86, y: pts[cascadeIdx].y + 18 }
-
-  // Path-following island specs for stones 1..12 (centers closely track pts[i].x along the S-curve)
-  // plus compact satellite islets in the open bays of the S-curve so islands follow the path and assets spread out.
-  const pathIsleCfg: { cx: number; rx: number; ry: number; depth: number; wf: -1 | 0 | 1 }[] = [
-    { cx: 206, rx: 86, ry: 36, depth: 44, wf: 0 }, // 1 (p.x ≈ 235)
-    { cx: 286, rx: 86, ry: 36, depth: 46, wf: 0 }, // 2 (p.x ≈ 304)
-    { cx: 290, rx: 80, ry: 35, depth: 44, wf: 0 }, // 3 (p.x ≈ 285)
-    { cx: 195, rx: 92, ry: 36, depth: 48, wf: 0 }, // 4 (p.x ≈ 195)
-    { cx: 114, rx: 86, ry: 36, depth: 46, wf: 1 }, // 5 (p.x ≈ 109)
-    { cx: 96, rx: 76, ry: 34, depth: 44, wf: 0 }, // 6 (p.x ≈ 100)
-    { cx: 176, rx: 92, ry: 36, depth: 48, wf: 0 }, // 7 (p.x ≈ 175)
-    { cx: 264, rx: 86, ry: 36, depth: 44, wf: 0 }, // 8 (p.x ≈ 271)
-    { cx: 300, rx: 78, ry: 34, depth: 46, wf: 0 }, // 9 (p.x ≈ 307)
-    { cx: 252, rx: 88, ry: 36, depth: 48, wf: -1 }, // 10 (p.x ≈ 254)
-    { cx: 156, rx: 88, ry: 36, depth: 44, wf: 0 }, // 11 (p.x ≈ 155)
-    { cx: 108, rx: 86, ry: 36, depth: 46, wf: 0 }, // 12 (p.x ≈ 94)
-  ]
-  const pathIsleSpecs = pts.slice(1, stones + 1).map((p, idx) => {
-    const cfg = pathIsleCfg[idx] ?? { cx: Math.round(p.x * 0.85 + 30), rx: 84, ry: 35, depth: 45, wf: 0 as const }
-    return { x: cfg.cx, y: p.y + 12, rx: cfg.rx, ry: cfg.ry, depth: cfg.depth, wf: cfg.wf }
-  })
-
-  const sideIsleSpecs: { afterStone: number; x: number; y: number; rx: number; ry: number; depth: number; wf: -1 | 0 | 1 }[] = [
-    { afterStone: pondIdx, x: 88, y: pond.y + 4, rx: 70, ry: 28, depth: 40, wf: 0 },
-    { afterStone: lakeIdx, x: 300, y: lake.y + 4, rx: 86, ry: 34, depth: 44, wf: 0 },
-    { afterStone: cascadeIdx, x: cascade.x, y: cascade.y + 6, rx: 70, ry: 29, depth: 42, wf: 1 },
-    { afterStone: stones, x: 318, y: pts[stones].y + 24, rx: 56, ry: 23, depth: 34, wf: 0 },
-  ]
-
-  // Render floating islands top-to-bottom so nearer (lower) islands naturally overlap higher cliff tips.
-  const islands: ReactNode[] = []
-  for (let i = stones; i >= 1; i--) {
-    for (const s of sideIsleSpecs) {
-      if (s.afterStone === i) {
-        islands.push(
-          <FloatingIslePad
-            key={`side-isle-${i}`}
-            x={s.x}
-            y={s.y}
-            rx={s.rx}
-            ry={s.ry}
-            depth={s.depth}
-            lobe={0}
-            waterfall={s.wf}
-          />,
-        )
-      }
+  // Island chain: stones that share an island are joined by a land bridge; between islands the trail
+  // crosses open sky on a rope bridge. The joins vary (2, 3, 1 stones per island) so the chain never repeats.
+  const joined = (i: number) => [1, 3, 4, 6, 8, 10, 11].includes(i) // stone i shares its island with stone i + 1
+  const pathIsles: Isle[] = []
+  for (let i = 1; i <= stones; i++) {
+    const p = pts[i]
+    pathIsles.push({ x: p.x, y: p.y + 14, rx: 78 + ((i * 7) % 3) * 6, ry: 34, depth: 46, wf: i === 5 ? 1 : i === 9 ? -1 : 0 })
+    if (i < stones && joined(i)) {
+      const m = pointOn(pts, i, 0.5)
+      pathIsles.push({ x: m.x, y: m.y + 14, rx: 70, ry: 32, depth: 40 })
     }
-    const spec = pathIsleSpecs[i - 1]
-    islands.push(
-      <FloatingIslePad
-        key={`isle-${i}`}
-        x={spec.x}
-        y={spec.y}
-        rx={spec.rx}
-        ry={spec.ry}
-        depth={spec.depth}
-        lobe={0}
-        waterfall={spec.wf}
-      />,
-    )
   }
+  const bridgeSegs = Array.from({ length: stones - 1 }, (_, k) => k + 1).filter((i) => !joined(i))
 
-  // Balanced, non-clumping asset choreography across the path islands and the 4 bay islets:
-  const deco: { y: number; node: ReactNode }[] = [
-    // Stone 1 (p.x ≈ 235): RainbowArc on the left meadow of Stone 1's island
-    { y: pts[1].y + 12, node: <RainbowArc key="d1-l" x={152} y={pts[1].y + 12} s={0.86} /> },
-
-    // Stone 2 (p.x ≈ 304): MarbleColumns left of Stone 2, LevitationCrystal right of Stone 2
-    { y: pts[2].y + 12, node: <MarbleColumns key="d2-l" x={228} y={pts[2].y + 12} s={0.9} /> },
-    { y: pts[2].y + 8, node: <LevitationCrystal key="d2-r" x={348} y={pts[2].y + 8} s={0.88} /> },
-
-    // Stone 3 (p.x ≈ 285): WindChimePost beside Mirror Lagoon on left isle, CloudTree right of Stone 3
-    { y: pond.y + 2, node: <WindChimePost key="d3-l" x={36} y={pond.y + 2} s={0.86} /> },
-    { y: pts[3].y + 10, node: <CloudTree key="d3-r" x={344} y={pts[3].y + 10} s={0.92} flip /> },
-
-    // Stone 4 (p.x ≈ 195): CloudTree below-left of diagonal road, WindMonolith above-right of road
-    { y: pts[4].y + 16, node: <CloudTree key="d4-l" x={126} y={pts[4].y + 16} s={0.94} /> },
-    { y: pts[4].y + 4, node: <WindMonolith key="d4-r" x={262} y={pts[4].y + 4} s={0.94} /> },
-
-    // Stone 5 (p.x ≈ 109): MarbleColumns left of Stone 5, LevitationCrystal right of Stone 5
-    { y: pts[5].y + 12, node: <MarbleColumns key="d5-l" x={54} y={pts[5].y + 12} s={0.88} /> },
-    { y: pts[5].y + 14, node: <LevitationCrystal key="d5-r" x={172} y={pts[5].y + 14} s={0.88} /> },
-
-    // Stone 6 (p.x ≈ 100): WindChimePost left of Stone 6, CloudTree on right Griffin Lagoon isle
-    { y: pts[6].y + 10, node: <WindChimePost key="d6-l" x={46} y={pts[6].y + 10} s={0.9} /> },
-    { y: lake.y + 2, node: <CloudTree key="d6-r" x={362} y={lake.y + 2} s={0.86} flip /> },
-
-    // Stone 7 (p.x ≈ 175): LevitationCrystal above-left of diagonal road, RainbowArc below-right of road
-    { y: pts[7].y + 4, node: <LevitationCrystal key="d7-l" x={110} y={pts[7].y + 4} s={0.9} /> },
-    { y: pts[7].y + 14, node: <RainbowArc key="d7-r" x={236} y={pts[7].y + 14} s={0.86} flip /> },
-
-    // Stone 8 (p.x ≈ 271): MarbleColumns left of Stone 8, WindChimePost right of Stone 8
-    { y: pts[8].y + 12, node: <MarbleColumns key="d8-l" x={206} y={pts[8].y + 12} s={0.88} /> },
-    { y: pts[8].y + 10, node: <WindChimePost key="d8-r" x={326} y={pts[8].y + 10} s={0.88} flip /> },
-
-    // Stone 9 (p.x ≈ 307): SkyWaterfall on left terrace isle, WindMonolith right of Stone 9
-    { y: cascade.y, node: <SkyWaterfall key="d9-wf" x={cascade.x} y={cascade.y} s={1.04} flip /> },
-    { y: pts[9].y + 10, node: <WindMonolith key="d9-r" x={352} y={pts[9].y + 10} s={0.92} /> },
-
-    // Stone 10 (p.x ≈ 254): LevitationCrystal below-left of Stone 10, CloudTree above-right of Stone 10
-    { y: pts[10].y + 12, node: <LevitationCrystal key="d10-l" x={190} y={pts[10].y + 12} s={0.9} /> },
-    { y: pts[10].y + 4, node: <CloudTree key="d10-r" x={314} y={pts[10].y + 4} s={0.92} flip /> },
-
-    // Stone 11 (p.x ≈ 155): CloudTree below-left of Stone 11, MarbleColumns above-right of Stone 11
-    { y: pts[11].y + 12, node: <CloudTree key="d11-l" x={94} y={pts[11].y + 12} s={0.92} /> },
-    { y: pts[11].y + 6, node: <MarbleColumns key="d11-r" x={216} y={pts[11].y + 6} s={0.88} flip /> },
-
-    // Stone 12 (p.x ≈ 94): WindMonolith left of Stone 12, RainbowArc right of Stone 12, LevitationCrystal on right shrine islet
-    { y: pts[12].y + 10, node: <WindMonolith key="d12-l" x={44} y={pts[12].y + 10} s={0.9} /> },
-    { y: pts[12].y + 14, node: <RainbowArc key="d12-m" x={160} y={pts[12].y + 14} s={0.86} /> },
-    { y: pts[12].y + 18, node: <LevitationCrystal key="d12-r" x={318} y={pts[12].y + 18} s={0.92} /> },
+  // Satellite isles float in the open bays of the S-curve – each one carries its own little scene.
+  const bayX = (i: number) => (S(i).x > MAP_W / 2 ? 78 : MAP_W - 78)
+  const sats = [
+    { kind: 'lagoon', at: 2, dy: 10 },
+    { kind: 'griffin', at: 5, dy: -50 },
+    { kind: 'waterfall', at: 8, dy: 40 },
+    { kind: 'shrine', at: 11, dy: -10 },
   ]
+    .filter((s) => s.at <= stones)
+    .map((s) => ({ ...s, x: bayX(s.at), y: S(s.at).y + s.dy }))
+
+  const onIsle = (p: Pt) => pathIsles.some((e) => ((p.x - e.x) / (e.rx - 14)) ** 2 + ((p.y - e.y + 4) / (e.ry - 8)) ** 2 < 1)
+  const nearSat = (p: Pt) => sats.some((s) => Math.hypot(p.x - s.x, (p.y - s.y) * 1.4) < 90)
+
+  // Decor on BOTH sides of the trail, but only where there is island turf under it.
+  const spots = scatterSpots({ pts, stones, rand, clear: 46, gap: 54, spread: 44, blocked: (p) => !onIsle(p) || nearSat(p) })
+  const deco: { y: number; node: ReactNode }[] = spots.map((p, k) => {
+    const r = rand()
+    const node =
+      r < 0.3 ? <CloudTree key={`t${k}`} x={p.x} y={p.y} s={0.82 + rand() * 0.15} flip={p.side < 0} />
+      : r < 0.48 ? <MarbleColumns key={`m${k}`} x={p.x} y={p.y} s={0.82} flip={p.side < 0} />
+      : r < 0.64 ? <LevitationCrystal key={`c${k}`} x={p.x} y={p.y} s={0.82} />
+      : r < 0.78 ? <WindChimePost key={`w${k}`} x={p.x} y={p.y} s={0.84} flip={p.side < 0} />
+      : r < 0.9 ? <RainbowArc key={`r${k}`} x={p.x} y={p.y} s={0.78} flip={p.side < 0} />
+      : <WindMonolith key={`o${k}`} x={p.x} y={p.y} s={0.86} />
+    return { y: p.y, node }
+  })
   deco.sort((a, b) => a.y - b.y)
 
-  // Cloud-sea background waves & small surface details strictly inside each floating island's meadow.
+  // Cloud-sea waves in the open sky; little drifting pebble isles between the islands.
   const waves: ReactNode[] = []
-  for (let i = 0; i < stones * 3; i++) {
-    const x = rand() * MAP_W
-    const y = skyEnd + 140 + rand() * (height - skyEnd - 160)
+  const pebbles: ReactNode[] = []
+  for (let i = 0; i < stones * 4; i++) {
+    const p = { x: rand() * MAP_W, y: skyEnd + 140 + rand() * (height - skyEnd - 160) }
     const rx = 36 + rand() * 44
+    if (i % 4 === 3) {
+      if (!onIsle(p) && !nearSat(p) && pts.every((q) => Math.hypot(q.x - p.x, q.y - p.y) > 70)) pebbles.push(<Pebble key={`pb${i}`} x={p.x} y={p.y} s={0.7 + rand() * 0.5} />)
+      continue
+    }
     waves.push(
-      <g key={`cw${i}`} transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}>
+      <g key={`cw${i}`} transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`}>
         <ellipse rx={rx} ry={10 + rand() * 8} fill={CI.cloudSeaWave} />
         <path d={`M${-rx * 0.7} 2 Q0 8 ${rx * 0.7} 2`} stroke={CI.cloudGold} strokeWidth={1.6} fill="none" strokeLinecap="round" opacity={0.55} />
       </g>,
     )
   }
   const cover: ReactNode[] = []
-  for (let i = 0; i < stones * 3; i++) {
-    const spec = pathIsleSpecs[i % pathIsleSpecs.length]
-    const p = pts[1 + (i % stones)]
-    const dir = i % 2 === 0 ? -1 : 1
-    const x = Math.max(spec.x - spec.rx * 0.72, Math.min(spec.x + spec.rx * 0.72, p.x + dir * (34 + rand() * 38)))
-    const y = spec.y - 14 + (rand() - 0.5) * spec.ry * 0.9
-    const r = rand()
-    if (r < 0.3)
-      cover.push(<circle key={`p${i}`} cx={x} cy={y} r={2.2} fill={CI.goldLight} stroke={INK} strokeWidth={0.9} />)
-    else if (r < 0.62)
-      cover.push(
-        <path
-          key={`t${i}`}
-          d={`M${x - 5} ${y} q2 -7 3 -9 M${x} ${y} q0 -8 1 -11 M${x + 5} ${y} q-2 -7 -3 -9`}
-          stroke={CI.grassDeep}
-          strokeWidth={1.9}
-          fill="none"
-          strokeLinecap="round"
-        />,
-      )
-    else if (r < 0.82)
-      cover.push(
-        <g key={`c${i}`}>
-          <path d={`M${x - 10} ${y} q5 -4 10 0 q5 4 10 0`} stroke={CI.waterLight} strokeWidth={2.2} fill="none" strokeLinecap="round" />
-        </g>,
-      )
-    else
-      cover.push(
-        <g key={`h${i}`} transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}>
-          <path d="M-7 0 C-8 -7 8 -7 7 0 Z" fill={CI.cloud} stroke={INK} strokeWidth={1.3} />
-          <circle cx="-2" cy="-3" r="1.2" fill={CI.goldLight} />
-        </g>,
-      )
+  for (let i = 0; i < stones * 6; i++) {
+    const e = pathIsles[Math.floor(rand() * pathIsles.length)]
+    const a = rand() * Math.PI * 2
+    const d = 0.3 + rand() * 0.55
+    const p = { x: e.x + Math.cos(a) * e.rx * d, y: e.y - 4 + Math.sin(a) * e.ry * d }
+    if (pts.some((q) => Math.hypot(q.x - p.x, q.y - p.y) < 36)) continue
+    cover.push(
+      rand() < 0.5 ? (
+        <path key={`t${i}`} d={`M${p.x - 5} ${p.y} q2 -7 3 -9 M${p.x} ${p.y} q0 -8 1 -11 M${p.x + 5} ${p.y} q-2 -7 -3 -9`} stroke={CI.grassDeep} strokeWidth={1.9} fill="none" strokeLinecap="round" />
+      ) : (
+        <circle key={`p${i}`} cx={p.x} cy={p.y} r={2.2} fill={CI.goldLight} stroke={INK} strokeWidth={0.9} />
+      ),
+    )
   }
 
-  // Cloud-stone stepping puffs along the skyway edges (between stones, alternating sides).
+  // Floaters drift in the open sky between islands; sparkles sit on the satellites.
+  const floaters: ReactNode[] = []
+  for (let i = 0, k = 0; i < 40 && k < 10; i++) {
+    const p = { x: 20 + rand() * (MAP_W - 40), y: skyEnd + 120 + rand() * (height - skyEnd - 260) }
+    if (onIsle(p) || nearSat(p)) continue
+    floaters.push(<SkyFloater key={`fl${k}`} x={p.x} y={p.y} s={0.88 + (k % 3) * 0.08} delay={-rand() * 6.4} kind={k % 2} />)
+    k++
+  }
+  const sparkles = sats.map((s, i) => <Sparkle key={`sk${i}`} x={s.x + (i % 2 ? 40 : -40)} y={s.y - 30} s={0.9} delay={-rand() * 3.4} />)
+
+  // Cloud-stone puffs beside the trail on island ground (never on a bridge).
   const trailClouds: ReactNode[] = []
-  for (let i = 0; i < stones; i++) {
+  for (let i = 1; i < stones; i++) {
+    if (!joined(i)) continue
     const a = pointOn(pts, i, 0.45)
     const b = pointOn(pts, i, 0.5)
     const len = Math.hypot(b.x - a.x, b.y - a.y) || 1
     const sgn = i % 2 ? 1 : -1
     trailClouds.push(<TrailCloud key={`tc${i}`} x={b.x - ((b.y - a.y) / len) * 25 * sgn} y={b.y + ((b.x - a.x) / len) * 25 * sgn} />)
-  }
-
-  // Magic layer: drifting sky-kites & cloud-swallows (`.ci-floater`) in the open sky bays, plus sun-sparkles (`.ci-sparkle`).
-  const floaterSpots: [number, number][] = [
-    [52, pts[1].y - 12],
-    [82, pts[2].y + 18],
-    [354, pts[4].y + 12],
-    [318, pts[5].y + 18],
-    [34, pts[7].y + 22],
-    [356, pts[7].y - 16],
-    [76, pts[8].y + 18],
-    [38, pts[10].y + 14],
-    [348, pts[11].y + 16],
-    [244, pts[12].y - 36],
-  ]
-  const floaters: ReactNode[] = floaterSpots.map(([fx, fy], i) => (
-    <SkyFloater
-      key={`fl${i}`}
-      x={fx}
-      y={fy}
-      s={0.88 + (i % 3) * 0.08}
-      delay={-rand() * 6.4}
-      kind={i % 2}
-    />
-  ))
-  const sparkles: ReactNode[] = []
-  for (let i = 0; i < 6; i++) {
-    const spec = pathIsleSpecs[(i * 2) % pathIsleSpecs.length]
-    sparkles.push(
-      <Sparkle
-        key={`sk${i}`}
-        x={spec.x + (i % 2 === 0 ? -1 : 1) * (36 + rand() * 34)}
-        y={spec.y - 8 + (rand() - 0.5) * 24}
-        s={0.8 + rand() * 0.4}
-        delay={-rand() * 3.4}
-      />,
-    )
   }
 
   const road = pathD(pts, 0, stones + 1)
@@ -1520,130 +1445,109 @@ export function MapArtCloudIsles({ height, pts, walkedTo, stones }: MapArtProps)
         </radialGradient>
       </defs>
 
-      {/* 1 radiant azure sky, high-altitude golden sun, billowing cumulus clouds */}
+      {/* 1 azure sky: the sun stands HIGH behind the citadel dome – a radiant crown of rays instead of a corner disc */}
       <rect width={MAP_W} height={height} fill="url(#ci-floor)" />
       <rect width={MAP_W} height={skyEnd + 16} fill="url(#ci-sky)" />
-      <circle cx="322" cy="60" r="88" fill="url(#ci-sun-glow)" />
-      <circle cx="322" cy="60" r="22" fill={CI.sun} stroke="rgba(47,36,32,.22)" strokeWidth={2} />
-      <Cloud x={236} y={28} s={0.7} />
-      <Cloud x={390} y={128} s={0.62} />
-
-      {/* 2 distant floating sky-archipelago + Geisterruine teaser (World 7) behind the generic sign */}
-      <g opacity={0.92}>
-        {/* distant floating spire-island in the upper right sky */}
-        <path
-          d="M236 142 L258 188 L276 170 L292 204 L310 172 L328 188 L346 142 Z"
-          fill={CI.farIsle}
-          stroke="rgba(47,36,32,.32)"
-          strokeWidth={1.8}
-          strokeLinejoin="round"
-        />
-        <path d="M292 142 V204 L310 172 L328 188 L346 142 Z" fill={CI.farIsleShade} />
-        <path d="M230 142 C230 130 352 130 352 142 Z" fill={CI.grass} stroke="rgba(47,36,32,.32)" strokeWidth={1.8} />
-        <rect x="282" y="114" width="18" height="22" fill={CI.marble} stroke="rgba(47,36,32,.32)" strokeWidth={1.6} />
-        <path d="M278 116 L291 98 L304 116 Z" fill={CI.roof} stroke="rgba(47,36,32,.32)" strokeWidth={1.6} strokeLinejoin="round" />
-        <path className="ci-shimmer" d="M306 142 C309 158 308 176 310 194" stroke={CI.water} strokeWidth={4.5} fill="none" strokeLinecap="round" />
-        <path
-          d="M226 148 C216 148 216 136 228 134 C234 126 252 126 258 134 C270 126 292 126 300 134 C312 126 334 128 340 136 C354 136 354 148 342 148 Z"
-          fill={CI.cloud}
-          stroke="rgba(47,36,32,.26)"
-          strokeWidth={1.6}
-        />
+      <circle cx={MAP_W / 2} cy={chest.y - 190} r="150" fill="url(#ci-sun-glow)" />
+      <g stroke={`rgba(${CI.sunGlow},.5)`} strokeWidth={16} strokeLinecap="round">
+        {Array.from({ length: 11 }, (_, k) => -175 + k * 17).map((a) => (
+          <path
+            key={a}
+            d={`M${MAP_W / 2 + Math.cos((a * Math.PI) / 180) * 70} ${chest.y - 190 + Math.sin((a * Math.PI) / 180) * 70} L${MAP_W / 2 + Math.cos((a * Math.PI) / 180) * 150} ${chest.y - 190 + Math.sin((a * Math.PI) / 180) * 150}`}
+          />
+        ))}
       </g>
-      <GhostRuinsTeaser x={108} y={124} s={0.82} />
+
+      {/* 2 one towering cumulus on the right; Geisterruine teaser (World 7) on the left behind its sign */}
+      <g fill={CI.cloud} stroke="rgba(47,36,32,.16)" strokeWidth={2}>
+        <circle cx="360" cy="196" r="34" />
+        <circle cx="384" cy="150" r="30" />
+        <circle cx="352" cy="118" r="26" />
+        <circle cx="378" cy="86" r="22" />
+        <circle cx="330" cy="164" r="24" />
+      </g>
+      <path d="M300 210 H420" stroke={CI.cloudGold} strokeWidth={4} strokeLinecap="round" opacity={0.8} />
+      <GhostRuinsTeaser x={96} y={126} s={0.82} />
       <rect y={skyEnd - 150} width={MAP_W} height={80} fill="url(#ci-haze)" />
 
-      {/* 3 middle sunlit cumulus cloud-bank ridge with sky-pillars & waterfalls */}
-      <path d={cumulusBankPath(skyEnd - 40, skyEnd + 20)} fill={CI.midBank} stroke="rgba(47,36,32,.32)" strokeWidth={2} strokeLinejoin="round" />
-      <path
-        d={`M64 ${skyEnd - 64} L72 ${skyEnd - 96} H118 L126 ${skyEnd - 64} Z M284 ${skyEnd - 66} L292 ${skyEnd - 100} H338 L346 ${skyEnd - 66} Z`}
-        fill={CI.isleRock}
-        stroke="rgba(47,36,32,.38)"
-        strokeWidth={1.9}
-        strokeLinejoin="round"
-      />
-      <path d={`M68 ${skyEnd - 96} C68 ${skyEnd - 104} 122 ${skyEnd - 104} 122 ${skyEnd - 96} Z M288 ${skyEnd - 100} C288 ${skyEnd - 108} 342 ${skyEnd - 108} 342 ${skyEnd - 100} Z`} fill={CI.grass} stroke="rgba(47,36,32,.38)" strokeWidth={1.7} />
-      {/* sky-waterfalls pouring from the middle horizon ledges */}
-      <path
-        className="ci-shimmer"
-        d={`M92 ${skyEnd - 95} C90 ${skyEnd - 68} 88 ${skyEnd - 40} 86 ${skyEnd - 10}
-           M312 ${skyEnd - 99} C314 ${skyEnd - 72} 316 ${skyEnd - 42} 318 ${skyEnd - 10}`}
-        stroke={CI.water}
-        strokeWidth={6.5}
-        fill="none"
-        strokeLinecap="round"
-      />
-      <path
-        className="ci-shimmer"
-        d={`M92 ${skyEnd - 95} C90 ${skyEnd - 68} 88 ${skyEnd - 40} 86 ${skyEnd - 10}
-           M312 ${skyEnd - 99} C314 ${skyEnd - 72} 316 ${skyEnd - 42} 318 ${skyEnd - 10}`}
-        stroke={CI.waterFoam}
-        strokeWidth={2.2}
-        fill="none"
-        strokeLinecap="round"
-        strokeDasharray="4 6"
-      />
-      <rect y={skyEnd - 80} width={MAP_W} height={60} fill="url(#ci-haze)" />
+      {/* 3 a single far sky-pillar with its waterfall, low cumulus bank across the horizon */}
+      <path d={cumulusBankPath(skyEnd - 30, skyEnd + 20)} fill={CI.midBank} stroke="rgba(47,36,32,.32)" strokeWidth={2} strokeLinejoin="round" />
+      <path d={`M24 ${skyEnd - 50} L30 ${skyEnd - 84} H66 L72 ${skyEnd - 50} Z`} fill={CI.isleRock} stroke="rgba(47,36,32,.38)" strokeWidth={1.9} strokeLinejoin="round" />
+      <path d={`M26 ${skyEnd - 84} C26 ${skyEnd - 92} 70 ${skyEnd - 92} 70 ${skyEnd - 84} Z`} fill={CI.grass} stroke="rgba(47,36,32,.38)" strokeWidth={1.7} />
+      <path className="ci-shimmer" d={`M48 ${skyEnd - 82} C46 ${skyEnd - 60} 44 ${skyEnd - 34} 42 ${skyEnd - 10}`} stroke={CI.water} strokeWidth={6} fill="none" strokeLinecap="round" />
+      <rect y={skyEnd - 50} width={MAP_W} height={50} fill="url(#ci-haze)" />
 
-      {/* 4 near billowy cloud-sea ridge & wind-carved sky crags framing the citadel */}
-      <path
-        d={`M-8 ${skyEnd + 40} L10 ${skyEnd - 44} L34 ${skyEnd - 18} L58 ${skyEnd - 36} L84 ${skyEnd + 40} Z
-           M316 ${skyEnd + 40} L342 ${skyEnd - 40} L366 ${skyEnd - 16} L390 ${skyEnd - 48} L410 ${skyEnd + 40} Z`}
-        fill={CI.isleRockDeep}
-        stroke="rgba(47,36,32,.48)"
-        strokeWidth={2}
-        strokeLinejoin="round"
-      />
-      <rect y={skyEnd - 30} width={MAP_W} height={40} fill="url(#ci-haze)" />
-
-      {/* 5 Grand Summit Floating Island + CloudCitadel + SkyBeacon */}
-      <FloatingIslePad x={MAP_W / 2} y={skyEnd + 42} rx={186} ry={44} depth={76} lobe={0} waterfall={-1} />
-      <CloudCitadel x={MAP_W / 2} y={chest.y - 24} />
-      <g transform={`translate(46 ${chest.y + 8}) scale(1.08)`}>
-        <SkyBeacon x={0} y={0} />
-      </g>
-      <Sparkle x={70} y={chest.y - 150} s={1.1} delay={-0.4} />
-      <Sparkle x={338} y={chest.y - 128} s={0.9} delay={-1.6} />
-      <Sparkle x={256} y={chest.y - 182} s={0.8} delay={-2.5} />
-      <WindChimePost x={356} y={chest.y + 30} s={0.94} flip />
-
-      {/* 6 cloud-sea waves, floating island pads carrying the path + pale sunlit clearing under every stone */}
+      {/* 4 cloud sea, pebbles, the island chain with satellites */}
       {waves}
-      <FloatingIslePad x={298} y={height - 72} rx={94} ry={48} depth={48} lobe={0} waterfall={0} />
-      <FloatingIslePad x={122} y={height - 76} rx={104} ry={52} depth={46} lobe={0} waterfall={0} />
-      {islands}
+      {pebbles}
+      <FloatingIslePad x={92} y={height - 70} rx={110} ry={50} depth={46} lobe={0} />
+      <FloatingIslePad x={334} y={height - 46} rx={70} ry={30} depth={34} lobe={0} />
+      {[...pathIsles].sort((a, b) => a.y - b.y).map((e, i) => (
+        <FloatingIslePad key={`pi${i}`} x={e.x} y={e.y} rx={e.rx} ry={e.ry} depth={e.depth} lobe={0} waterfall={e.wf ?? 0} />
+      ))}
+      {sats.map((s) => (
+        <FloatingIslePad key={`sat${s.at}`} x={s.x} y={s.y} rx={s.kind === 'waterfall' ? 72 : 66} ry={28} depth={40} lobe={0} waterfall={s.kind === 'shrine' ? (s.x < MAP_W / 2 ? -1 : 1) : 0} />
+      ))}
       {pts.slice(1, stones + 1).map((p, i) => (
-        <ellipse key={`cl${i}`} cx={p.x} cy={p.y + 8} rx={46} ry={30} fill={CI.clearing} />
+        <ellipse key={`cl${i}`} cx={p.x} cy={p.y + 8} rx={46} ry={28} fill={CI.clearing} />
       ))}
       {cover}
 
-      {/* 7 turquoise cloud-lagoons with baby sky-griffin */}
-      <CloudLagoon x={pond.x} y={pond.y} rx={42} ry={16} seed={19} />
-      <CloudLagoon x={lake.x} y={lake.y} rx={56} ry={21} seed={37}>
-        <SkyGriffin x={-8} y={4} s={1.02} flip={lake.x < MAP_W / 2} />
-      </CloudLagoon>
+      {/* 5 satellite scenes */}
+      {sats.map((s) => {
+        if (s.kind === 'lagoon')
+          return (
+            <g key="sl">
+              <CloudLagoon x={s.x + 6} y={s.y - 6} rx={40} ry={14} seed={19} />
+              <CloudSheep x={s.x - 34} y={s.y + 4} s={0.85} />
+            </g>
+          )
+        if (s.kind === 'griffin')
+          return (
+            <CloudLagoon key="sg" x={s.x} y={s.y - 4} rx={50} ry={18} seed={37}>
+              <SkyGriffin x={-6} y={4} s={0.95} flip={s.x > MAP_W / 2} />
+            </CloudLagoon>
+          )
+        if (s.kind === 'waterfall') return <SkyWaterfall key="sw" x={s.x} y={s.y} s={1} flip={s.x > MAP_W / 2} />
+        return (
+          <g key="ss">
+            <LevitationCrystal x={s.x - 18} y={s.y} s={0.95} />
+            <MarbleColumns x={s.x + 26} y={s.y + 2} s={0.8} flip />
+          </g>
+        )
+      })}
 
-      {/* 8 marble & cloud-stone skyway trail: same widths as Burgdorf; sky-slate edge + ivory marble centre */}
+      {/* 6 marble skyway trail: same widths as Burgdorf; rope bridges wherever it leaves an island */}
       {trailClouds}
       <path d={road} fill="none" stroke={INK} strokeWidth={34} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={CI.trailEdge} strokeWidth={28} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={CI.trail} strokeWidth={20} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={CI.trailDash} strokeWidth={4} strokeLinecap="round" strokeDasharray="6 16" />
+      {bridgeSegs.map((i) => (
+        <SkyBridge key={`sb${i}`} pts={pts} seg={i} t0={0.36} t1={0.7} />
+      ))}
+      <SkyBridge pts={pts} seg={0} t0={0.42} t1={0.72} />
       {walked && <path d={walked} fill="none" stroke="#C9372C" strokeWidth={5} strokeLinecap="round" strokeDasharray="10 12" opacity={0.8} />}
 
       {deco.map((d) => d.node)}
 
-      {/* 9 start: SkyWindmill with airship jetty & tethered balloon skiff, CloudSheep, Signpost */}
-      <SkyWindmill x={306} y={height - 50} s={1.1} />
-      <CloudSheep x={84} y={height - 108} s={1.06} />
+      {/* 7 summit island: citadel, beacon now on the RIGHT, chime post on the left */}
+      <FloatingIslePad x={MAP_W / 2} y={skyEnd + 42} rx={186} ry={44} depth={76} lobe={0} waterfall={1} />
+      <CloudCitadel x={MAP_W / 2} y={chest.y - 24} />
+      <g transform={`translate(${MAP_W - 46} ${chest.y + 12}) scale(1.05)`}>
+        <SkyBeacon x={0} y={0} flip />
+      </g>
+      <WindChimePost x={40} y={chest.y + 30} s={0.94} />
+
+      {/* 8 start: windmill on the LEFT start isle, cloud sheep grazing on a small isle to the right */}
+      <SkyWindmill x={68} y={height - 92} s={0.95} />
+      <CloudSheep x={330} y={height - 50} s={1} />
       <Signpost x={pts[0].x - 74} y={pts[0].y - 6} />
 
-      {/* 10 magic layer: sun-sparkles & drifting sky-kites / cloud-swallows */}
+      {/* 9 magic layer */}
       {sparkles}
       {floaters}
-      <SkyFloater x={206} y={56} s={1.05} delay={-1.5} kind={0} />
-      <SkyFloater x={370} y={208} s={0.95} delay={-4.1} kind={1} />
-      <SkyFloater x={26} y={238} s={0.95} delay={-5.3} kind={0} />
+      <SkyFloater x={250} y={60} s={1.05} delay={-1.5} kind={1} />
     </svg>
   )
 }
