@@ -28,6 +28,9 @@ him one step closer to the castle – and to the treasure chest at the end of th
 - **World 5 "Glutvulkan" (Ember Volcano):** 12 pin and skewer puzzles ("Win a piece!",
   Elo 850–1000) inside a warm volcanic caldera with a smelting forge, bubbling lava lake and a
   teaser for World 6 (Cloud Isles)
+- **World 6 "Wolkeninseln" (Cloud Isles):** 12 discovered attack and double check puzzles
+  ("Win a piece!", Elo 950–1100) on floating sky islands with a cloud citadel, sky beacon
+  and a teaser for World 7 (Ghost Ruins)
 - **Worlds in order:** the next world opens with the treasure chest of the previous one;
   the map previews the next planned world
 - **Kid-friendly controls:** tap a piece, tap a target square. The opponent moves
@@ -67,6 +70,7 @@ src/data/endless.finsterwald.json   generated endless-mode pool – do not edit 
 src/data/endless.nebelsumpf.json    generated endless-mode pool – do not edit by hand
 src/data/endless.frostgipfel.json   generated endless-mode pool – do not edit by hand
 src/data/endless.glutvulkan.json    generated endless-mode pool – do not edit by hand
+src/data/endless.wolkeninseln.json  generated endless-mode pool – do not edit by hand
 scripts/extract-puzzles.mjs   generates puzzles.json and the endless pools from the Lichess DB
 ```
 

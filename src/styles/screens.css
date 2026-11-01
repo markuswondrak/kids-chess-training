@@ -1628,3 +1628,184 @@
   width: 18px;
   height: 18px;
 }
+
+/* ---------- 4. map + animations (screens.css) ---------- */
+/* ---------- Wolkeninseln: Himmelskarte (art-guide.md §4–5, feature 008) ---------- */
+
+.app[data-world='wolkeninseln'] .map-head {
+  flex-wrap: nowrap;
+}
+
+.app[data-world='wolkeninseln'] .map-head__ribbon {
+  min-width: 0;
+  padding: 8px 18px 9px 12px;
+}
+
+.app[data-world='wolkeninseln'] .map-head__world {
+  opacity: 1;
+}
+
+.app[data-world='wolkeninseln'] .map-head__ribbon strong {
+  font-size: 1.58rem;
+}
+
+.app[data-world='wolkeninseln'] .map-head__sub {
+  font-size: 0.68rem;
+  line-height: 1.12;
+}
+
+/* pre-paint colour = sunlit cloud-sea floor, so no bright/dark flash before the SVG paints */
+.app[data-world='wolkeninseln'] .map {
+  background: var(--cloud-floor);
+}
+
+.ci-floater {
+  animation: ci-floater 6.4s ease-in-out infinite;
+}
+.ci-bubble {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ci-bubble 4.4s ease-in-out infinite;
+}
+.ci-shimmer {
+  animation: ci-shimmer 3.2s ease-in-out infinite;
+}
+.ci-sparkle {
+  transform-box: fill-box;
+  transform-origin: center; /* star is drawn around its own centre */
+  animation: ci-sparkle 3.4s ease-in-out infinite;
+}
+.ci-ghost-isle {
+  animation: ci-ghost-isle 6s ease-in-out infinite;
+}
+.ci-mist {
+  transform-box: fill-box;
+  transform-origin: 50% 100%; /* = waterfall basin / kettle spout */
+  animation: ci-mist 5.2s ease-out infinite;
+}
+.ci-griffin-lid {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: ci-blink 5.6s ease-in-out infinite;
+}
+.ci-citadel-glow {
+  opacity: 0.42;
+  transition: opacity 0.4s ease;
+}
+/* chest ready or open → the sky beacon and cloud citadel gate glow brighter. Pure CSS, no new props. */
+.map:has(.chest--ready) .ci-citadel-glow,
+.map:has(.chest--open) .ci-citadel-glow {
+  opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ci-citadel-glow 1.8s ease-in-out infinite;
+}
+
+@keyframes ci-floater {
+  0%,
+  100% {
+    opacity: 0.92;
+    transform: translate(0, 0);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(4px, -6px);
+  }
+  75% {
+    opacity: 0.82;
+    transform: translate(-3px, -10px);
+  }
+}
+@keyframes ci-bubble {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scale(0.82);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+  85% {
+    opacity: 0.35;
+    transform: scale(1.28);
+  }
+}
+@keyframes ci-shimmer {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes ci-sparkle {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(20deg);
+  }
+}
+@keyframes ci-ghost-isle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes ci-mist {
+  0% {
+    opacity: 0;
+    transform: translateY(5px) scale(0.8);
+  }
+  30% {
+    opacity: 0.88;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(1.25);
+  }
+}
+@keyframes ci-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(0);
+  }
+  94% {
+    transform: scaleY(1);
+  }
+}
+@keyframes ci-citadel-glow {
+  0%,
+  100% {
+    opacity: 0.78;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* ---------- 5. reduced motion (merge into the existing block in screens.css) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ci-floater,
+  .ci-bubble,
+  .ci-shimmer,
+  .ci-sparkle,
+  .ci-ghost-isle,
+  .ci-mist,
+  .ci-griffin-lid,
+  .map:has(.chest--ready) .ci-citadel-glow,
+  .map:has(.chest--open) .ci-citadel-glow {
+    animation: none;
+  }
+}

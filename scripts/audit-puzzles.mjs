@@ -78,6 +78,18 @@ const WORLD_RULES = {
     endlessTarget: 100,
     endlessMaxPerPiece: 40,
   },
+  wolkeninseln: {
+    minRating: 950,
+    maxRating: 1100,
+    maxPlayerMoves: 2,
+    motifs: ['discovered'],
+    excludeThemes: ['mateIn1', 'mateIn2'],
+    curatedCount: 12,
+    maxPerPiece: 4,
+    endlessMinCount: 50,
+    endlessTarget: 100,
+    endlessMaxPerPiece: 40,
+  },
 }
 
 function loadJson(path) {

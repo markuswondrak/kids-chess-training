@@ -14,6 +14,18 @@ Adventure Chess (German: Schach Abenteurer) is a kid-friendly chess puzzle app f
 - `src/data/puzzles.json` is generated – do not edit it by hand.
 - Design: use the existing tokens in `src/styles/tokens.css`; the art style is rounded cartoon SVGs with an ink outline (`--ink`).
 
+## World checklist (every new world)
+
+GitHub issues for new worlds often omit these items; they still belong in every spec, plan and task list:
+
+- 12 curated puzzles in `puzzles.json` (via `scripts/extract-puzzles.mjs`).
+- **Endless pool**: at least 50 further puzzles in `endless.<world>.json`, no duplicates of the curated set or earlier pools, plus the offline fallback message with a button back to the map.
+- Name and subtitle in DE, EN, FR; own map art; Kuno task text.
+- Handoff button from the previous world's chest; the previous world's end-of-map signpost loses its "soon" badge; the new world's preview points to the next one.
+- Earlier worlds' puzzles and progress stay unchanged.
+
+Use `specs/007-glutvulkan-pin-skewer/spec.md` as the reference for a complete world spec.
+
 ## Commands
 
 - `npm run dev` – development server

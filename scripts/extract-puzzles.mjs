@@ -51,6 +51,19 @@ const PIECES = new Set(['p', 'n', 'b', 'r', 'q', 'k'])
  */
 const WORLDS = [
   {
+    id: 'wolkeninseln',
+    released: true,
+    minRating: 950,
+    maxRating: 1100,
+    motifs: ['discovered'],
+    maxPlayerMoves: 2,
+    excludeThemes: ['mateIn1', 'mateIn2'],
+    count: 12,
+    maxPerPiece: 4,
+    endlessCount: 100,
+    endlessMaxPerPiece: 40,
+  },
+  {
     id: 'glutvulkan',
     released: true,
     minRating: 850,

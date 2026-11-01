@@ -90,6 +90,7 @@ export const de: Partial<Messages> = {
   'world.frostgipfel.subtitle': 'Matt in 2',
   'world.glutvulkan.name': 'Glutvulkan',
   'world.glutvulkan.subtitle': 'Fesselung & Spieß',
+  'world.wolkeninseln.subtitle': 'Abzugsangriff & Doppelschach',
   'world.wolkeninseln.name': 'Wolkeninseln',
   'world.geisterruine.name': 'Geisterruine',
   'world.drachenburg.name': 'Drachenburg',

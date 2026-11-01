@@ -232,3 +232,50 @@
     0 0 20px 6px var(--magma-glow);
   --world-locked-face: radial-gradient(circle at 38% 30%, var(--ash-stone), var(--ash-stone-mid) 55%, var(--ash-stone-deep));
 }
+
+:root {
+  /* Wolkeninseln (Cloud Isles) – palette, see art-guide.md §2 (feature 008) */
+  --cloud-sky-top: #2b78c2;
+  --cloud-sky-mid: #58a6e2;
+  --cloud-sky-low: #98d4f8;
+  --cloud-horizon: #fff5dc;
+  --cloud-sun: rgba(255, 238, 168, 0.85);
+  --cloud-floor: #d8eefb;
+  --cloud-floor-deep: #b8dcf5;
+  --cloud-white: #fffdf7;
+  --cloud-gold: #f7e1b5;
+  --cloud-stone: #fdfbf5;
+  --cloud-stone-mid: #d5e2f0;
+  --cloud-stone-deep: #9cb2cc;
+  --isle-rock: #8a9bb5;
+  --isle-rock-deep: #687a96;
+  --isle-grass: #7bcb6a;
+  --isle-grass-deep: #5cae4e;
+  --sky-water: #62c4f7;
+  --sky-ribbon: #2a6fb4;
+  --sky-ribbon-deep: #1c4e82;
+  --sky-gold: #ffe898;
+  --sun-wind: #ffe885;
+  --wind-glow: rgba(255, 224, 115, 0.8);
+}
+
+/* ---------- 2. role-token override (tokens.css) ---------- */
+.app[data-world='wolkeninseln'] {
+  --world-sky:
+    radial-gradient(440px 320px at 86% 6%, var(--cloud-sun), transparent 70%),
+    linear-gradient(
+      180deg,
+      var(--cloud-sky-top) 0%,
+      var(--cloud-sky-mid) 30%,
+      var(--cloud-sky-low) 58%,
+      var(--cloud-horizon) 84%,
+      var(--cloud-floor) 100%
+    );
+  --world-ribbon: linear-gradient(180deg, var(--sky-ribbon), var(--sky-ribbon-deep));
+  --world-ribbon-sub: var(--sky-gold);
+  --world-ring: var(--sun-wind);
+  --world-ring-glow:
+    0 0 0 3px var(--ink),
+    0 0 20px 6px var(--wind-glow);
+  --world-locked-face: radial-gradient(circle at 38% 30%, var(--cloud-stone), var(--cloud-stone-mid) 55%, var(--cloud-stone-deep));
+}
