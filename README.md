@@ -34,6 +34,11 @@ him one step closer to the castle – and to the treasure chest at the end of th
 - **World 7 "Geisterruine" (Ghost Ruins):** 12 mixed tactical puzzles (all 7 kid-friendly
   motifs, Elo 1000–1150, up to 3 player moves) in moonlit twilight ruins with a haunted abbey,
   friendly ghosts and a teaser for World 8 (Dragon Castle)
+- **World 8 "Drachenburg" (Dragon Castle) – the grand finale:** the best 12 mixed puzzles of
+  Elo 1100–1200 (all 7 motifs, at most two per motif, up to 3 player moves) on a sunset march
+  past a hatching dragon egg, a knights' camp and a treasure cave, up a red-carpet stairway to
+  the dragon castle with its great friendly dragon. Fireworks start once the last chest is
+  ready; opening it crowns the child for completing the whole journey
 - **Worlds in order:** the next world opens with the treasure chest of the previous one;
   the map previews the next planned world
 - **Kid-friendly controls:** tap a piece, tap a target square. The opponent moves
@@ -75,6 +80,7 @@ src/data/endless.frostgipfel.json   generated endless-mode pool – do not edit 
 src/data/endless.glutvulkan.json    generated endless-mode pool – do not edit by hand
 src/data/endless.wolkeninseln.json  generated endless-mode pool – do not edit by hand
 src/data/endless.geisterruine.json  generated endless-mode pool – do not edit by hand
+src/data/endless.drachenburg.json   generated endless-mode pool – do not edit by hand
 scripts/extract-puzzles.mjs   generates puzzles.json and the endless pools from the Lichess DB
 ```
 

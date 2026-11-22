@@ -26,9 +26,10 @@ export type WorldId =
   | 'glutvulkan'
   | 'wolkeninseln'
   | 'geisterruine'
+  | 'drachenburg'
 
 /** Alle geplanten Welten der Karte (Roadmap, Epic #1). Anzeigetexte: `world.{id}.*` (i18n). */
-export type PlannedWorldId = WorldId | 'drachenburg'
+export type PlannedWorldId = WorldId
 
 export interface World {
   id: WorldId
@@ -44,6 +45,7 @@ export const WORLDS: World[] = [
   { id: 'glutvulkan', number: 5, puzzles: (puzzleData as Record<WorldId, Puzzle[]>).glutvulkan },
   { id: 'wolkeninseln', number: 6, puzzles: (puzzleData as Record<WorldId, Puzzle[]>).wolkeninseln },
   { id: 'geisterruine', number: 7, puzzles: (puzzleData as Record<WorldId, Puzzle[]>).geisterruine },
+  { id: 'drachenburg', number: 8, puzzles: (puzzleData as Record<WorldId, Puzzle[]>).drachenburg },
 ]
 
 /** Reihenfolge und Nummern aller geplanten Welten. Gebaut wird, was in `WORLDS` steht. */

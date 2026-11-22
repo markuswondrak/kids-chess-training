@@ -51,6 +51,21 @@ const PIECES = new Set(['p', 'n', 'b', 'r', 'q', 'k'])
  */
 const WORLDS = [
   {
+    // Das große Finale: die besten Aufgaben des Bandes, höchstens zwei je Motiv.
+    id: 'drachenburg',
+    released: true,
+    minRating: 1100,
+    maxRating: 1200,
+    motifs: ['mateIn1', 'mateIn2', 'hanging', 'fork', 'pin', 'skewer', 'discovered'],
+    maxPlayerMoves: 3,
+    excludeThemes: ['deflection', 'attraction', 'mateIn3', 'promotion', 'underPromotion'],
+    count: 12,
+    maxPerPiece: 4,
+    maxPerMotif: 2,
+    endlessCount: 100,
+    endlessMaxPerPiece: 40,
+  },
+  {
     id: 'geisterruine',
     released: true,
     minRating: 1000,
@@ -441,6 +456,7 @@ for (const world of unreleased) {
   for (const group of groups) {
     const cap = group.maxPerPiece ?? world.maxPerPiece
     const perPiece = {}
+    const perMotif = {}
     const groupPicked = []
     for (const c of pool) {
       if (groupPicked.length >= group.count) break
@@ -453,7 +469,9 @@ for (const world of unreleased) {
             ? c.forkPiece !== group.notPiece
             : true
       if (!matches || (perPiece[piece] ?? 0) >= cap) continue
+      if (world.maxPerMotif && (perMotif[c.motif] ?? 0) >= world.maxPerMotif) continue
       perPiece[piece] = (perPiece[piece] ?? 0) + 1
+      perMotif[c.motif] = (perMotif[c.motif] ?? 0) + 1
       groupPicked.push(c)
     }
     if (groupPicked.length < group.count) {

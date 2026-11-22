@@ -32,9 +32,9 @@ const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2)
 export function MapScreen({ world, progress, walk, onWalkDone, onPlay, onChest, header }: MapScreenProps) {
   const { t, tn } = useI18n()
   const n = world.puzzles.length
-  const height = mapHeight(n)
   const layout = mapLayout(world.id)
-  const pts = waypoints(n, layout.path)
+  const height = mapHeight(n, layout.extraTop)
+  const pts = waypoints(n, layout.path, layout.extraTop)
   const front = frontier(world, progress)
   const allSolved = front === n
   const chestOpen = !!progress.chests[world.id]

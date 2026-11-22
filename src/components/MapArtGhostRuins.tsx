@@ -237,7 +237,12 @@ function RuinsOwl({ x, y, s = 1, flip = false, column = true }: { x: number; y: 
       <g transform={column ? 'translate(0 -25)' : undefined}>
         <ellipse cx="0" cy="-13" rx="11.5" ry="13.5" fill="#7A63B0" stroke={INK} strokeWidth={2.1} />
         <ellipse cx="0" cy="-9" rx="7" ry="8.5" fill="#E9DFF7" />
-        <path d="M-3 -6 l1.5 1.5 l1.5 -1.5 l1.5 1.5 l1.5 -1.5 M-3 -2 l1.5 1.5 l1.5 -1.5 l1.5 1.5 l1.5 -1.5" fill="none" stroke="#B9A9DB" strokeWidth={1.1} />
+        <path
+          d="M-3 -6 l1.5 1.5 l1.5 -1.5 l1.5 1.5 l1.5 -1.5 M-3 -2 l1.5 1.5 l1.5 -1.5 l1.5 1.5 l1.5 -1.5"
+          fill="none"
+          stroke="#B9A9DB"
+          strokeWidth={1.1}
+        />
         <path d="M-9 -23 L-12 -30 L-4 -26 Z M9 -23 L12 -30 L4 -26 Z" fill="#7A63B0" stroke={INK} strokeWidth={1.8} strokeLinejoin="round" />
         <circle cx="-4.4" cy="-16" r="4" fill={GR.lantern} stroke={INK} strokeWidth={1.5} />
         <circle cx="4.4" cy="-16" r="4" fill={GR.lantern} stroke={INK} strokeWidth={1.5} />
@@ -275,7 +280,19 @@ function BrokenColumn({ x, y, s = 1, flip = false }: { x: number; y: number; s?:
 }
 
 /** Mossy little rook/knight statue on a plinth – filler decor. */
-function ChessStatue({ x, y, s = 1, kind = 'rook', flip = false }: { x: number; y: number; s?: number; kind?: 'rook' | 'knight'; flip?: boolean }) {
+function ChessStatue({
+  x,
+  y,
+  s = 1,
+  kind = 'rook',
+  flip = false,
+}: {
+  x: number
+  y: number
+  s?: number
+  kind?: 'rook' | 'knight'
+  flip?: boolean
+}) {
   return (
     <g transform={at(x, y, s, flip)}>
       <Shadow rx={18} />
@@ -353,7 +370,23 @@ function TwinkleStar({ x, y, s = 1, delay = 0 }: { x: number; y: number; s?: num
 }
 
 /** Patch of broken flagstone paving (brick pattern, crumbling oval edge). */
-function Paving({ cx, cy, rx, ry, rand, cell = 22, angle = 0 }: { cx: number; cy: number; rx: number; ry: number; rand: () => number; cell?: number; angle?: number }) {
+function Paving({
+  cx,
+  cy,
+  rx,
+  ry,
+  rand,
+  cell = 22,
+  angle = 0,
+}: {
+  cx: number
+  cy: number
+  rx: number
+  ry: number
+  rand: () => number
+  cell?: number
+  angle?: number
+}) {
   const out: ReactNode[] = []
   const ch = cell * 0.7
   const rows = Math.ceil((ry * 2) / ch)
@@ -405,7 +438,12 @@ function RuinGate({ x, y }: { x: number; y: number }) {
       {/* left wall stub running off to the edge */}
       {merlons(-232, -50, -34, [3, 7])}
       <path d="M-240 2 V-34 H-50 V2 Z" fill={GR.stone} {...st} />
-      <path d="M-240 -16 H-50 M-200 -34 V-16 M-150 -16 V2 M-110 -34 V-16 M-70 -16 V2" stroke={GR.stoneDeep} strokeWidth={1.4} opacity={0.7} />
+      <path
+        d="M-240 -16 H-50 M-200 -34 V-16 M-150 -16 V2 M-110 -34 V-16 M-70 -16 V2"
+        stroke={GR.stoneDeep}
+        strokeWidth={1.4}
+        opacity={0.7}
+      />
       <path d="M-240 -8 H-50 V2 H-240 Z" fill={GR.stoneShade} opacity={0.55} />
       {/* right wall stub, broken in steps */}
       {merlons(50, 150, -34, [2])}
@@ -423,7 +461,12 @@ function RuinGate({ x, y }: { x: number; y: number }) {
       {[-84, -70, -56].map((mx) => (
         <rect key={mx} x={mx} y={-80} width="11" height="11" rx="1.5" fill={GR.stone} {...st} strokeWidth={2} />
       ))}
-      <path d="M-84 -48 H-42 M-84 -24 H-42 M-70 -70 V-48 M-56 -48 V-24 M-70 -24 V4" stroke={GR.stoneDeep} strokeWidth={1.3} opacity={0.65} />
+      <path
+        d="M-84 -48 H-42 M-84 -24 H-42 M-70 -70 V-48 M-56 -48 V-24 M-70 -24 V4"
+        stroke={GR.stoneDeep}
+        strokeWidth={1.3}
+        opacity={0.65}
+      />
       <path d="M-78 -66 V-22 L-71 -28 L-64 -22 V-66 Z" fill={GR.roof} stroke={INK} strokeWidth={2} strokeLinejoin="round" />
       <path d="M-71 -54 l-4 6 h8 Z" fill={GR.gold} stroke={INK} strokeWidth={1.3} strokeLinejoin="round" />
       <rect x="-74" y="-48" width="6" height="8" rx="1" fill={GR.gold} stroke={INK} strokeWidth={1.3} />
@@ -438,10 +481,26 @@ function RuinGate({ x, y }: { x: number; y: number }) {
       <circle cx="82" cy="-44" r="3" fill={GR.ivyLight} stroke={INK} strokeWidth={1.2} />
 
       {/* pointed gate arch over the trail + raised portcullis */}
-      <path d="M-44 -38 C-44 -70 0 -84 0 -84 C0 -84 44 -70 44 -38 H32 C32 -60 0 -70 0 -70 C0 -70 -32 -60 -32 -38 Z" fill={GR.stoneLight} {...st} />
+      <path
+        d="M-44 -38 C-44 -70 0 -84 0 -84 C0 -84 44 -70 44 -38 H32 C32 -60 0 -70 0 -70 C0 -70 -32 -60 -32 -38 Z"
+        fill={GR.stoneLight}
+        {...st}
+      />
       <path d="M-5 -84 L0 -70 L5 -84 Z" fill={GR.stoneShade} stroke={INK} strokeWidth={1.6} strokeLinejoin="round" />
-      <path d="M-26 -50 V-40 M-14 -60 V-40 M-2 -66 V-40 M10 -63 V-40 M22 -55 V-40 M-29 -46 H27" stroke={INK} strokeWidth={2} strokeLinecap="round" opacity={0.75} />
-      <path d="M-28 -40 l2 4 l2 -4 M-16 -40 l2 4 l2 -4 M-4 -40 l2 4 l2 -4 M8 -40 l2 4 l2 -4 M20 -40 l2 4 l2 -4" fill="none" stroke={INK} strokeWidth={1.6} opacity={0.75} />
+      <path
+        d="M-26 -50 V-40 M-14 -60 V-40 M-2 -66 V-40 M10 -63 V-40 M22 -55 V-40 M-29 -46 H27"
+        stroke={INK}
+        strokeWidth={2}
+        strokeLinecap="round"
+        opacity={0.75}
+      />
+      <path
+        d="M-28 -40 l2 4 l2 -4 M-16 -40 l2 4 l2 -4 M-4 -40 l2 4 l2 -4 M8 -40 l2 4 l2 -4 M20 -40 l2 4 l2 -4"
+        fill="none"
+        stroke={INK}
+        strokeWidth={1.6}
+        opacity={0.75}
+      />
       {/* torches on the tower fronts */}
       {[-46, 46].map((tx) => (
         <g key={tx} transform={`translate(${tx} -28)`}>
@@ -470,7 +529,13 @@ function Moat({ top, bottom, rand }: { top: [number, number][]; bottom: [number,
         {k % 2 === 0 && (
           <g>
             <circle className="gr-glow" cx="-1" cy="-3" r="9" fill="url(#gr-glow-wisp)" />
-            <path d="M-4 -2 L-1 -7 L2 -2 Z M-1 -2 L3 -6 L4 -1 Z M-1 -2 L-5 -6 L-6 -1 Z" fill={GR.glassPink} stroke={INK} strokeWidth={1} strokeLinejoin="round" />
+            <path
+              d="M-4 -2 L-1 -7 L2 -2 Z M-1 -2 L3 -6 L4 -1 Z M-1 -2 L-5 -6 L-6 -1 Z"
+              fill={GR.glassPink}
+              stroke={INK}
+              strokeWidth={1}
+              strokeLinejoin="round"
+            />
           </g>
         )}
       </g>,
@@ -581,7 +646,15 @@ function GiantKing({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
       <path d="M-15 -18 C-6 -14 4 -16 15 -20" fill="none" stroke={GR.marbleShade} strokeWidth={2} />
       <path d="M-24 -6 C-16 -12 -6 -10 -2 -4 C-10 -1 -18 -1 -24 -6 Z" fill={GR.ivyLight} stroke={INK} strokeWidth={1.5} />
       <path d="M-14 -46 C-10 -40 -14 -32 -10 -26" fill="none" stroke={GR.ivy} strokeWidth={3} strokeLinecap="round" />
-      <path className="gr-snore" d="M20 -66 h7 l-7 8 h7 M30 -80 h5 l-5 6 h5" fill="none" stroke={GR.mist} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        className="gr-snore"
+        d="M20 -66 h7 l-7 8 h7 M30 -80 h5 l-5 6 h5"
+        fill="none"
+        stroke={GR.mist}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </g>
   )
 }
@@ -650,9 +723,27 @@ function SpookyTree({ x, y, s = 1, flip = false }: { x: number; y: number; s?: n
       />
       <path d="M2 -40 L20 -50 L22 -48 L6 -36 C5 -22 6 -10 8 1 H3 Z" fill="#4E3C58" opacity={0.6} />
       <ellipse cx="-2" cy="-14" rx="3" ry="4.5" fill="#3A2C44" stroke={INK} strokeWidth={1.4} />
-      <path d="M-34 -56 C-44 -56 -44 -72 -30 -74 C-26 -84 -10 -84 -6 -74 C2 -74 2 -56 -8 -56 Z" fill="#2F6A76" stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
-      <path d="M6 -58 C-4 -58 -4 -74 8 -76 C12 -86 30 -86 34 -76 C44 -74 42 -58 30 -58 Z" fill="#2F6A76" stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
-      <path d="M-20 -70 C-30 -70 -32 -88 -16 -90 C-12 -102 10 -102 16 -90 C30 -90 32 -72 18 -70 Z" fill="#3E8790" stroke={INK} strokeWidth={2.3} strokeLinejoin="round" />
+      <path
+        d="M-34 -56 C-44 -56 -44 -72 -30 -74 C-26 -84 -10 -84 -6 -74 C2 -74 2 -56 -8 -56 Z"
+        fill="#2F6A76"
+        stroke={INK}
+        strokeWidth={2.2}
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6 -58 C-4 -58 -4 -74 8 -76 C12 -86 30 -86 34 -76 C44 -74 42 -58 30 -58 Z"
+        fill="#2F6A76"
+        stroke={INK}
+        strokeWidth={2.2}
+        strokeLinejoin="round"
+      />
+      <path
+        d="M-20 -70 C-30 -70 -32 -88 -16 -90 C-12 -102 10 -102 16 -90 C30 -90 32 -72 18 -70 Z"
+        fill="#3E8790"
+        stroke={INK}
+        strokeWidth={2.3}
+        strokeLinejoin="round"
+      />
       <path d="M-12 -86 q10 -6 20 0" stroke="rgba(230,222,248,.6)" strokeWidth={2.2} fill="none" strokeLinecap="round" />
       {[
         [-22, -60],
@@ -705,9 +796,34 @@ function ChessCourtyard({ x, y, angle, rand }: { x: number; y: number; angle: nu
       const jy = (rand() - 0.5) * 1.6
       tiles.push(
         <g key={key}>
-          <rect x={f(tx + 1 + jx)} y={f(ty + 1 + jy)} width={T - 2} height={T - 2} rx="2.5" fill={light ? GR.marble : GR.obsidian} stroke="rgba(47,36,32,.55)" strokeWidth={1.2} />
-          {light && <path d={`M${f(tx + 4 + jx)} ${f(ty + 5 + jy)} h${T - 12}`} stroke="#FFFFFF" strokeWidth={1.6} opacity={0.6} strokeLinecap="round" />}
-          {!light && <path d={`M${f(tx + 4 + jx)} ${f(ty + 5 + jy)} h${T - 12}`} stroke={GR.obsidianLight} strokeWidth={1.6} opacity={0.8} strokeLinecap="round" />}
+          <rect
+            x={f(tx + 1 + jx)}
+            y={f(ty + 1 + jy)}
+            width={T - 2}
+            height={T - 2}
+            rx="2.5"
+            fill={light ? GR.marble : GR.obsidian}
+            stroke="rgba(47,36,32,.55)"
+            strokeWidth={1.2}
+          />
+          {light && (
+            <path
+              d={`M${f(tx + 4 + jx)} ${f(ty + 5 + jy)} h${T - 12}`}
+              stroke="#FFFFFF"
+              strokeWidth={1.6}
+              opacity={0.6}
+              strokeLinecap="round"
+            />
+          )}
+          {!light && (
+            <path
+              d={`M${f(tx + 4 + jx)} ${f(ty + 5 + jy)} h${T - 12}`}
+              stroke={GR.obsidianLight}
+              strokeWidth={1.6}
+              opacity={0.8}
+              strokeLinecap="round"
+            />
+          )}
         </g>,
       )
     }
@@ -734,10 +850,28 @@ function ChessCourtyard({ x, y, angle, rand }: { x: number; y: number; angle: nu
       {tiles}
       {moss}
       {/* cracks */}
-      <path d={`M${-half + 60} ${-half + 2} l6 14 l-5 10 l8 12 M${half - 40} ${half - 70} l-12 6 l-4 14 l-14 4`} fill="none" stroke={INK} strokeWidth={1.4} opacity={0.6} strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d={`M${-half + 60} ${-half + 2} l6 14 l-5 10 l8 12 M${half - 40} ${half - 70} l-12 6 l-4 14 l-14 4`}
+        fill="none"
+        stroke={INK}
+        strokeWidth={1.4}
+        opacity={0.6}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
       {/* moss creeping over the frame corners */}
-      <path d={`M${frame - 30} ${-frame - 2} C${frame - 20} ${-frame - 8} ${frame - 4} ${-frame - 4} ${frame + 2} ${-frame + 10} C${frame - 6} ${-frame + 14} ${frame - 22} ${-frame + 8} ${frame - 30} ${-frame - 2} Z`} fill={GR.ivyLight} stroke={INK} strokeWidth={1.6} />
-      <path d={`M${-frame - 3} ${frame - 40} C${-frame - 8} ${frame - 24} ${-frame + 2} ${frame - 4} ${-frame + 16} ${frame + 2} C${-frame + 10} ${frame - 12} ${-frame + 4} ${frame - 26} ${-frame - 3} ${frame - 40} Z`} fill={GR.ivy} stroke={INK} strokeWidth={1.6} />
+      <path
+        d={`M${frame - 30} ${-frame - 2} C${frame - 20} ${-frame - 8} ${frame - 4} ${-frame - 4} ${frame + 2} ${-frame + 10} C${frame - 6} ${-frame + 14} ${frame - 22} ${-frame + 8} ${frame - 30} ${-frame - 2} Z`}
+        fill={GR.ivyLight}
+        stroke={INK}
+        strokeWidth={1.6}
+      />
+      <path
+        d={`M${-frame - 3} ${frame - 40} C${-frame - 8} ${frame - 24} ${-frame + 2} ${frame - 4} ${-frame + 16} ${frame + 2} C${-frame + 10} ${frame - 12} ${-frame + 4} ${frame - 26} ${-frame - 3} ${frame - 40} Z`}
+        fill={GR.ivy}
+        stroke={INK}
+        strokeWidth={1.6}
+      />
     </g>
   )
 }
@@ -790,9 +924,21 @@ function CloisterArcade({ x, y, rand }: { x: number; y: number; rand: () => numb
       <path d="M-4 -148 V-128 M-14 -138 H6" stroke={INK} strokeWidth={1.4} />
       <circle className="gr-glow" cx="-4" cy="-138" r="20" fill="url(#gr-glow-warm)" />
       {/* ivy cascades */}
-      <path d="M-104 -132 C-96 -116 -108 -100 -98 -84 C-92 -72 -102 -60 -96 -48" fill="none" stroke={GR.ivy} strokeWidth={3.6} strokeLinecap="round" />
+      <path
+        d="M-104 -132 C-96 -116 -108 -100 -98 -84 C-92 -72 -102 -60 -96 -48"
+        fill="none"
+        stroke={GR.ivy}
+        strokeWidth={3.6}
+        strokeLinecap="round"
+      />
       <path d="M46 -134 C40 -120 50 -108 42 -96" fill="none" stroke={GR.ivy} strokeWidth={3.4} strokeLinecap="round" />
-      <path d="M104 -124 C96 -108 108 -94 100 -78 C94 -66 104 -56 98 -40" fill="none" stroke={GR.ivy} strokeWidth={3.4} strokeLinecap="round" />
+      <path
+        d="M104 -124 C96 -108 108 -94 100 -78 C94 -66 104 -56 98 -40"
+        fill="none"
+        stroke={GR.ivy}
+        strokeWidth={3.4}
+        strokeLinecap="round"
+      />
       {[
         [-100, -118],
         [-102, -94],
@@ -809,7 +955,17 @@ function CloisterArcade({ x, y, rand }: { x: number; y: number; rand: () => numb
       <FriendlyGhost x={30} y={-14} s={0.92} flip lantern delay={-2.4} />
       {/* rubble */}
       <rect x="-120" y="10" width="14" height="10" rx="2" fill={GR.stone} stroke={INK} strokeWidth={1.8} transform="rotate(-14 -113 15)" />
-      <rect x="-100" y="18" width="10" height="8" rx="2" fill={GR.stoneShade} stroke={INK} strokeWidth={1.6} transform="rotate(10 -95 22)" />
+      <rect
+        x="-100"
+        y="18"
+        width="10"
+        height="8"
+        rx="2"
+        fill={GR.stoneShade}
+        stroke={INK}
+        strokeWidth={1.6}
+        transform="rotate(10 -95 22)"
+      />
     </g>
   )
 }
@@ -826,14 +982,27 @@ function MoonPool({ x, y }: { x: number; y: number }) {
       <ellipse cx="-4" cy="-4" rx="58" ry="24" fill="rgba(142,240,228,.25)" />
       {/* moon reflection */}
       <ellipse cx="-34" cy="6" rx="13" ry="5" fill={GR.moon} opacity={0.85} />
-      <path className="gr-shimmer" d="M-52 14 h36 M-46 20 h24 M-40 -2 h14 M28 18 q10 -4 20 0 M30 -16 q8 -3 16 0" stroke={GR.waterLight} strokeWidth={2} strokeLinecap="round" fill="none" />
+      <path
+        className="gr-shimmer"
+        d="M-52 14 h36 M-46 20 h24 M-40 -2 h14 M28 18 q10 -4 20 0 M30 -16 q8 -3 16 0"
+        stroke={GR.waterLight}
+        strokeWidth={2}
+        strokeLinecap="round"
+        fill="none"
+      />
       <ellipse className="gr-ripple" cx="0" cy="4" rx="28" ry="10" fill="none" stroke={GR.wisp} strokeWidth={1.8} opacity={0.8} />
       {/* lily pads + frog prince */}
       <path d="M44 6 m-12 0 a12 6 0 1 0 24 0 a12 6 0 1 0 -24 0 M44 6 L54 3" fill={GR.lily} stroke={INK} strokeWidth={1.5} />
       <path d="M-56 -10 m-9 0 a9 4.5 0 1 0 18 0 a9 4.5 0 1 0 -18 0" fill={GR.lily} stroke={INK} strokeWidth={1.4} />
       <g transform="translate(-56 -12)">
         <circle className="gr-glow" r="9" fill="url(#gr-glow-wisp)" />
-        <path d="M-4 0 L-1 -6 L2 0 Z M-1 0 L3 -5 L4 1 Z M-1 0 L-5 -5 L-6 1 Z" fill={GR.glassPink} stroke={INK} strokeWidth={1} strokeLinejoin="round" />
+        <path
+          d="M-4 0 L-1 -6 L2 0 Z M-1 0 L3 -5 L4 1 Z M-1 0 L-5 -5 L-6 1 Z"
+          fill={GR.glassPink}
+          stroke={INK}
+          strokeWidth={1}
+          strokeLinejoin="round"
+        />
       </g>
       <g transform="translate(44 2)">
         <ellipse cx="0" cy="0" rx="9" ry="7" fill={GR.frog} stroke={INK} strokeWidth={1.8} />
@@ -842,7 +1011,13 @@ function MoonPool({ x, y }: { x: number; y: number }) {
         <circle cx="-4.5" cy="-6.4" r="1.4" fill={INK} />
         <circle cx="4.5" cy="-6.4" r="1.4" fill={INK} />
         <path d="M-4 1 q4 3 8 0" fill="none" stroke={INK} strokeWidth={1.4} strokeLinecap="round" />
-        <path d="M-5 -10 L-4 -14 L-1.5 -11 L0 -15 L1.5 -11 L4 -14 L5 -10 Z" fill={GR.gold} stroke={INK} strokeWidth={1.2} strokeLinejoin="round" />
+        <path
+          d="M-5 -10 L-4 -14 L-1.5 -11 L0 -15 L1.5 -11 L4 -14 L5 -10 Z"
+          fill={GR.gold}
+          stroke={INK}
+          strokeWidth={1.2}
+          strokeLinejoin="round"
+        />
         <path d="M-9 4 C-12 6 -12 8 -9 8 M9 4 C12 6 12 8 9 8" fill="none" stroke={GR.frogDeep} strokeWidth={2} strokeLinecap="round" />
       </g>
       {/* central knight fountain */}
@@ -857,7 +1032,14 @@ function MoonPool({ x, y }: { x: number; y: number }) {
         strokeLinejoin="round"
       />
       <circle cx="-2" cy="-39" r="1.3" fill={INK} />
-      <path className="gr-glow" d="M-9 -34 C-22 -40 -28 -22 -30 -6 M6 -36 C20 -46 30 -26 32 -8" fill="none" stroke={GR.waterLight} strokeWidth={2.8} strokeLinecap="round" />
+      <path
+        className="gr-glow"
+        d="M-9 -34 C-22 -40 -28 -22 -30 -6 M6 -36 C20 -46 30 -26 32 -8"
+        fill="none"
+        stroke={GR.waterLight}
+        strokeWidth={2.8}
+        strokeLinecap="round"
+      />
       <circle cx="-30" cy="-4" r="2" fill={GR.waterLight} />
       <circle cx="32" cy="-6" r="2" fill={GR.waterLight} />
     </g>
@@ -875,7 +1057,13 @@ function GhostTower({ x, y }: { x: number; y: number }) {
         <path d="M-32 2 L-28 -176 H28 L32 2 Z" fill={GR.stone} {...st} />
         <path d="M6 -176 H28 L32 2 H8 Z" fill={GR.stoneShade} opacity={0.6} />
         {[-150, -122, -94, -66, -38, -12].map((by, i) => (
-          <path key={by} d={`M-30 ${by} H30 M${i % 2 ? -10 : 8} ${by} V${by - 28} M${i % 2 ? 14 : -16} ${by} V${by - 28}`} stroke={GR.stoneDeep} strokeWidth={1.3} opacity={0.6} />
+          <path
+            key={by}
+            d={`M-30 ${by} H30 M${i % 2 ? -10 : 8} ${by} V${by - 28} M${i % 2 ? 14 : -16} ${by} V${by - 28}`}
+            stroke={GR.stoneDeep}
+            strokeWidth={1.3}
+            opacity={0.6}
+          />
         ))}
         {/* corbelled top with broken crenellations */}
         <path d="M-38 -176 H38 L34 -188 H-34 Z" fill={GR.stoneLight} {...st} />
@@ -885,10 +1073,22 @@ function GhostTower({ x, y }: { x: number; y: number }) {
         <path d="M2 -188 L6 -196 L12 -190 Z" fill={GR.stone} stroke={INK} strokeWidth={2} strokeLinejoin="round" />
         {/* flag */}
         <path d="M-24 -204 V-238" stroke={INK} strokeWidth={2.6} strokeLinecap="round" />
-        <path className="map-flag" d="M-24 -238 L2 -230 L-6 -226 L2 -220 L-24 -222 Z" fill={GR.roofLight} stroke={INK} strokeWidth={2} strokeLinejoin="round" />
+        <path
+          className="map-flag"
+          d="M-24 -238 L2 -230 L-6 -226 L2 -220 L-24 -222 Z"
+          fill={GR.roofLight}
+          stroke={INK}
+          strokeWidth={2}
+          strokeLinejoin="round"
+        />
         {/* big top window with a ghost peeking out */}
         <circle className="gr-glow" cx="0" cy="-146" r="30" fill="url(#gr-glow-warm)" />
-        <path d="M-15 -128 V-150 C-15 -162 0 -168 0 -168 C0 -168 15 -162 15 -150 V-128 Z" fill={GR.lantern} stroke={INK} strokeWidth={2.3} />
+        <path
+          d="M-15 -128 V-150 C-15 -162 0 -168 0 -168 C0 -168 15 -162 15 -150 V-128 Z"
+          fill={GR.lantern}
+          stroke={INK}
+          strokeWidth={2.3}
+        />
         <g transform="translate(0 -128)">
           <path d="M-10 0 V-14 C-10 -24 10 -24 10 -14 V0 Z" fill={GR.ghost} stroke={INK} strokeWidth={2} />
           <ellipse cx="-3.5" cy="-14" rx="1.8" ry="2.3" fill={INK} />
@@ -906,7 +1106,13 @@ function GhostTower({ x, y }: { x: number; y: number }) {
         <path d="M-7 2 V-30 M0 2 V-36 M7 2 V-30" stroke={INK} strokeWidth={1.3} opacity={0.5} />
         <circle cx="8" cy="-12" r="1.8" fill={GR.gold} />
         {/* ivy climbing */}
-        <path d="M-30 -6 C-22 -30 -34 -52 -24 -74 C-18 -94 -30 -110 -22 -130" fill="none" stroke={GR.ivy} strokeWidth={3.8} strokeLinecap="round" />
+        <path
+          d="M-30 -6 C-22 -30 -34 -52 -24 -74 C-18 -94 -30 -110 -22 -130"
+          fill="none"
+          stroke={GR.ivy}
+          strokeWidth={3.8}
+          strokeLinecap="round"
+        />
         {[
           [-27, -24],
           [-28, -58],
@@ -919,7 +1125,17 @@ function GhostTower({ x, y }: { x: number; y: number }) {
       {/* magically floating bricks */}
       <g className="gr-float" style={{ animationDelay: '-1.2s' }}>
         <rect x="30" y="-222" width="14" height="9" rx="2" fill={GR.stone} stroke={INK} strokeWidth={1.8} transform="rotate(16 37 -218)" />
-        <rect x="46" y="-196" width="11" height="8" rx="2" fill={GR.stoneLight} stroke={INK} strokeWidth={1.7} transform="rotate(-12 51 -192)" />
+        <rect
+          x="46"
+          y="-196"
+          width="11"
+          height="8"
+          rx="2"
+          fill={GR.stoneLight}
+          stroke={INK}
+          strokeWidth={1.7}
+          transform="rotate(-12 51 -192)"
+        />
         <circle cx="40" cy="-206" r="10" fill="url(#gr-glow-wisp)" />
       </g>
       {/* rubble at the foot */}
@@ -959,7 +1175,12 @@ function GhostAbbey({ x, y }: { x: number; y: number }) {
   const r = { fill: GR.roof, stroke: INK, strokeWidth: 2.5, strokeLinejoin: 'round' as const }
   const glass = (wx: number, wy: number, w: number, h: number, key: string) => (
     <g key={key}>
-      <path d={`M${wx - w} ${wy} V${wy - h + w} A${w} ${w * 1.25} 0 0 1 ${wx + w} ${wy - h + w} V${wy} Z`} fill={GR.lantern} stroke={INK} strokeWidth={2} />
+      <path
+        d={`M${wx - w} ${wy} V${wy - h + w} A${w} ${w * 1.25} 0 0 1 ${wx + w} ${wy - h + w} V${wy} Z`}
+        fill={GR.lantern}
+        stroke={INK}
+        strokeWidth={2}
+      />
       <path d={`M${wx - w} ${wy - h * 0.45} H${wx + w} V${wy} H${wx - w} Z`} fill={GR.glassMint} opacity={0.75} />
       <path d={`M${wx} ${wy - h * 0.45} H${wx + w} V${wy} H${wx} Z`} fill={GR.glassPink} opacity={0.7} />
       <path d={`M${wx} ${wy - h + 2} V${wy} M${wx - w} ${wy - h * 0.45} H${wx + w}`} stroke={INK} strokeWidth={1.3} />
@@ -970,18 +1191,43 @@ function GhostAbbey({ x, y }: { x: number; y: number }) {
     <g transform={`translate(${x} ${y})`}>
       <ellipse cx="0" cy="10" rx="172" ry="20" fill="rgba(12,10,34,.34)" />
       {/* flying buttresses */}
-      <path d="M-150 6 V-36 C-140 -48 -120 -60 -96 -64 L-96 -52 C-116 -48 -132 -38 -138 -28 V6 Z" fill={GR.stoneShade} stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
-      <path d="M150 6 V-36 C140 -48 120 -60 96 -64 L96 -52 C116 -48 132 -38 138 -28 V6 Z" fill={GR.stoneShade} stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
+      <path
+        d="M-150 6 V-36 C-140 -48 -120 -60 -96 -64 L-96 -52 C-116 -48 -132 -38 -138 -28 V6 Z"
+        fill={GR.stoneShade}
+        stroke={INK}
+        strokeWidth={2.2}
+        strokeLinejoin="round"
+      />
+      <path
+        d="M150 6 V-36 C140 -48 120 -60 96 -64 L96 -52 C116 -48 132 -38 138 -28 V6 Z"
+        fill={GR.stoneShade}
+        stroke={INK}
+        strokeWidth={2.2}
+        strokeLinejoin="round"
+      />
 
       {/* left grand spire tower */}
       <rect x="-140" y="-118" width="50" height="124" rx="2" {...s} />
       <rect x="-112" y="-118" width="22" height="124" fill={GR.stoneShade} opacity={0.55} />
       <path d="M-146 -116 L-115 -196 L-84 -116 Z" {...r} />
       <path d="M-115 -196 L-84 -116 H-110 Z" fill={GR.roofDeep} opacity={0.55} />
-      <path d="M-134 -126 L-122 -142 M-128 -112 L-112 -132 M-122 -152 L-114 -166" stroke={GR.roofLight} strokeWidth={2} strokeLinecap="round" opacity={0.75} />
+      <path
+        d="M-134 -126 L-122 -142 M-128 -112 L-112 -132 M-122 -152 L-114 -166"
+        stroke={GR.roofLight}
+        strokeWidth={2}
+        strokeLinecap="round"
+        opacity={0.75}
+      />
       <rect x="-146" y="-122" width="62" height="8" rx="2" fill={GR.stoneLight} stroke={INK} strokeWidth={2.2} />
       <path d="M-115 -196 V-216" stroke={INK} strokeWidth={2.4} strokeLinecap="round" />
-      <path className="map-flag" d="M-115 -216 L-90 -209 L-115 -202 Z" fill={GR.gold} stroke={INK} strokeWidth={1.8} strokeLinejoin="round" />
+      <path
+        className="map-flag"
+        d="M-115 -216 L-90 -209 L-115 -202 Z"
+        fill={GR.gold}
+        stroke={INK}
+        strokeWidth={1.8}
+        strokeLinejoin="round"
+      />
       <circle className="gr-glow" cx="-115" cy="-80" r="26" fill="url(#gr-glow-warm)" />
       {glass(-115, -62, 8, 38, 'lt')}
       <path d="M-140 -20 H-90" stroke={GR.stoneDeep} strokeWidth={1.4} opacity={0.6} />
@@ -989,8 +1235,20 @@ function GhostAbbey({ x, y }: { x: number; y: number }) {
       {/* right broken belfry with exposed rafters and a ghost ringing the bell */}
       <path d="M90 6 V-128 L104 -136 L116 -126 L132 -138 L142 -130 V6 Z" {...s} />
       <path d="M118 -128 L142 -130 V6 H118 Z" fill={GR.stoneShade} opacity={0.55} />
-      <path d="M116 -178 L148 -126 M120 -160 H128 M114 -146 H137 M108 -134 H144" fill="none" stroke={INK} strokeWidth={5.5} strokeLinecap="round" />
-      <path d="M116 -178 L148 -126 M120 -160 H128 M114 -146 H137 M108 -134 H144" fill="none" stroke={GR.wood} strokeWidth={2.6} strokeLinecap="round" />
+      <path
+        d="M116 -178 L148 -126 M120 -160 H128 M114 -146 H137 M108 -134 H144"
+        fill="none"
+        stroke={INK}
+        strokeWidth={5.5}
+        strokeLinecap="round"
+      />
+      <path
+        d="M116 -178 L148 -126 M120 -160 H128 M114 -146 H137 M108 -134 H144"
+        fill="none"
+        stroke={GR.wood}
+        strokeWidth={2.6}
+        strokeLinecap="round"
+      />
       <path d="M84 -126 L116 -178 L120 -162 L112 -152 L117 -142 L106 -134 L110 -126 Z" {...r} />
       <path d="M94 -136 L104 -150 M100 -128 L108 -140" stroke={GR.roofLight} strokeWidth={2} strokeLinecap="round" opacity={0.75} />
       <path d="M100 -70 V-98 A16 16 0 0 1 132 -98 V-70 Z" fill={GR.roofDeep} stroke={INK} strokeWidth={2.2} />
@@ -999,7 +1257,13 @@ function GhostAbbey({ x, y }: { x: number; y: number }) {
         <path d="M107 -80 C107 -94 125 -94 125 -80 L128 -75 H104 Z" fill={GR.gold} stroke={INK} strokeWidth={1.8} strokeLinejoin="round" />
         <circle cx="116" cy="-73" r="2.6" fill={GR.lanternDeep} stroke={INK} strokeWidth={1.2} />
       </g>
-      <path d="M142 -124 C134 -110 144 -96 136 -80 C142 -66 134 -54 140 -40" fill="none" stroke={GR.ivy} strokeWidth={3.6} strokeLinecap="round" />
+      <path
+        d="M142 -124 C134 -110 144 -96 136 -80 C142 -66 134 -54 140 -40"
+        fill="none"
+        stroke={GR.ivy}
+        strokeWidth={3.6}
+        strokeLinecap="round"
+      />
       <circle cx="138" cy="-102" r="3.4" fill={GR.ivyLight} stroke={INK} strokeWidth={1.2} />
       <circle cx="137" cy="-66" r="3" fill={GR.ivyLight} stroke={INK} strokeWidth={1.2} />
       <FriendlyGhost x={-166} y={-150} s={0.72} lantern={false} shadow={false} delay={-0.8} />
@@ -1040,12 +1304,29 @@ function GhostAbbey({ x, y }: { x: number; y: number }) {
       <rect x="-46" y="2" width="92" height="7" rx="2.5" fill={GR.stoneLight} stroke={INK} strokeWidth={2} />
       <rect x="-56" y="8" width="112" height="7" rx="2.5" fill={GR.stone} stroke={INK} strokeWidth={2} />
       {/* ivy over the nave */}
-      <path d="M-92 -78 C-84 -66 -94 -54 -86 -40 C-80 -30 -88 -20 -84 -8" fill="none" stroke={GR.ivy} strokeWidth={3.6} strokeLinecap="round" />
+      <path
+        d="M-92 -78 C-84 -66 -94 -54 -86 -40 C-80 -30 -88 -20 -84 -8"
+        fill="none"
+        stroke={GR.ivy}
+        strokeWidth={3.6}
+        strokeLinecap="round"
+      />
       <circle cx="-88" cy="-60" r="3.2" fill={GR.ivyLight} stroke={INK} strokeWidth={1.2} />
       <circle cx="-84" cy="-30" r="3" fill={GR.ivyLight} stroke={INK} strokeWidth={1.2} />
       {/* mist banks along the foundation */}
-      <path className="gr-mist" d="M-186 16 C-200 16 -198 -2 -180 -4 C-172 -18 -146 -16 -138 -4 C-128 -10 -112 -4 -110 8 V18 Z" fill={GR.mist} opacity={0.82} />
-      <path className="gr-mist" style={{ animationDelay: '-2.6s' }} d="M110 18 V8 C112 -4 128 -10 138 -4 C146 -16 172 -18 180 -4 C198 -2 200 16 186 16 Z" fill={GR.mist} opacity={0.82} />
+      <path
+        className="gr-mist"
+        d="M-186 16 C-200 16 -198 -2 -180 -4 C-172 -18 -146 -16 -138 -4 C-128 -10 -112 -4 -110 8 V18 Z"
+        fill={GR.mist}
+        opacity={0.82}
+      />
+      <path
+        className="gr-mist"
+        style={{ animationDelay: '-2.6s' }}
+        d="M110 18 V8 C112 -4 128 -10 138 -4 C146 -16 172 -18 180 -4 C198 -2 200 16 186 16 Z"
+        fill={GR.mist}
+        opacity={0.82}
+      />
     </g>
   )
 }
@@ -1056,7 +1337,13 @@ function DragonCastleTeaser({ x, y, s = 1 }: { x: number; y: number; s?: number 
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
       <circle className="gr-glow" cx="0" cy="-26" r="60" fill="url(#gr-glow-dragon)" />
-      <path d="M-58 20 L-36 -10 L-22 -4 L0 -26 L24 -8 L40 -14 L60 20 Z" fill={GR.dragonRock} stroke={line} strokeWidth={2.1} strokeLinejoin="round" />
+      <path
+        d="M-58 20 L-36 -10 L-22 -4 L0 -26 L24 -8 L40 -14 L60 20 Z"
+        fill={GR.dragonRock}
+        stroke={line}
+        strokeWidth={2.1}
+        strokeLinejoin="round"
+      />
       <path d="M0 -26 L24 -8 L40 -14 L60 20 H4 Z" fill={GR.dragonRockDeep} opacity={0.62} />
       <rect x="-26" y="-44" width="14" height="36" fill={GR.dragonWall} stroke={line} strokeWidth={1.9} />
       <path d="M-30 -44 L-19 -60 L-8 -44 Z" fill={GR.dragonRoof} stroke={line} strokeWidth={1.9} strokeLinejoin="round" />
@@ -1067,13 +1354,25 @@ function DragonCastleTeaser({ x, y, s = 1 }: { x: number; y: number; s?: number 
       <rect x="-4" y="-42" width="8" height="11" rx="4" fill={GR.dragonGold} stroke={line} strokeWidth={1.3} />
       <circle cx="-19" cy="-32" r="2.6" fill={GR.dragonGold} />
       <circle cx="19" cy="-32" r="2.6" fill={GR.dragonGold} />
-      <g className="gr-float" transform="translate(-34 -64)">
-        <path d="M-8 2 C-4 -6 2 -4 6 -2 C9 -4 12 -3 14 -1 C10 1 8 3 4 3 C1 6 -3 4 -8 2 Z" fill={GR.dragonRoof} stroke={line} strokeWidth={1.4} strokeLinejoin="round" />
-        <path d="M-2 -2 L-10 -10 L2 -6 Z" fill={GR.dragonRoof} stroke={line} strokeWidth={1.3} strokeLinejoin="round" />
-        <path d="M15 -1 Q22 -5 25 0 Q20 4 15 -1 Z" fill={GR.dragonFire} />
-        <circle cx="18" cy="-1" r="2" fill={GR.dragonGold} />
+      <g transform="translate(-34 -64)">
+        <g className="gr-float">
+          <path
+            d="M-8 2 C-4 -6 2 -4 6 -2 C9 -4 12 -3 14 -1 C10 1 8 3 4 3 C1 6 -3 4 -8 2 Z"
+            fill={GR.dragonRoof}
+            stroke={line}
+            strokeWidth={1.4}
+            strokeLinejoin="round"
+          />
+          <path d="M-2 -2 L-10 -10 L2 -6 Z" fill={GR.dragonRoof} stroke={line} strokeWidth={1.3} strokeLinejoin="round" />
+          <path d="M15 -1 Q22 -5 25 0 Q20 4 15 -1 Z" fill={GR.dragonFire} />
+          <circle cx="18" cy="-1" r="2" fill={GR.dragonGold} />
+        </g>
       </g>
-      <path d="M-64 22 C-72 22 -72 10 -60 10 C-52 2 -32 4 -24 12 C-12 4 12 4 22 12 C34 4 54 4 62 12 C72 12 72 22 62 22 Z" fill={GR.mist} opacity={0.8} />
+      <path
+        d="M-64 22 C-72 22 -72 10 -60 10 C-52 2 -32 4 -24 12 C-12 4 12 4 22 12 C34 4 54 4 62 12 C72 12 72 22 62 22 Z"
+        fill={GR.mist}
+        opacity={0.8}
+      />
     </g>
   )
 }
@@ -1086,11 +1385,22 @@ function Moon({ x, y, r = 40 }: { x: number; y: number; r?: number }) {
       <circle r={r * 1.7} fill="rgba(255,238,186,.08)" />
       <circle r={r * 1.35} fill="rgba(255,238,186,.12)" />
       <circle r={r} fill={GR.moon} stroke={INK} strokeWidth={2.6} />
-      <path d={`M${r * 0.25} ${-r * 0.97} A${r} ${r} 0 0 1 ${r * 0.25} ${r * 0.97} A${r * 0.78} ${r} 0 0 0 ${r * 0.25} ${-r * 0.97} Z`} fill={GR.moonShade} opacity={0.7} />
+      <path
+        d={`M${r * 0.25} ${-r * 0.97} A${r} ${r} 0 0 1 ${r * 0.25} ${r * 0.97} A${r * 0.78} ${r} 0 0 0 ${r * 0.25} ${-r * 0.97} Z`}
+        fill={GR.moonShade}
+        opacity={0.7}
+      />
       <circle cx={-r * 0.5} cy={-r * 0.45} r={r * 0.14} fill={GR.moonShade} />
       <circle cx={r * 0.45} cy={r * 0.5} r={r * 0.1} fill={GR.moonShade} />
       <circle cx={r * 0.55} cy={-r * 0.3} r={r * 0.07} fill={GR.moonShade} />
-      <path d={`M${-r * 0.55} ${-r * 0.68} q${r * 0.2} ${-r * 0.12} ${r * 0.4} ${-r * 0.06}`} fill="none" stroke="#FFFFFF" strokeWidth={2.4} strokeLinecap="round" opacity={0.8} />
+      <path
+        d={`M${-r * 0.55} ${-r * 0.68} q${r * 0.2} ${-r * 0.12} ${r * 0.4} ${-r * 0.06}`}
+        fill="none"
+        stroke="#FFFFFF"
+        strokeWidth={2.4}
+        strokeLinecap="round"
+        opacity={0.8}
+      />
       <SleepyFace y={r * 0.05} dx={r * 0.2} s={1.25} />
     </g>
   )
@@ -1227,7 +1537,20 @@ export function MapArtGhostRuins({ height, pts, walkedTo, stones }: MapArtProps)
         />,
       )
     } else if (pick < 0.85) {
-      groundCover.push(<rect key={`gs${i}`} x={f(x - 7)} y={f(y - 4)} width={14} height={8} rx={3} fill={GR.pave} opacity={0.55} stroke="rgba(47,36,32,.35)" strokeWidth={1.1} />)
+      groundCover.push(
+        <rect
+          key={`gs${i}`}
+          x={f(x - 7)}
+          y={f(y - 4)}
+          width={14}
+          height={8}
+          rx={3}
+          fill={GR.pave}
+          opacity={0.55}
+          stroke="rgba(47,36,32,.35)"
+          strokeWidth={1.1}
+        />,
+      )
     } else {
       groundCover.push(<circle key={`gf${i}`} cx={f(x)} cy={f(y)} r={2.2} fill={GR.wisp} opacity={0.9} />)
     }
@@ -1416,13 +1739,23 @@ export function MapArtGhostRuins({ height, pts, walkedTo, stones }: MapArtProps)
       ))}
 
       {/* 6. cobblestone trail + stone bridge */}
-      <path d={road} fill="none" stroke="rgba(12,10,34,.3)" strokeWidth={44} strokeLinecap="round" strokeLinejoin="round" transform="translate(3 6)" />
+      <path
+        d={road}
+        fill="none"
+        stroke="rgba(12,10,34,.3)"
+        strokeWidth={44}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        transform="translate(3 6)"
+      />
       <path d={road} fill="none" stroke={INK} strokeWidth={38} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={GR.trailEdge} strokeWidth={32} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={GR.trail} strokeWidth={25} strokeLinecap="round" strokeLinejoin="round" />
       <path d={road} fill="none" stroke={GR.trailSlab} strokeWidth={19} strokeDasharray="11 4" strokeLinejoin="round" />
       <StoneBridge pts={pts} seg={1} t0={0.26} t1={0.74} />
-      {walked && <path d={walked} fill="none" stroke="#C9372C" strokeWidth={5} strokeLinecap="round" strokeDasharray="10 12" opacity={0.85} />}
+      {walked && (
+        <path d={walked} fill="none" stroke="#C9372C" strokeWidth={5} strokeLinecap="round" strokeDasharray="10 12" opacity={0.85} />
+      )}
 
       {/* 7. ruins beside the trail */}
       <CloisterArcade x={arcade.x} y={arcade.y} rand={rand} />

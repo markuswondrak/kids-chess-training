@@ -5,6 +5,7 @@ import { MapArtDarkwood } from './MapArtDarkwood'
 import { MapArtEmberVolcano } from './MapArtEmberVolcano'
 import { MapArtFrostpeak } from './MapArtFrostpeak'
 import { MapArtCloudIsles } from './MapArtCloudIsles'
+import { MapArtDragonCastle } from './MapArtDragonCastle'
 import { MapArtGhostRuins } from './MapArtGhostRuins'
 import { MapArtMarsh } from './MapArtMarsh'
 
@@ -129,6 +130,7 @@ export function MapArt({ worldId, ...props }: MapArtProps) {
   if (worldId === 'frostgipfel') return <MapArtFrostpeak {...props} />
   if (worldId === 'wolkeninseln') return <MapArtCloudIsles {...props} />
   if (worldId === 'geisterruine') return <MapArtGhostRuins {...props} />
+  if (worldId === 'drachenburg') return <MapArtDragonCastle {...props} />
   if (worldId === 'glutvulkan') return <MapArtEmberVolcano {...props} />
   return <MeadowMap {...props} />
 }

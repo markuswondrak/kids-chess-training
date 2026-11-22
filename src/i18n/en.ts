@@ -59,6 +59,8 @@ export const en = {
   'result.chest.next': 'Off to {world}!',
   'result.chest.subtitleNext': 'You collected {got} of {max} stars. Your journey goes on to {world}!',
   'result.chest.button': 'Hooray!',
+  'result.finale.title': 'You did it, chess knight!',
+  'result.finale.subtitle': 'You collected {got} of {max} stars and conquered the Dragon Castle. Your great journey through all eight worlds is complete!',
   'endless.tag': 'Endless',
   'endless.button': 'Play endless',
   'endless.next': 'Next puzzle',
@@ -96,6 +98,7 @@ export const en = {
   'world.geisterruine.name': 'Ghost Ruins',
   'world.geisterruine.subtitle': 'Mixed',
   'world.drachenburg.name': 'Dragon Castle',
+  'world.drachenburg.subtitle': 'The grand finale',
 
   'task.mateIn1': 'Checkmate the king with a single move!',
   'task.mateIn2': 'Checkmate the king in 2 moves!',
