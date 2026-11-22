@@ -4,7 +4,7 @@ import { Crest } from './components/Heraldry'
 import { MapScreen, type Walk } from './components/MapScreen'
 import { PuzzleScreen } from './components/PuzzleScreen'
 import { ResultBanner } from './components/ResultBanner'
-import { Chest } from './components/Treasure'
+import { ChampionCrown, Chest } from './components/Treasure'
 import { GitHubIcon, SoundOffIcon, SoundOnIcon } from './components/icons'
 import { LanguageSwitch } from './components/LanguageSwitch'
 import { createRun, loadEndlessPool, type EndlessRun } from './game/endless'
@@ -171,6 +171,8 @@ export default function App() {
   const total = worldStars(world, progress)
   const next = nextBuiltWorld(world)
   const upcoming = upcomingWorld()
+  /** Letzte Welt der Reise: keine weitere gebaute oder geplante Welt. */
+  const finale = !next && !upcoming
 
   return (
     <div className="app" data-world={world.id}>
@@ -273,9 +275,11 @@ export default function App() {
 
       {chestBanner && (
         <ResultBanner
-          title={t('result.chest.title')}
+          title={t(finale ? 'result.finale.title' : 'result.chest.title')}
           subtitle={
-            next
+            finale
+              ? t('result.finale.subtitle', { got: total, max: world.puzzles.length * 3 })
+              : next
               ? t('result.chest.subtitleNext', {
                   got: total,
                   max: world.puzzles.length * 3,
@@ -289,7 +293,16 @@ export default function App() {
                   })
                 : ''
           }
-          emblem={<Chest open className="banner__chest" />}
+          emblem={
+            finale ? (
+              <div className="banner__finale">
+                <ChampionCrown className="banner__crown" />
+                <Chest open className="banner__chest" />
+              </div>
+            ) : (
+              <Chest open className="banner__chest" />
+            )
+          }
           note={poolState.status === 'unavailable' ? t('endless.unavailable') : undefined}
         >
           {next && (

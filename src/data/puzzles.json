@@ -1,4 +1,228 @@
 {
+ "drachenburg": [
+  {
+   "id": "5r5AF",
+   "fen": "8/8/8/7R/5k1K/8/8/6r1 w - - 7 61",
+   "moves": [
+    "h5h6",
+    "g1h1"
+   ],
+   "rating": 1100,
+   "themes": [
+    "endgame",
+    "mateIn1",
+    "rookEndgame"
+   ],
+   "motif": "mateIn1"
+  },
+  {
+   "id": "BHF3B",
+   "fen": "3k4/8/KR5r/8/8/8/8/8 b - - 6 61",
+   "moves": [
+    "h6h7",
+    "b6b8",
+    "d8c7",
+    "b8b7",
+    "c7d6",
+    "b7h7"
+   ],
+   "rating": 1100,
+   "themes": [
+    "crushing",
+    "endgame",
+    "exposedKing",
+    "long",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "w3gJB",
+   "fen": "7R/8/8/k7/1r6/3K4/8/8 b - - 41 108",
+   "moves": [
+    "b4b1",
+    "h8a8",
+    "a5b6",
+    "a8b8",
+    "b6c6",
+    "b8b1"
+   ],
+   "rating": 1100,
+   "themes": [
+    "crushing",
+    "endgame",
+    "long",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "cpw5G",
+   "fen": "8/8/6R1/8/5K1k/7r/8/8 b - - 1 65",
+   "moves": [
+    "h3a3",
+    "g6h6"
+   ],
+   "rating": 1101,
+   "themes": [
+    "endgame",
+    "master",
+    "mateIn1",
+    "rookEndgame"
+   ],
+   "motif": "mateIn1"
+  },
+  {
+   "id": "Ul1jW",
+   "fen": "K2q4/8/k7/8/8/8/1Q6/8 w - - 5 73",
+   "moves": [
+    "b2b8",
+    "d8d5",
+    "b8b7",
+    "d5b7"
+   ],
+   "rating": 1110,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "queenEndgame"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "5vjga",
+   "fen": "8/6Q1/8/6k1/6p1/5q2/8/6K1 b - - 9 83",
+   "moves": [
+    "g5h4",
+    "g7h6",
+    "h4g3",
+    "h6h2"
+   ],
+   "rating": 1101,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "queenEndgame"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "BbocS",
+   "fen": "8/8/8/7R/7P/5k1r/3K4/8 w - - 1 63",
+   "moves": [
+    "d2d3",
+    "f3g4",
+    "d3d4",
+    "g4h5"
+   ],
+   "rating": 1101,
+   "themes": [
+    "crushing",
+    "discoveredAttack",
+    "discoveredCheck",
+    "endgame",
+    "master",
+    "rookEndgame"
+   ],
+   "motif": "discovered"
+  },
+  {
+   "id": "808F5",
+   "fen": "8/1p4K1/8/8/PPN5/2k5/8/8 w - - 1 55",
+   "moves": [
+    "b4b5",
+    "c3c4",
+    "g7f6",
+    "c4b4",
+    "b5b6",
+    "b4a4"
+   ],
+   "rating": 1100,
+   "themes": [
+    "crushing",
+    "endgame",
+    "hangingPiece",
+    "long"
+   ],
+   "motif": "hanging"
+  },
+  {
+   "id": "PQUUd",
+   "fen": "8/8/1P1k4/K2P4/8/2N5/1r6/8 b - - 4 62",
+   "moves": [
+    "d6c5",
+    "c3a4",
+    "c5d5",
+    "a4b2"
+   ],
+   "rating": 1100,
+   "themes": [
+    "crushing",
+    "endgame",
+    "fork",
+    "master"
+   ],
+   "motif": "fork"
+  },
+  {
+   "id": "bpQyL",
+   "fen": "8/6Kb/8/3B2P1/pk6/8/8/8 b - - 1 72",
+   "moves": [
+    "a4a3",
+    "g7h7",
+    "a3a2",
+    "d5a2"
+   ],
+   "rating": 1100,
+   "themes": [
+    "bishopEndgame",
+    "crushing",
+    "endgame",
+    "hangingPiece",
+    "master",
+    "masterVsMaster"
+   ],
+   "motif": "hanging"
+  },
+  {
+   "id": "vn586",
+   "fen": "8/8/8/8/5KPB/4np2/4k3/8 w - - 15 66",
+   "moves": [
+    "g4g5",
+    "e3g2",
+    "f4f5",
+    "g2h4"
+   ],
+   "rating": 1100,
+   "themes": [
+    "crushing",
+    "endgame",
+    "fork",
+    "master"
+   ],
+   "motif": "fork"
+  },
+  {
+   "id": "NTSrF",
+   "fen": "8/2b2r2/2k3R1/8/2K5/3N4/8/8 b - - 19 48",
+   "moves": [
+    "c7d6",
+    "d3e5",
+    "c6c7",
+    "e5f7"
+   ],
+   "rating": 1109,
+   "themes": [
+    "crushing",
+    "endgame",
+    "master",
+    "pin"
+   ],
+   "motif": "pin"
+  }
+ ],
  "geisterruine": [
   {
    "id": "RcPuL",

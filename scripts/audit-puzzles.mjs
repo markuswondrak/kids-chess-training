@@ -102,6 +102,19 @@ const WORLD_RULES = {
     endlessTarget: 100,
     endlessMaxPerPiece: 40,
   },
+  drachenburg: {
+    minRating: 1100,
+    maxRating: 1200,
+    maxPlayerMoves: 3,
+    motifs: ['mateIn1', 'mateIn2', 'hanging', 'fork', 'pin', 'skewer', 'discovered'],
+    excludeThemes: ['deflection', 'attraction', 'mateIn3', 'promotion', 'underPromotion'],
+    curatedCount: 12,
+    maxPerPiece: 4,
+    maxPerMotif: 2,
+    endlessMinCount: 50,
+    endlessTarget: 100,
+    endlessMaxPerPiece: 40,
+  },
 }
 
 function loadJson(path) {
@@ -195,6 +208,16 @@ for (const [worldId, rules] of Object.entries(WORLD_RULES)) {
     }
   }
 
+  if (rules.maxPerMotif) {
+    const perMotif = {}
+    for (const p of curated) perMotif[p.motif] = (perMotif[p.motif] || 0) + 1
+    for (const [motif, count] of Object.entries(perMotif)) {
+      if (count > rules.maxPerMotif) {
+        throw new Error(`[${worldId}:curated] Zu viele Puzzles mit Motiv '${motif}': ${count} (max: ${rules.maxPerMotif})`)
+      }
+    }
+  }
+
   console.log(`✓ ${worldId} kuratiert: ${curated.length} Puzzles (Figuren: ${JSON.stringify(curatedPieceCounts)})`)
 
   // Endlos-Pool
@@ -238,7 +261,7 @@ if (compareSnapshots) {
   }
 
   const beforePuzzles = loadJson(snapshotPuzzles)
-  for (const worldId of ['burgdorf', 'finsterwald', 'nebelsumpf', 'frostgipfel', 'glutvulkan', 'wolkeninseln']) {
+  for (const worldId of ['burgdorf', 'finsterwald', 'nebelsumpf', 'frostgipfel', 'glutvulkan', 'wolkeninseln', 'geisterruine']) {
     const beforeList = beforePuzzles[worldId]
     const currentList = puzzles[worldId]
     if (!beforeList || !currentList) {

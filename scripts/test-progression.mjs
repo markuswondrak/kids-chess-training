@@ -21,6 +21,7 @@ const WORLDS = [
   { id: 'glutvulkan', number: 5, puzzles: puzzles.glutvulkan },
   { id: 'wolkeninseln', number: 6, puzzles: puzzles.wolkeninseln },
   { id: 'geisterruine', number: 7, puzzles: puzzles.geisterruine },
+  { id: 'drachenburg', number: 8, puzzles: puzzles.drachenburg },
 ]
 
 const ROADMAP = [
@@ -227,10 +228,10 @@ if (!afterWolken || afterWolken.id !== 'geisterruine' || !findWorld(afterWolken.
 }
 const geisterWorld = findWorld('geisterruine')
 const afterGeister = roadmapAfter(geisterWorld)
-if (!afterGeister || afterGeister.id !== 'drachenburg' || findWorld(afterGeister.id) !== undefined) {
-  throw new Error('Geisterruine-Vorschau sollte auf das ungebaute Drachenburg zeigen (mit bald-Badge)')
+if (!afterGeister || afterGeister.id !== 'drachenburg' || !findWorld(afterGeister.id)) {
+  throw new Error('Geisterruine-Vorschau sollte auf das gebaute Drachenburg zeigen (ohne bald-Badge)')
 }
-console.log('✓ 13. Wolkeninseln verliert bald-Badge; Geisterruine zeigt Vorschau auf Welt 8 · Drachenburg')
+console.log('✓ 13. Wolkeninseln und Geisterruine zeigen ihre gebauten Nachfolger ohne bald-Badge')
 
 // Gemischte Motive in Geisterruine -> passender Kuno-Text je Motiv
 for (const p of geisterWorld.puzzles) {
@@ -246,5 +247,48 @@ if (geisterFiltered.length < 50) {
   throw new Error(`Geisterruine Endlos-Pool hat nur ${geisterFiltered.length} Puzzles`)
 }
 console.log(`✓ 14. Geisterruine Kuno-Texte & Endlos-Pool (${geisterFiltered.length} Puzzles) verifiziert`)
+
+// 15. Geisterruine -> Drachenburg (Welt 8, das große Finale)
+const drachenWorld = findWorld('drachenburg')
+const nextFromGeister = nextBuiltWorld(geisterWorld)
+if (!nextFromGeister || nextFromGeister.id !== 'drachenburg') {
+  throw new Error(`15. Nächste Welt nach Geisterruine ist nicht Drachenburg (${nextFromGeister?.id})`)
+}
+if (drachenWorld.puzzles.length !== 12) throw new Error('Drachenburg braucht 12 Puzzles')
+for (const p of drachenWorld.puzzles) {
+  const playerMoves = Math.ceil((p.moves.length - 1) / 2)
+  if (p.rating < 1100 || p.rating > 1200 || playerMoves > 3) throw new Error(`Drachenburg-Puzzle ${p.id} außerhalb der Regeln`)
+  const key = taskKey(p.motif)
+  for (const [lang, dict] of Object.entries(dicts)) {
+    if (!t(dict, key)) throw new Error(`Fehlender Kuno-Text ${key} für Motiv ${p.motif} in ${lang}`)
+  }
+}
+console.log('✓ 15. Geisterruine -> Drachenburg Handoff, 12 Puzzles (Elo 1100–1200, ≤ 3 Züge) mit Kuno-Texten')
+
+// 16. Letzte Welt: keine Nachfolgewelt, kein Vorschau-Schild, Finale-Banner
+if (nextBuiltWorld(drachenWorld) || roadmapAfter(drachenWorld) || upcomingWorld(drachenWorld)) {
+  throw new Error('Drachenburg ist die letzte Welt – es darf keine Nachfolgewelt geben')
+}
+const allDone = { stars: {}, chests: {} }
+for (const w of WORLDS) {
+  for (const p of w.puzzles) allDone.stars[p.id] = 3
+  allDone.chests[w.id] = true
+}
+if (currentWorld(allDone).id !== 'drachenburg') throw new Error('Nach allen Truhen bleibt die Reise in der Drachenburg')
+for (const [lang, dict] of Object.entries(dicts)) {
+  const title = t(dict, 'result.finale.title')
+  const subtitle = t(dict, 'result.finale.subtitle', { got: 36, max: 36 })
+  const name = t(dict, 'world.drachenburg.name')
+  const sub = t(dict, 'world.drachenburg.subtitle')
+  if (!title || !subtitle.includes('36') || !name || !sub) throw new Error(`Fehlende Finale-Texte in ${lang}`)
+  console.log(`  [${lang}] ${name} (${sub}) | "${title}"`)
+}
+console.log('✓ 16. Drachenburg ist das Finale: keine weitere Welt, Glückwunsch-Banner in DE/EN/FR')
+
+const endlessDrachen = JSON.parse(readFileSync(resolve(ROOT_DIR, 'src/data/endless.drachenburg.json'), 'utf8'))
+const drachenIds = new Set(drachenWorld.puzzles.map((p) => p.id))
+const drachenFiltered = endlessDrachen.filter((p) => !drachenIds.has(p.id))
+if (drachenFiltered.length < 50) throw new Error(`Drachenburg Endlos-Pool hat nur ${drachenFiltered.length} Puzzles`)
+console.log(`✓ 17. Drachenburg Endlos-Pool (${drachenFiltered.length} Puzzles) verifiziert`)
 
 console.log('\nAlle Progressions- und Lokalisierungstests erfolgreich bestanden!\n')

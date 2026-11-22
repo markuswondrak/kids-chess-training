@@ -17,8 +17,9 @@ export function chestSpot(pts: Pt[]): Pt {
   return { x: end.x + 84, y: end.y - 6 }
 }
 
-export function mapHeight(stones: number) {
-  return BOTTOM + TOP + stones * STEP
+/** `extraTop` = zusätzlicher Himmel über der Burg (z. B. für das Finale). */
+export function mapHeight(stones: number, extraTop = 0) {
+  return BOTTOM + TOP + extraTop + stones * STEP
 }
 
 /**
@@ -39,6 +40,8 @@ export const DEFAULT_PATH: PathShape = { center: 200, amp: 108, phase: 0.35, per
 export interface MapLayout {
   path: PathShape
   nextSign: Pt
+  /** Zusätzlicher Platz oben (Himmel/Burg), Standard 0. */
+  extraTop?: number
 }
 
 const LAYOUTS: Partial<Record<WorldId, MapLayout>> = {
@@ -52,6 +55,10 @@ const LAYOUTS: Partial<Record<WorldId, MapLayout>> = {
   wolkeninseln: { path: { center: 200, amp: 106, phase: 1.6, period: 3.6 }, nextSign: { x: 98, y: 56 } },
   // Ruinenhöfe: gewundener Kopfsteinpfad durch Kreuzgänge und versunkene Höfe, Drachenburg rechts oben.
   geisterruine: { path: { center: 204, amp: -94, phase: -0.3, period: 3.0 }, nextSign: { x: 298, y: 52 } },
+  // Finale: weite Schleifen durch Lager, Schatzhöhle und Garten, zuletzt die Freitreppe zum Burgtor.
+  // Kein Schild zur nächsten Welt – die Reise endet hier.
+  // Mehr Himmel für Burg, großen Drachen und Feuerwerk.
+  drachenburg: { path: { center: 200, amp: 104, phase: 0.8, period: 3.4 }, nextSign: { x: 300, y: 52 }, extraTop: 170 },
 }
 
 export function mapLayout(worldId: WorldId): MapLayout {
@@ -62,8 +69,8 @@ export function mapLayout(worldId: WorldId): MapLayout {
  * Wegpunkte: Dorftor, alle Level-Steine und die Truhe.
  * Index 1 … n sind die Steine, n + 1 ist die Truhe.
  */
-export function waypoints(stones: number, shape: PathShape = DEFAULT_PATH): Pt[] {
-  const h = mapHeight(stones)
+export function waypoints(stones: number, shape: PathShape = DEFAULT_PATH, extraTop = 0): Pt[] {
+  const h = mapHeight(stones, extraTop)
   const pts: Pt[] = [{ x: 150, y: h - 40 }]
   for (let i = 0; i < stones; i++) {
     pts.push({ x: shape.center + shape.amp * Math.sin((i + shape.phase) * (Math.PI / shape.period)), y: h - BOTTOM - i * STEP })

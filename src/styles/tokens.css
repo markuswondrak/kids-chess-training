@@ -317,3 +317,41 @@
     0 0 22px 6px var(--ghost-wisp-glow);
   --world-locked-face: radial-gradient(circle at 38% 30%, var(--ghost-stone), var(--ghost-stone-mid) 55%, var(--ghost-stone-deep));
 }
+
+:root {
+  /* Drachenburg (Dragon Castle · World 8) – the grand finale: sunset gold, crimson & royal red */
+  --dragon-sky-top: #3e2463;
+  --dragon-sky-mid: #a33e6e;
+  --dragon-sky-low: #f27e56;
+  --dragon-horizon: #ffd58a;
+  --dragon-sun: rgba(255, 214, 120, 0.75);
+  --dragon-meadow: #6fa94f;
+  --dragon-stone: #fff2d8;
+  --dragon-stone-mid: #f0ddb8;
+  --dragon-stone-deep: #c9a26b;
+  --dragon-ribbon: #c8372d;
+  --dragon-ribbon-deep: #8e1e1f;
+  --dragon-gold: #ffe07a;
+  --dragon-ring: #ffd24a;
+  --dragon-ring-glow: rgba(255, 196, 64, 0.75);
+}
+
+.app[data-world='drachenburg'] {
+  --world-sky:
+    radial-gradient(420px 320px at 50% 8%, var(--dragon-sun), transparent 70%),
+    linear-gradient(
+      180deg,
+      var(--dragon-sky-top) 0%,
+      var(--dragon-sky-mid) 28%,
+      var(--dragon-sky-low) 56%,
+      var(--dragon-horizon) 82%,
+      var(--dragon-meadow) 100%
+    );
+  --world-ribbon: linear-gradient(180deg, var(--dragon-ribbon), var(--dragon-ribbon-deep));
+  --world-ribbon-sub: var(--dragon-gold);
+  --world-ring: var(--dragon-ring);
+  --world-ring-glow:
+    0 0 0 3px var(--ink),
+    0 0 22px 6px var(--dragon-ring-glow);
+  --world-locked-face: radial-gradient(circle at 38% 30%, var(--dragon-stone), var(--dragon-stone-mid) 55%, var(--dragon-stone-deep));
+}

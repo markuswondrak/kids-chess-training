@@ -93,6 +93,30 @@ export function Chest({ open = false, className }: { open?: boolean; className?:
   )
 }
 
+/** Goldene Siegerkrone über der Truhe der letzten Welt (großes Finale). */
+export function ChampionCrown({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 120 96" className={className} aria-hidden="true">
+      <g className="crown__rays">
+        {[-60, -30, 0, 30, 60].map((a) => (
+          <path key={a} d="M60 58 L52 -6 H68 Z" fill="rgba(255,236,150,.55)" transform={`rotate(${a} 60 58)`} />
+        ))}
+      </g>
+      <path d="M18 76 L12 30 L36 50 L60 16 L84 50 L108 30 L102 76 Z" fill={GOLD} stroke={INK} strokeWidth={3.4} strokeLinejoin="round" />
+      <path d="M60 22 L80 52 M60 22 L42 50" stroke="#FFE59A" strokeWidth={3} strokeLinecap="round" opacity={0.8} />
+      <rect x="14" y="70" width="92" height="16" rx="5" fill={GOLD_DEEP} stroke={INK} strokeWidth={3.2} />
+      <circle cx="12" cy="27" r="6" fill={GOLD} stroke={INK} strokeWidth={2.8} />
+      <circle cx="60" cy="12" r="7" fill={GOLD} stroke={INK} strokeWidth={2.8} />
+      <circle cx="108" cy="27" r="6" fill={GOLD} stroke={INK} strokeWidth={2.8} />
+      <circle cx="60" cy="56" r="7" fill="#C9372C" stroke={INK} strokeWidth={2.6} />
+      <circle cx="36" cy="62" r="4.6" fill="#2F62A8" stroke={INK} strokeWidth={2.2} />
+      <circle cx="84" cy="62" r="4.6" fill="#3FA27C" stroke={INK} strokeWidth={2.2} />
+      <circle cx="58" cy="54" r="2" fill="#FFFFFF" opacity={0.8} />
+      <path d="M30 78 H90" stroke="#FFE59A" strokeWidth={2.6} strokeLinecap="round" opacity={0.7} />
+    </svg>
+  )
+}
+
 /** Kleines Vorhängeschloss für gesperrte Steine. */
 export function LockIcon({ className }: { className?: string }) {
   return (

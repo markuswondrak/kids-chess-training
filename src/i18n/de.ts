@@ -58,6 +58,8 @@ export const de: Partial<Messages> = {
   'result.chest.next': 'Auf nach {world}!',
   'result.chest.subtitleNext': 'Du hast {got} von {max} Sternen gesammelt. Die Reise geht weiter nach {world}!',
   'result.chest.button': 'Hurra!',
+  'result.finale.title': 'Geschafft, Schachritter!',
+  'result.finale.subtitle': 'Du hast {got} von {max} Sternen gesammelt und die Drachenburg erobert. Deine große Reise durch alle acht Welten ist vollbracht!',
   'endless.tag': 'Endlos',
   'endless.button': 'Endlos spielen',
   'endless.next': 'Nächste Aufgabe',
@@ -95,6 +97,7 @@ export const de: Partial<Messages> = {
   'world.geisterruine.name': 'Geisterruine',
   'world.geisterruine.subtitle': 'Gemischt',
   'world.drachenburg.name': 'Drachenburg',
+  'world.drachenburg.subtitle': 'Das große Finale',
 
   'task.mateIn1': 'Setze den König mit einem einzigen Zug schachmatt!',
   'task.mateIn2': 'Setze den König in 2 Zügen schachmatt!',

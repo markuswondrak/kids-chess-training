@@ -693,6 +693,49 @@
   filter: drop-shadow(0 5px 0 rgba(47, 36, 32, 0.25));
 }
 
+/* Großes Finale: Siegerkrone schwebt über der Truhe */
+.banner__finale {
+  position: relative;
+  margin-top: 40px;
+}
+.banner__crown {
+  position: absolute;
+  left: 50%;
+  top: -84px;
+  z-index: 1;
+  width: 124px;
+  height: auto;
+  overflow: visible;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 4px 0 rgba(47, 36, 32, 0.25));
+  animation: crown-float 2.6s ease-in-out infinite;
+}
+.banner__crown .crown__rays {
+  transform-box: view-box;
+  transform-origin: 60px 58px;
+  animation: crown-rays 9s linear infinite;
+}
+@keyframes crown-float {
+  0%,
+  100% {
+    transform: translate(-50%, 0) rotate(-3deg);
+  }
+  50% {
+    transform: translate(-50%, -8px) rotate(3deg);
+  }
+}
+@keyframes crown-rays {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .banner__crown,
+  .banner__crown .crown__rays {
+    animation: none;
+  }
+}
+
 .banner h2 {
   margin: 0;
   font-family: var(--font-gothic);
@@ -2027,5 +2070,233 @@
   }
   50% {
     transform: translateX(6px);
+  }
+}
+
+/* ---------- Drachenburg: Finale-Karte (World 8) ---------- */
+
+.app[data-world='drachenburg'] .map {
+  background: var(--dragon-meadow);
+}
+
+.dc-glow {
+  animation: gr-glow 3s ease-in-out infinite;
+}
+.dc-flicker {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: gr-flicker 0.8s ease-in-out infinite;
+}
+.dc-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gr-twinkle 3.2s ease-in-out infinite;
+}
+.dc-shimmer {
+  animation: gr-glow 2.4s ease-in-out infinite;
+}
+.dc-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gr-ripple 3.6s ease-in-out infinite;
+}
+.dc-drift {
+  animation: gr-fog 20s ease-in-out infinite;
+}
+.dc-rays {
+  animation: dc-spin 60s linear infinite;
+}
+.dc-pennant {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: gr-lantern 2.8s ease-in-out infinite;
+}
+.dc-glide {
+  animation: dc-glide 5s ease-in-out infinite;
+}
+.dc-flap {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: dc-flap 0.7s ease-in-out infinite;
+}
+.dc-peek {
+  animation: dc-peek 3.4s ease-in-out infinite;
+}
+.dc-blink {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: dc-blink 5s ease-in-out infinite;
+}
+.dc-head {
+  transform-box: fill-box;
+  transform-origin: 0% 100%;
+  animation: dc-nod 4.6s ease-in-out infinite;
+}
+.dc-heart {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dc-heart 3s ease-in-out infinite;
+}
+.dc-wing-l,
+.dc-wing-r {
+  transform-box: fill-box;
+  transform-origin: 100% 100%;
+  animation: dc-wing 4s ease-in-out infinite;
+}
+.dc-wing-r {
+  transform-origin: 0% 100%;
+  animation-name: dc-wing-r;
+}
+/* Feuerwerk: glimmt leise am Himmel – und explodiert, sobald die Truhe bereit oder offen ist. */
+.dc-firework {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0.35;
+  transform: scale(0.55);
+}
+.map:has(.chest--ready) .dc-firework,
+.map:has(.chest--open) .dc-firework {
+  animation: dc-burst 2.4s ease-out infinite;
+}
+.dc-gate-glow {
+  opacity: 0.45;
+  transition: opacity 0.4s ease;
+}
+.map:has(.chest--ready) .dc-gate-glow,
+.map:has(.chest--open) .dc-gate-glow {
+  opacity: 1;
+  animation: gr-glow 1.6s ease-in-out infinite;
+}
+
+@keyframes dc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes dc-glide {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, -6px);
+  }
+}
+@keyframes dc-flap {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(-0.6);
+  }
+}
+@keyframes dc-peek {
+  0%,
+  100% {
+    transform: translateY(4px);
+  }
+  40%,
+  70% {
+    transform: translateY(0);
+  }
+}
+@keyframes dc-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(0);
+  }
+  95% {
+    transform: scaleY(1);
+  }
+}
+@keyframes dc-nod {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes dc-heart {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 4px) scale(0.6);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(2px, -4px) scale(1);
+  }
+  80% {
+    opacity: 0;
+    transform: translate(4px, -14px) scale(0.9);
+  }
+}
+@keyframes dc-wing {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+}
+@keyframes dc-wing-r {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+@keyframes dc-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+  15% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-glow,
+  .dc-flicker,
+  .dc-twinkle,
+  .dc-shimmer,
+  .dc-ripple,
+  .dc-drift,
+  .dc-rays,
+  .dc-pennant,
+  .dc-glide,
+  .dc-flap,
+  .dc-peek,
+  .dc-blink,
+  .dc-head,
+  .dc-heart,
+  .dc-wing-l,
+  .dc-wing-r,
+  .map:has(.chest--ready) .dc-firework,
+  .map:has(.chest--open) .dc-firework,
+  .map:has(.chest--ready) .dc-gate-glow,
+  .map:has(.chest--open) .dc-gate-glow {
+    animation: none;
+  }
+  .map:has(.chest--ready) .dc-firework,
+  .map:has(.chest--open) .dc-firework {
+    opacity: 1;
+    transform: none;
   }
 }

@@ -58,6 +58,8 @@ export const fr: Partial<Messages> = {
   'result.chest.next': 'Cap sur {world} !',
   'result.chest.subtitleNext': 'Tu as récolté {got} sur {max} étoiles. Le voyage continue vers {world} !',
   'result.chest.button': 'Hourra !',
+  'result.finale.title': 'Bravo, chevalier des échecs !',
+  'result.finale.subtitle': 'Tu as récolté {got} sur {max} étoiles et conquis le Château du Dragon. Ton grand voyage à travers les huit mondes est accompli !',
   'endless.tag': 'Sans fin',
   'endless.button': 'Jouer sans fin',
   'endless.next': 'Énigme suivante',
@@ -95,6 +97,7 @@ export const fr: Partial<Messages> = {
   'world.geisterruine.name': 'Ruines Hantées',
   'world.geisterruine.subtitle': 'Mélangé',
   'world.drachenburg.name': 'Château du Dragon',
+  'world.drachenburg.subtitle': 'La grande finale',
 
   'task.mateIn1': 'Fais échec et mat au roi en un seul coup !',
   'task.mateIn2': 'Fais échec et mat au roi en 2 coups !',
