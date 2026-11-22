@@ -1814,6 +1814,13 @@
   .gr-ripple,
   .gr-mist,
   .gr-blink,
+  .gr-fog,
+  .gr-bat,
+  .gr-bob,
+  .gr-bell,
+  .gr-flicker,
+  .gr-shimmer,
+  .gr-snore,
   .map:has(.chest--ready) .gr-abbey-glow,
   .map:has(.chest--open) .gr-abbey-glow {
     animation: none;
@@ -1870,6 +1877,85 @@
   animation: ci-citadel-glow 1.9s ease-in-out infinite;
 }
 
+.gr-fog {
+  animation: gr-fog 18s ease-in-out infinite;
+}
+.gr-bat {
+  animation: gr-bat 3.2s ease-in-out infinite;
+}
+.gr-bob {
+  animation: gr-bob 3.6s ease-in-out infinite;
+}
+.gr-bell {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: gr-lantern 2.4s ease-in-out infinite;
+}
+.gr-flicker {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: gr-flicker 0.9s ease-in-out infinite;
+}
+.gr-shimmer {
+  animation: gr-glow 2.6s ease-in-out infinite;
+}
+.gr-snore {
+  animation: gr-snore 3s ease-in-out infinite;
+}
+
+@keyframes gr-fog {
+  0%,
+  100% {
+    transform: translateX(-18px);
+  }
+  50% {
+    transform: translateX(18px);
+  }
+}
+@keyframes gr-bat {
+  0%,
+  100% {
+    transform: translate(0, 0) scaleY(1);
+  }
+  25% {
+    transform: translate(4px, -4px) scaleY(0.7);
+  }
+  50% {
+    transform: translate(8px, 0) scaleY(1);
+  }
+  75% {
+    transform: translate(4px, 3px) scaleY(0.75);
+  }
+}
+@keyframes gr-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(2px) rotate(2deg);
+  }
+}
+@keyframes gr-flicker {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(0.88, 1.12);
+  }
+}
+@keyframes gr-snore {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(2px);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-3px);
+  }
+}
 @keyframes gr-float {
   0%,
   100% {
