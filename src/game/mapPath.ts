@@ -50,6 +50,8 @@ const LAYOUTS: Partial<Record<WorldId, MapLayout>> = {
   glutvulkan: { path: { center: 200, amp: 112, phase: -0.9, period: 4.6 }, nextSign: { x: 300, y: 50 } },
   // Inselkette: kürzere Bögen, Brücken zwischen den Inseln.
   wolkeninseln: { path: { center: 200, amp: 106, phase: 1.6, period: 3.6 }, nextSign: { x: 98, y: 56 } },
+  // Ruinenhöfe: gewundener Kopfsteinpfad durch Kreuzgänge und versunkene Höfe, Drachenburg rechts oben.
+  geisterruine: { path: { center: 204, amp: -94, phase: -0.3, period: 3.0 }, nextSign: { x: 298, y: 52 } },
 }
 
 export function mapLayout(worldId: WorldId): MapLayout {

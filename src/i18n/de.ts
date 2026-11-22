@@ -93,6 +93,7 @@ export const de: Partial<Messages> = {
   'world.wolkeninseln.subtitle': 'Abzugsangriff & Doppelschach',
   'world.wolkeninseln.name': 'Wolkeninseln',
   'world.geisterruine.name': 'Geisterruine',
+  'world.geisterruine.subtitle': 'Gemischt',
   'world.drachenburg.name': 'Drachenburg',
 
   'task.mateIn1': 'Setze den König mit einem einzigen Zug schachmatt!',

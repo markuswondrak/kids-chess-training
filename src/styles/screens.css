@@ -1805,7 +1805,227 @@
   .ci-mist,
   .ci-griffin-lid,
   .map:has(.chest--ready) .ci-citadel-glow,
-  .map:has(.chest--open) .ci-citadel-glow {
+  .map:has(.chest--open) .ci-citadel-glow,
+  .gr-float,
+  .gr-wisp,
+  .gr-glow,
+  .gr-lantern,
+  .gr-twinkle,
+  .gr-ripple,
+  .gr-mist,
+  .gr-blink,
+  .gr-fog,
+  .gr-bat,
+  .gr-bob,
+  .gr-bell,
+  .gr-flicker,
+  .gr-shimmer,
+  .gr-snore,
+  .map:has(.chest--ready) .gr-abbey-glow,
+  .map:has(.chest--open) .gr-abbey-glow {
     animation: none;
+  }
+}
+
+/* ---------- Geisterruine: Ruinenkarte (World 7) ---------- */
+
+.app[data-world='geisterruine'] .map {
+  background: var(--ghost-turf);
+}
+
+.gr-float {
+  animation: gr-float 4.2s ease-in-out infinite;
+}
+.gr-wisp {
+  animation: gr-wisp 5.4s ease-in-out infinite;
+}
+.gr-glow {
+  animation: gr-glow 3.4s ease-in-out infinite;
+}
+.gr-lantern {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: gr-lantern 4.6s ease-in-out infinite;
+}
+.gr-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gr-twinkle 3.8s ease-in-out infinite;
+}
+.gr-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gr-ripple 4s ease-in-out infinite;
+}
+.gr-mist {
+  animation: gr-mist 7s ease-in-out infinite;
+}
+.gr-blink {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: ci-blink 5.4s ease-in-out infinite;
+}
+.gr-abbey-glow {
+  opacity: 0.48;
+  transition: opacity 0.4s ease;
+}
+.map:has(.chest--ready) .gr-abbey-glow,
+.map:has(.chest--open) .gr-abbey-glow {
+  opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ci-citadel-glow 1.9s ease-in-out infinite;
+}
+
+.gr-fog {
+  animation: gr-fog 18s ease-in-out infinite;
+}
+.gr-bat {
+  animation: gr-bat 3.2s ease-in-out infinite;
+}
+.gr-bob {
+  animation: gr-bob 3.6s ease-in-out infinite;
+}
+.gr-bell {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: gr-lantern 2.4s ease-in-out infinite;
+}
+.gr-flicker {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: gr-flicker 0.9s ease-in-out infinite;
+}
+.gr-shimmer {
+  animation: gr-glow 2.6s ease-in-out infinite;
+}
+.gr-snore {
+  animation: gr-snore 3s ease-in-out infinite;
+}
+
+@keyframes gr-fog {
+  0%,
+  100% {
+    transform: translateX(-18px);
+  }
+  50% {
+    transform: translateX(18px);
+  }
+}
+@keyframes gr-bat {
+  0%,
+  100% {
+    transform: translate(0, 0) scaleY(1);
+  }
+  25% {
+    transform: translate(4px, -4px) scaleY(0.7);
+  }
+  50% {
+    transform: translate(8px, 0) scaleY(1);
+  }
+  75% {
+    transform: translate(4px, 3px) scaleY(0.75);
+  }
+}
+@keyframes gr-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(2px) rotate(2deg);
+  }
+}
+@keyframes gr-flicker {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(0.88, 1.12);
+  }
+}
+@keyframes gr-snore {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(2px);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-3px);
+  }
+}
+@keyframes gr-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes gr-wisp {
+  0%,
+  100% {
+    opacity: 0.78;
+    transform: translate(0, 0);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(4px, -7px);
+  }
+  75% {
+    opacity: 0.62;
+    transform: translate(-3px, -11px);
+  }
+}
+@keyframes gr-glow {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes gr-lantern {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+@keyframes gr-twinkle {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.75);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+@keyframes gr-ripple {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.86);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+}
+@keyframes gr-mist {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
   }
 }

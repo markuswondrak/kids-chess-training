@@ -1,4 +1,225 @@
 {
+ "geisterruine": [
+  {
+   "id": "RcPuL",
+   "fen": "8/8/8/8/8/2K4R/4r3/4k3 b - - 4 60",
+   "moves": [
+    "e2a2",
+    "h3h1",
+    "e1e2",
+    "h1h2",
+    "e2e3",
+    "h2a2"
+   ],
+   "rating": 1002,
+   "themes": [
+    "crushing",
+    "endgame",
+    "long",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "Llb44",
+   "fen": "R7/8/8/7k/8/4K3/8/3r4 b - - 2 64",
+   "moves": [
+    "d1g1",
+    "a8h8",
+    "h5g6",
+    "h8g8",
+    "g6f6",
+    "g8g1"
+   ],
+   "rating": 1005,
+   "themes": [
+    "crushing",
+    "endgame",
+    "long",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "nEM2A",
+   "fen": "6R1/8/8/5k2/r7/7K/8/8 b - - 6 56",
+   "moves": [
+    "f5f4",
+    "g8g4",
+    "f4e5",
+    "g4a4"
+   ],
+   "rating": 1005,
+   "themes": [
+    "crushing",
+    "endgame",
+    "master",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "0WNbo",
+   "fen": "q4K2/3k2P1/5Q2/8/8/8/8/8 w - - 9 98",
+   "moves": [
+    "f8f7",
+    "a8e8"
+   ],
+   "rating": 1000,
+   "themes": [
+    "endgame",
+    "mateIn1",
+    "queenEndgame"
+   ],
+   "motif": "mateIn1"
+  },
+  {
+   "id": "cICba",
+   "fen": "5R2/k1K5/8/8/8/8/r7/8 b - - 17 63",
+   "moves": [
+    "a7a6",
+    "f8a8",
+    "a6b5",
+    "a8a2"
+   ],
+   "rating": 1012,
+   "themes": [
+    "crushing",
+    "endgame",
+    "rookEndgame",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "SM17b",
+   "fen": "8/8/5Q2/8/2q2kp1/8/8/6K1 b - - 5 66",
+   "moves": [
+    "f4g3",
+    "f6f2",
+    "g3h3",
+    "f2h2"
+   ],
+   "rating": 1004,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "queenEndgame"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "6wYzF",
+   "fen": "8/8/7P/8/8/5k2/1r6/5BK1 b - - 0 74",
+   "moves": [
+    "b2b7",
+    "f1g2",
+    "f3e2",
+    "g2b7"
+   ],
+   "rating": 1006,
+   "themes": [
+    "crushing",
+    "endgame",
+    "master",
+    "skewer"
+   ],
+   "motif": "skewer"
+  },
+  {
+   "id": "REJFX",
+   "fen": "8/8/1Q6/8/2K5/8/1k6/q7 b - - 1 65",
+   "moves": [
+    "b2a2",
+    "b6b3"
+   ],
+   "rating": 1016,
+   "themes": [
+    "endgame",
+    "mateIn1",
+    "queenEndgame"
+   ],
+   "motif": "mateIn1"
+  },
+  {
+   "id": "1pSlJ",
+   "fen": "2K5/5k2/2PQ4/8/8/8/8/q7 w - - 13 58",
+   "moves": [
+    "c6c7",
+    "a1a8",
+    "c8d7",
+    "a8e8"
+   ],
+   "rating": 1007,
+   "themes": [
+    "endgame",
+    "mateIn2",
+    "queenEndgame"
+   ],
+   "motif": "mateIn2"
+  },
+  {
+   "id": "xJEVK",
+   "fen": "8/4k1KP/8/8/6P1/7r/8/8 b - - 4 53",
+   "moves": [
+    "h3h7",
+    "g7h7",
+    "e7f6",
+    "h7h6"
+   ],
+   "rating": 1008,
+   "themes": [
+    "crushing",
+    "defensiveMove",
+    "endgame",
+    "hangingPiece",
+    "master"
+   ],
+   "motif": "hanging"
+  },
+  {
+   "id": "HraCT",
+   "fen": "8/8/8/r4pk1/1R6/8/5PK1/8 b - - 9 53",
+   "moves": [
+    "a5e5",
+    "f2f4",
+    "g5f6",
+    "f4e5"
+   ],
+   "rating": 1000,
+   "themes": [
+    "crushing",
+    "endgame",
+    "fork",
+    "rookEndgame"
+   ],
+   "motif": "fork"
+  },
+  {
+   "id": "cy7QU",
+   "fen": "8/8/2n2k2/P5p1/2B3K1/8/8/8 w - - 7 67",
+   "moves": [
+    "a5a6",
+    "c6e5",
+    "g4g3",
+    "e5c4",
+    "a6a7",
+    "c4b6"
+   ],
+   "rating": 1001,
+   "themes": [
+    "crushing",
+    "defensiveMove",
+    "endgame",
+    "fork",
+    "long"
+   ],
+   "motif": "fork"
+  }
+ ],
  "wolkeninseln": [
   {
    "id": "MBgX7",

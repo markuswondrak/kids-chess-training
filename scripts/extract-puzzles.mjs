@@ -51,6 +51,19 @@ const PIECES = new Set(['p', 'n', 'b', 'r', 'q', 'k'])
  */
 const WORLDS = [
   {
+    id: 'geisterruine',
+    released: true,
+    minRating: 1000,
+    maxRating: 1150,
+    motifs: ['mateIn1', 'mateIn2', 'hanging', 'fork', 'pin', 'skewer', 'discovered'],
+    maxPlayerMoves: 3,
+    excludeThemes: ['deflection', 'attraction', 'mateIn3', 'promotion', 'underPromotion'],
+    count: 12,
+    maxPerPiece: 4,
+    endlessCount: 100,
+    endlessMaxPerPiece: 40,
+  },
+  {
     id: 'wolkeninseln',
     released: true,
     minRating: 950,
@@ -212,7 +225,7 @@ function candidateFor(world, p) {
   if (p.moves.some((m) => m.length > 4)) return null
 
   const line = replay(p)
-  if (!line || (world.motifs.includes('fork') && !line.forkPiece)) return null
+  if (!line || (motif === 'fork' && !line.forkPiece)) return null
   return {
     ...p,
     motif,
@@ -235,7 +248,7 @@ const toPuzzle = ({ id, fen, moves, rating, themes, motif }) => ({
 
 const mean = (xs) => xs.reduce((sum, x) => sum + x, 0) / xs.length
 const compareRatingId = (a, b) => a.rating - b.rating || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
-const pieceFor = (candidate) => candidate.forkPiece ?? candidate.hero
+const pieceFor = (candidate, world) => (world?.groups ? (candidate.forkPiece ?? candidate.hero) : candidate.hero)
 
 /** Figuren-Mix als kompakte Zeichenkette: {r:40,q:40,b:13,n:7}. */
 const mix = (perPiece) =>
@@ -251,7 +264,7 @@ function endlessPoolFor(world, rest) {
   const vorrat = []
   for (const c of sorted) {
     if (vorrat.length >= world.endlessCount) break
-    const piece = pieceFor(c)
+    const piece = pieceFor(c, world)
     if ((perPiece[piece] ?? 0) >= world.endlessMaxPerPiece) continue
     perPiece[piece] = (perPiece[piece] ?? 0) + 1
     vorrat.push(c)
@@ -369,7 +382,7 @@ for (const world of released) {
       if (!motif) fatal.push(`${world.id} ${label} ${p.id}: kein Motiv der Welt passt`)
       const line = replay(p)
       if (!line) fatal.push(`${world.id} ${label} ${p?.id ?? '?'}: Lösung nicht spielbar`)
-      if (world.motifs.includes('fork') && !line?.forkPiece) fatal.push(`${world.id} ${label} ${p?.id ?? '?'}: kein erkennbarer Fork`)
+      if (motif === 'fork' && !line?.forkPiece) fatal.push(`${world.id} ${label} ${p?.id ?? '?'}: kein erkennbarer Fork`)
       const { motif: _previous, ...rest } = p
       return { ...rest, motif }
     })
@@ -432,8 +445,13 @@ for (const world of unreleased) {
     for (const c of pool) {
       if (groupPicked.length >= group.count) break
       if (pickedIds.has(c.id)) continue
-      const piece = pieceFor(c)
-      const matches = group.piece !== undefined ? c.forkPiece === group.piece : c.forkPiece !== group.notPiece
+      const piece = pieceFor(c, world)
+      const matches =
+        group.piece !== undefined
+          ? c.forkPiece === group.piece
+          : group.notPiece !== undefined
+            ? c.forkPiece !== group.notPiece
+            : true
       if (!matches || (perPiece[piece] ?? 0) >= cap) continue
       perPiece[piece] = (perPiece[piece] ?? 0) + 1
       groupPicked.push(c)

@@ -90,6 +90,18 @@ const WORLD_RULES = {
     endlessTarget: 100,
     endlessMaxPerPiece: 40,
   },
+  geisterruine: {
+    minRating: 1000,
+    maxRating: 1150,
+    maxPlayerMoves: 3,
+    motifs: ['mateIn1', 'mateIn2', 'hanging', 'fork', 'pin', 'skewer', 'discovered'],
+    excludeThemes: ['deflection', 'attraction', 'mateIn3', 'promotion', 'underPromotion'],
+    curatedCount: 12,
+    maxPerPiece: 4,
+    endlessMinCount: 50,
+    endlessTarget: 100,
+    endlessMaxPerPiece: 40,
+  },
 }
 
 function loadJson(path) {
@@ -226,7 +238,7 @@ if (compareSnapshots) {
   }
 
   const beforePuzzles = loadJson(snapshotPuzzles)
-  for (const worldId of ['burgdorf', 'finsterwald', 'nebelsumpf', 'frostgipfel']) {
+  for (const worldId of ['burgdorf', 'finsterwald', 'nebelsumpf', 'frostgipfel', 'glutvulkan', 'wolkeninseln']) {
     const beforeList = beforePuzzles[worldId]
     const currentList = puzzles[worldId]
     if (!beforeList || !currentList) {
