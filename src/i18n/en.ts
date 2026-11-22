@@ -94,6 +94,7 @@ export const en = {
   'world.wolkeninseln.subtitle': 'Discovered attack & double check',
   'world.wolkeninseln.name': 'Cloud Isles',
   'world.geisterruine.name': 'Ghost Ruins',
+  'world.geisterruine.subtitle': 'Mixed',
   'world.drachenburg.name': 'Dragon Castle',
 
   'task.mateIn1': 'Checkmate the king with a single move!',

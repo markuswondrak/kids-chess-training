@@ -11,6 +11,7 @@ const POOLS: Record<WorldId, () => Promise<{ default: Puzzle[] }>> = {
   frostgipfel: () => import('../data/endless.frostgipfel.json') as Promise<{ default: Puzzle[] }>,
   glutvulkan: () => import('../data/endless.glutvulkan.json') as Promise<{ default: Puzzle[] }>,
   wolkeninseln: () => import('../data/endless.wolkeninseln.json') as Promise<{ default: Puzzle[] }>,
+  geisterruine: () => import('../data/endless.geisterruine.json') as Promise<{ default: Puzzle[] }>,
 }
 
 /**

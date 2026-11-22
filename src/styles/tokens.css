@@ -279,3 +279,41 @@
     0 0 20px 6px var(--wind-glow);
   --world-locked-face: radial-gradient(circle at 38% 30%, var(--cloud-stone), var(--cloud-stone-mid) 55%, var(--cloud-stone-deep));
 }
+
+:root {
+  /* Geisterruine (Ghost Ruins · World 7) – twilight amethyst & moonlit moss palette */
+  --ghost-sky-top: #2b2454;
+  --ghost-sky-mid: #4c3e80;
+  --ghost-sky-low: #836cb0;
+  --ghost-horizon: #c8b4dc;
+  --ghost-moon: rgba(255, 244, 196, 0.72);
+  --ghost-turf: #51726b;
+  --ghost-stone: #ebe6f6;
+  --ghost-stone-mid: #b9b0d1;
+  --ghost-stone-deep: #8278a1;
+  --ghost-ribbon: #5b418a;
+  --ghost-ribbon-deep: #3d2a63;
+  --ghost-gold: #ffe49c;
+  --ghost-wisp: #c9fff3;
+  --ghost-wisp-glow: rgba(150, 248, 226, 0.72);
+}
+
+.app[data-world='geisterruine'] {
+  --world-sky:
+    radial-gradient(380px 300px at 18% 6%, var(--ghost-moon), transparent 70%),
+    linear-gradient(
+      180deg,
+      var(--ghost-sky-top) 0%,
+      var(--ghost-sky-mid) 28%,
+      var(--ghost-sky-low) 56%,
+      var(--ghost-horizon) 82%,
+      var(--ghost-turf) 100%
+    );
+  --world-ribbon: linear-gradient(180deg, var(--ghost-ribbon), var(--ghost-ribbon-deep));
+  --world-ribbon-sub: var(--ghost-gold);
+  --world-ring: var(--ghost-wisp);
+  --world-ring-glow:
+    0 0 0 3px var(--ink),
+    0 0 22px 6px var(--ghost-wisp-glow);
+  --world-locked-face: radial-gradient(circle at 38% 30%, var(--ghost-stone), var(--ghost-stone-mid) 55%, var(--ghost-stone-deep));
+}

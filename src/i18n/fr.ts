@@ -93,6 +93,7 @@ export const fr: Partial<Messages> = {
   'world.wolkeninseln.subtitle': 'Attaque à la découverte & échec double',
   'world.wolkeninseln.name': 'Îles des Nuages',
   'world.geisterruine.name': 'Ruines Hantées',
+  'world.geisterruine.subtitle': 'Mélangé',
   'world.drachenburg.name': 'Château du Dragon',
 
   'task.mateIn1': 'Fais échec et mat au roi en un seul coup !',

@@ -5,6 +5,7 @@ import { MapArtDarkwood } from './MapArtDarkwood'
 import { MapArtEmberVolcano } from './MapArtEmberVolcano'
 import { MapArtFrostpeak } from './MapArtFrostpeak'
 import { MapArtCloudIsles } from './MapArtCloudIsles'
+import { MapArtGhostRuins } from './MapArtGhostRuins'
 import { MapArtMarsh } from './MapArtMarsh'
 
 const INK = '#2F2420'
@@ -127,6 +128,7 @@ export function MapArt({ worldId, ...props }: MapArtProps) {
   if (worldId === 'nebelsumpf') return <MapArtMarsh {...props} />
   if (worldId === 'frostgipfel') return <MapArtFrostpeak {...props} />
   if (worldId === 'wolkeninseln') return <MapArtCloudIsles {...props} />
+  if (worldId === 'geisterruine') return <MapArtGhostRuins {...props} />
   if (worldId === 'glutvulkan') return <MapArtEmberVolcano {...props} />
   return <MeadowMap {...props} />
 }

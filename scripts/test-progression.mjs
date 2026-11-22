@@ -20,6 +20,7 @@ const WORLDS = [
   { id: 'frostgipfel', number: 4, puzzles: puzzles.frostgipfel },
   { id: 'glutvulkan', number: 5, puzzles: puzzles.glutvulkan },
   { id: 'wolkeninseln', number: 6, puzzles: puzzles.wolkeninseln },
+  { id: 'geisterruine', number: 7, puzzles: puzzles.geisterruine },
 ]
 
 const ROADMAP = [
@@ -201,5 +202,49 @@ for (const [lang, dict] of Object.entries(dicts)) {
   console.log(`  [${lang}] Offline-Notiz: "${note.slice(0, 40)}..." | Zurück: "${toMapBtn}"`)
 }
 console.log('✓ 11. Endlos-Offline-Fallback Texte in allen Sprachen vorhanden')
+
+// 9. Welt 6 (Wolkeninseln) -> Welt 7 (Geisterruine) Handoff & Vorschau auf Welt 8 (Drachenburg)
+const wolkenWorld = findWorld('wolkeninseln')
+const nextFromWolken = nextBuiltWorld(wolkenWorld)
+if (!nextFromWolken || nextFromWolken.id !== 'geisterruine') {
+  throw new Error(`12. Schritt fehlgeschlagen: Nächste Welt nach Wolkeninseln ist nicht Geisterruine (${nextFromWolken?.id})`)
+}
+for (const [lang, dict] of Object.entries(dicts)) {
+  const worldName = t(dict, 'world.geisterruine.name')
+  const subtitle = t(dict, 'world.geisterruine.subtitle')
+  const btnText = t(dict, 'result.chest.next', { world: worldName })
+  const dragonName = t(dict, 'world.drachenburg.name')
+  if (!worldName || !subtitle || !btnText.includes(worldName) || !dragonName) {
+    throw new Error(`Fehlende Geisterruine/Drachenburg Lokalisierung in ${lang}`)
+  }
+  console.log(`  [${lang}] Geisterruine: "${worldName}" (${subtitle}) | Button: "${btnText}" | Welt 8: "${dragonName}"`)
+}
+console.log('✓ 12. Wolkeninseln -> Geisterruine Handoff & Lokalisierung in DE/EN/FR korrekt')
+
+const afterWolken = roadmapAfter(wolkenWorld)
+if (!afterWolken || afterWolken.id !== 'geisterruine' || !findWorld(afterWolken.id)) {
+  throw new Error('Wolkeninseln-Vorschau sollte auf das gebaute Geisterruine zeigen (ohne bald-Badge)')
+}
+const geisterWorld = findWorld('geisterruine')
+const afterGeister = roadmapAfter(geisterWorld)
+if (!afterGeister || afterGeister.id !== 'drachenburg' || findWorld(afterGeister.id) !== undefined) {
+  throw new Error('Geisterruine-Vorschau sollte auf das ungebaute Drachenburg zeigen (mit bald-Badge)')
+}
+console.log('✓ 13. Wolkeninseln verliert bald-Badge; Geisterruine zeigt Vorschau auf Welt 8 · Drachenburg')
+
+// Gemischte Motive in Geisterruine -> passender Kuno-Text je Motiv
+for (const p of geisterWorld.puzzles) {
+  const key = taskKey(p.motif)
+  for (const [lang, dict] of Object.entries(dicts)) {
+    if (!t(dict, key)) throw new Error(`Fehlender Kuno-Text ${key} für Motiv ${p.motif} in ${lang}`)
+  }
+}
+const endlessGeister = JSON.parse(readFileSync(resolve(ROOT_DIR, 'src/data/endless.geisterruine.json'), 'utf8'))
+const geisterCuratedIds = new Set(geisterWorld.puzzles.map((p) => p.id))
+const geisterFiltered = endlessGeister.filter((p) => !geisterCuratedIds.has(p.id))
+if (geisterFiltered.length < 50) {
+  throw new Error(`Geisterruine Endlos-Pool hat nur ${geisterFiltered.length} Puzzles`)
+}
+console.log(`✓ 14. Geisterruine Kuno-Texte & Endlos-Pool (${geisterFiltered.length} Puzzles) verifiziert`)
 
 console.log('\nAlle Progressions- und Lokalisierungstests erfolgreich bestanden!\n')
